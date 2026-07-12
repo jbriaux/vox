@@ -1,0 +1,6225 @@
+{
+  "meta": {
+    "name": "VOX Technology Tree",
+    "version": "1.0",
+    "source": "01_TECH_TREE.md",
+    "eras": {
+      "E1": "Lower Paleolithic",
+      "E2": "Middle Paleolithic",
+      "E3": "Upper Paleolithic",
+      "E4": "Mesolithic",
+      "E5": "Neolithic",
+      "E6": "Chalcolithic (Copper Age)",
+      "E7": "Bronze Age",
+      "E8": "Iron Age"
+    },
+    "bottlenecks": [
+      "E1.18",
+      "E2.10",
+      "E4.06",
+      "E5.05",
+      "E5.34",
+      "E6.07",
+      "E7.02",
+      "E7.30",
+      "E8.02",
+      "E8.30"
+    ],
+    "terminal_nodes": [
+      "E8.20",
+      "E8.41",
+      "E8.42",
+      "E8.44"
+    ],
+    "diffusion_tiers": [
+      {
+        "tech": "E1.25",
+        "method": "demonstration",
+        "speed": 1
+      },
+      {
+        "tech": "E3.41",
+        "method": "storytelling",
+        "speed": 2
+      },
+      {
+        "tech": "E7.31",
+        "method": "schools",
+        "speed": 4
+      },
+      {
+        "tech": "E8.29",
+        "method": "alphabetic literacy",
+        "speed": 8
+      }
+    ],
+    "rules": {
+      "knowledge_holder": "npc",
+      "settlement_knows_if": "any living NPC knows node",
+      "loss_on_last_knower_death": true,
+      "loss_mitigated_by": [
+        "E7.30",
+        "E8.34"
+      ]
+    },
+    "node_count": 340
+  },
+  "nodes": [
+    {
+      "id": "E1.01",
+      "name": "Stone percussion (hammerstone)",
+      "era": "E1",
+      "prerequisites": [],
+      "needs": [
+        "any hard cobble"
+      ],
+      "introduces": {
+        "items": [
+          "hammerstone"
+        ],
+        "actions": [
+          "strike-stone"
+        ]
+      }
+    },
+    {
+      "id": "E1.02",
+      "name": "Sharp flake use",
+      "era": "E1",
+      "prerequisites": [
+        "E1.01"
+      ],
+      "needs": [
+        "flint/quartzite cobble"
+      ],
+      "introduces": {
+        "items": [
+          "stone flake"
+        ],
+        "actions": [
+          "cut"
+        ]
+      }
+    },
+    {
+      "id": "E1.03",
+      "name": "Tool-stone recognition",
+      "era": "E1",
+      "prerequisites": [
+        "E1.02"
+      ],
+      "needs": [],
+      "introduces": {
+        "actions": [
+          "identify flint",
+          "quartzite",
+          "obsidian",
+          "chert deposits"
+        ]
+      }
+    },
+    {
+      "id": "E1.04",
+      "name": "Chopper (pebble tool)",
+      "era": "E1",
+      "prerequisites": [
+        "E1.02"
+      ],
+      "needs": [
+        "cobble"
+      ],
+      "introduces": {
+        "items": [
+          "chopper"
+        ],
+        "actions": [
+          "chop",
+          "crush"
+        ]
+      }
+    },
+    {
+      "id": "E1.05",
+      "name": "Butchery",
+      "era": "E1",
+      "prerequisites": [
+        "E1.02"
+      ],
+      "needs": [
+        "flake",
+        "carcass"
+      ],
+      "introduces": {
+        "items": [
+          "raw meat",
+          "hide (crude)",
+          "sinew",
+          "bone"
+        ],
+        "actions": [
+          "butcher"
+        ]
+      }
+    },
+    {
+      "id": "E1.06",
+      "name": "Marrow extraction",
+      "era": "E1",
+      "prerequisites": [
+        "E1.01",
+        "E1.05"
+      ],
+      "needs": [
+        "bone",
+        "hammerstone"
+      ],
+      "introduces": {
+        "items": [
+          "marrow (food)"
+        ]
+      }
+    },
+    {
+      "id": "E1.07",
+      "name": "Foraging",
+      "era": "E1",
+      "prerequisites": [],
+      "needs": [],
+      "introduces": {
+        "items": [
+          "berries",
+          "roots",
+          "nuts",
+          "eggs",
+          "insects"
+        ],
+        "actions": [
+          "gather"
+        ]
+      }
+    },
+    {
+      "id": "E1.08",
+      "name": "Digging stick",
+      "era": "E1",
+      "prerequisites": [
+        "E1.02"
+      ],
+      "needs": [
+        "branch"
+      ],
+      "introduces": {
+        "items": [
+          "digging stick"
+        ],
+        "actions": [
+          "dig tubers",
+          "dig soil"
+        ]
+      }
+    },
+    {
+      "id": "E1.09",
+      "name": "Wooden club",
+      "era": "E1",
+      "prerequisites": [
+        "E1.02"
+      ],
+      "needs": [
+        "branch"
+      ],
+      "introduces": {
+        "items": [
+          "club"
+        ]
+      }
+    },
+    {
+      "id": "E1.10",
+      "name": "Thrown stones",
+      "era": "E1",
+      "prerequisites": [],
+      "needs": [
+        "stone"
+      ],
+      "introduces": {
+        "actions": [
+          "ranged attack (crude)"
+        ]
+      }
+    },
+    {
+      "id": "E1.11",
+      "name": "Scavenging",
+      "era": "E1",
+      "prerequisites": [
+        "E1.05"
+      ],
+      "needs": [],
+      "introduces": {
+        "actions": [
+          "locate/claim carcasses"
+        ]
+      }
+    },
+    {
+      "id": "E1.12",
+      "name": "Persistence hunting",
+      "era": "E1",
+      "prerequisites": [
+        "E1.09",
+        "E1.11"
+      ],
+      "needs": [
+        "group of 2+"
+      ],
+      "introduces": {
+        "actions": [
+          "run down game"
+        ]
+      }
+    },
+    {
+      "id": "E1.13",
+      "name": "Handaxe (biface)",
+      "era": "E1",
+      "prerequisites": [
+        "E1.03",
+        "E1.04"
+      ],
+      "needs": [
+        "flint core",
+        "hammerstone"
+      ],
+      "introduces": {
+        "items": [
+          "handaxe"
+        ],
+        "actions": [
+          "heavy butchery",
+          "woodwork (crude)"
+        ]
+      }
+    },
+    {
+      "id": "E1.14",
+      "name": "Cleaver",
+      "era": "E1",
+      "prerequisites": [
+        "E1.13"
+      ],
+      "needs": [
+        "flint core"
+      ],
+      "introduces": {
+        "items": [
+          "cleaver"
+        ]
+      }
+    },
+    {
+      "id": "E1.15",
+      "name": "Soft-hammer knapping",
+      "era": "E1",
+      "prerequisites": [
+        "E1.13"
+      ],
+      "needs": [
+        "bone/antler billet"
+      ],
+      "introduces": {
+        "items": [
+          "refined biface"
+        ],
+        "actions": [
+          "thinner edges"
+        ]
+      }
+    },
+    {
+      "id": "E1.16",
+      "name": "Bipolar knapping",
+      "era": "E1",
+      "prerequisites": [
+        "E1.01"
+      ],
+      "needs": [
+        "anvil stone"
+      ],
+      "introduces": {
+        "actions": [
+          "split small pebbles/bone"
+        ]
+      }
+    },
+    {
+      "id": "E1.17",
+      "name": "Sharpened wooden spear",
+      "era": "E1",
+      "prerequisites": [
+        "E1.13"
+      ],
+      "needs": [
+        "sapling",
+        "handaxe"
+      ],
+      "introduces": {
+        "items": [
+          "wooden spear"
+        ],
+        "actions": [
+          "thrust attack"
+        ]
+      }
+    },
+    {
+      "id": "E1.18",
+      "name": "Fire capture",
+      "era": "E1",
+      "prerequisites": [],
+      "needs": [
+        "wildfire/lightning event"
+      ],
+      "introduces": {
+        "blocks": [
+          "campfire (wild ember)"
+        ],
+        "actions": [
+          "carry ember"
+        ]
+      }
+    },
+    {
+      "id": "E1.19",
+      "name": "Fire keeping",
+      "era": "E1",
+      "prerequisites": [
+        "E1.18"
+      ],
+      "needs": [
+        "fuel (wood",
+        "dung)"
+      ],
+      "introduces": {
+        "structures": [
+          "tended fire"
+        ],
+        "actions": [
+          "feed fire",
+          "bank embers"
+        ]
+      }
+    },
+    {
+      "id": "E1.20",
+      "name": "Cooking meat",
+      "era": "E1",
+      "prerequisites": [
+        "E1.19",
+        "E1.05"
+      ],
+      "needs": [
+        "fire",
+        "raw meat"
+      ],
+      "introduces": {
+        "items": [
+          "cooked meat (better nutrition",
+          "no disease)"
+        ]
+      }
+    },
+    {
+      "id": "E1.21",
+      "name": "Cooking plants",
+      "era": "E1",
+      "prerequisites": [
+        "E1.19",
+        "E1.07"
+      ],
+      "needs": [
+        "fire",
+        "tubers"
+      ],
+      "introduces": {
+        "items": [
+          "roasted tubers/nuts"
+        ]
+      }
+    },
+    {
+      "id": "E1.22",
+      "name": "Windbreak shelter",
+      "era": "E1",
+      "prerequisites": [
+        "E1.13"
+      ],
+      "needs": [
+        "branches",
+        "brush"
+      ],
+      "introduces": {
+        "structures": [
+          "windbreak"
+        ]
+      }
+    },
+    {
+      "id": "E1.23",
+      "name": "Water carrying (gourd/shell)",
+      "era": "E1",
+      "prerequisites": [
+        "E1.07"
+      ],
+      "needs": [
+        "gourd",
+        "large shell"
+      ],
+      "introduces": {
+        "items": [
+          "water gourd"
+        ],
+        "actions": [
+          "carry water"
+        ]
+      }
+    },
+    {
+      "id": "E1.24",
+      "name": "Crude hide stripping",
+      "era": "E1",
+      "prerequisites": [
+        "E1.05"
+      ],
+      "needs": [
+        "flake",
+        "carcass"
+      ],
+      "introduces": {
+        "items": [
+          "raw hide"
+        ]
+      }
+    },
+    {
+      "id": "E1.25",
+      "name": "Knowledge sharing (demonstration)",
+      "era": "E1",
+      "prerequisites": [],
+      "needs": [
+        "2+ NPCs"
+      ],
+      "introduces": {
+        "actions": [
+          "teach by showing (tech diffusion",
+          "slow)"
+        ]
+      }
+    },
+    {
+      "id": "E2.01",
+      "name": "Prepared-core knapping (Levallois)",
+      "era": "E2",
+      "prerequisites": [
+        "E1.15"
+      ],
+      "needs": [
+        "flint core"
+      ],
+      "introduces": {
+        "items": [
+          "Levallois flake/point (standardized blanks)"
+        ]
+      }
+    },
+    {
+      "id": "E2.02",
+      "name": "Retouching",
+      "era": "E2",
+      "prerequisites": [
+        "E2.01"
+      ],
+      "needs": [
+        "flake",
+        "soft hammer"
+      ],
+      "introduces": {
+        "actions": [
+          "resharpen tools (durability repair)"
+        ]
+      }
+    },
+    {
+      "id": "E2.03",
+      "name": "Side scraper",
+      "era": "E2",
+      "prerequisites": [
+        "E2.02"
+      ],
+      "needs": [
+        "flake"
+      ],
+      "introduces": {
+        "items": [
+          "scraper"
+        ]
+      }
+    },
+    {
+      "id": "E2.04",
+      "name": "Stone point",
+      "era": "E2",
+      "prerequisites": [
+        "E2.01"
+      ],
+      "needs": [
+        "Levallois flake"
+      ],
+      "introduces": {
+        "items": [
+          "stone point"
+        ]
+      }
+    },
+    {
+      "id": "E2.05",
+      "name": "Awl / borer",
+      "era": "E2",
+      "prerequisites": [
+        "E2.02"
+      ],
+      "needs": [
+        "flake"
+      ],
+      "introduces": {
+        "items": [
+          "stone awl"
+        ],
+        "actions": [
+          "pierce"
+        ]
+      }
+    },
+    {
+      "id": "E2.06",
+      "name": "Denticulate / notched tools",
+      "era": "E2",
+      "prerequisites": [
+        "E2.02"
+      ],
+      "needs": [
+        "flake"
+      ],
+      "introduces": {
+        "items": [
+          "notched scraper"
+        ],
+        "actions": [
+          "shave shafts"
+        ]
+      }
+    },
+    {
+      "id": "E2.07",
+      "name": "Simple cordage (twisted fiber)",
+      "era": "E2",
+      "prerequisites": [
+        "E1.07"
+      ],
+      "needs": [
+        "bark fiber",
+        "sinew"
+      ],
+      "introduces": {
+        "items": [
+          "cord"
+        ],
+        "actions": [
+          "bind"
+        ]
+      }
+    },
+    {
+      "id": "E2.08",
+      "name": "Knots & lashing",
+      "era": "E2",
+      "prerequisites": [
+        "E2.07"
+      ],
+      "needs": [
+        "cord"
+      ],
+      "introduces": {
+        "actions": [
+          "lash",
+          "tie"
+        ]
+      }
+    },
+    {
+      "id": "E2.09",
+      "name": "Birch-tar adhesive",
+      "era": "E2",
+      "prerequisites": [
+        "E1.19"
+      ],
+      "needs": [
+        "birch bark",
+        "fire"
+      ],
+      "introduces": {
+        "items": [
+          "birch tar (glue)"
+        ]
+      }
+    },
+    {
+      "id": "E2.10",
+      "name": "Hafting",
+      "era": "E2",
+      "prerequisites": [
+        "E2.04",
+        "E2.08",
+        "E2.09"
+      ],
+      "needs": [
+        "point",
+        "shaft",
+        "cord/tar"
+      ],
+      "introduces": {
+        "actions": [
+          "composite tools"
+        ]
+      }
+    },
+    {
+      "id": "E2.11",
+      "name": "Stone-tipped spear",
+      "era": "E2",
+      "prerequisites": [
+        "E2.10",
+        "E1.17"
+      ],
+      "needs": [
+        "spear shaft",
+        "stone point"
+      ],
+      "introduces": {
+        "items": [
+          "composite spear"
+        ]
+      }
+    },
+    {
+      "id": "E2.12",
+      "name": "Ambush hunting",
+      "era": "E2",
+      "prerequisites": [
+        "E2.11"
+      ],
+      "needs": [
+        "terrain knowledge"
+      ],
+      "introduces": {
+        "actions": [
+          "coordinated ambush of big game"
+        ]
+      }
+    },
+    {
+      "id": "E2.13",
+      "name": "Fire by friction (hand drill)",
+      "era": "E2",
+      "prerequisites": [
+        "E1.19"
+      ],
+      "needs": [
+        "dry softwood",
+        "tinder"
+      ],
+      "introduces": {
+        "actions": [
+          "make fire anywhere"
+        ]
+      }
+    },
+    {
+      "id": "E2.14",
+      "name": "Fire by percussion",
+      "era": "E2",
+      "prerequisites": [
+        "E1.03",
+        "E1.19"
+      ],
+      "needs": [
+        "flint",
+        "pyrite",
+        "tinder"
+      ],
+      "introduces": {
+        "items": [
+          "fire kit"
+        ]
+      }
+    },
+    {
+      "id": "E2.15",
+      "name": "Constructed hearth",
+      "era": "E2",
+      "prerequisites": [
+        "E1.19"
+      ],
+      "needs": [
+        "stones"
+      ],
+      "introduces": {
+        "structures": [
+          "stone-ring hearth (efficient",
+          "safe)"
+        ]
+      }
+    },
+    {
+      "id": "E2.16",
+      "name": "Fire-hardening wood",
+      "era": "E2",
+      "prerequisites": [
+        "E2.13"
+      ],
+      "needs": [
+        "fire",
+        "spear"
+      ],
+      "introduces": {
+        "items": [
+          "fire-hardened spear (upgrade)"
+        ]
+      }
+    },
+    {
+      "id": "E2.17",
+      "name": "Hide scraping",
+      "era": "E2",
+      "prerequisites": [
+        "E2.03",
+        "E1.24"
+      ],
+      "needs": [
+        "scraper",
+        "raw hide"
+      ],
+      "introduces": {
+        "items": [
+          "cleaned hide"
+        ]
+      }
+    },
+    {
+      "id": "E2.18",
+      "name": "Hide drying/stretching",
+      "era": "E2",
+      "prerequisites": [
+        "E2.17",
+        "E2.08"
+      ],
+      "needs": [
+        "frame of branches",
+        "cord"
+      ],
+      "introduces": {
+        "items": [
+          "dried hide"
+        ],
+        "structures": [
+          "hide frame"
+        ]
+      }
+    },
+    {
+      "id": "E2.19",
+      "name": "Hide wraps (clothing v0)",
+      "era": "E2",
+      "prerequisites": [
+        "E2.18"
+      ],
+      "needs": [
+        "dried hide"
+      ],
+      "introduces": {
+        "items": [
+          "hide wrap (cold protection)"
+        ]
+      }
+    },
+    {
+      "id": "E2.20",
+      "name": "Brush hut",
+      "era": "E2",
+      "prerequisites": [
+        "E1.22",
+        "E2.08"
+      ],
+      "needs": [
+        "branches",
+        "hides",
+        "cord"
+      ],
+      "introduces": {
+        "structures": [
+          "brush/hide hut"
+        ]
+      }
+    },
+    {
+      "id": "E2.21",
+      "name": "Cave habitation",
+      "era": "E2",
+      "prerequisites": [
+        "E2.15"
+      ],
+      "needs": [
+        "natural cave"
+      ],
+      "introduces": {
+        "structures": [
+          "occupied cave (storage",
+          "safety)"
+        ]
+      }
+    },
+    {
+      "id": "E2.22",
+      "name": "Ochre use",
+      "era": "E2",
+      "prerequisites": [
+        "E1.07"
+      ],
+      "needs": [
+        "ochre deposit"
+      ],
+      "introduces": {
+        "items": [
+          "ochre pigment"
+        ],
+        "actions": [
+          "mark",
+          "decorate"
+        ]
+      }
+    },
+    {
+      "id": "E2.23",
+      "name": "Body painting / symbols",
+      "era": "E2",
+      "prerequisites": [
+        "E2.22"
+      ],
+      "needs": [
+        "ochre",
+        "fat"
+      ],
+      "introduces": {
+        "actions": [
+          "group identity markers"
+        ]
+      }
+    },
+    {
+      "id": "E2.24",
+      "name": "Burial of the dead",
+      "era": "E2",
+      "prerequisites": [
+        "E1.08"
+      ],
+      "needs": [
+        "digging stick"
+      ],
+      "introduces": {
+        "structures": [
+          "grave"
+        ],
+        "actions": [
+          "bury (grief/memory mechanics)"
+        ]
+      }
+    },
+    {
+      "id": "E2.25",
+      "name": "Medicinal plant lore",
+      "era": "E2",
+      "prerequisites": [
+        "E1.07"
+      ],
+      "needs": [
+        "herbs"
+      ],
+      "introduces": {
+        "items": [
+          "healing herbs"
+        ],
+        "actions": [
+          "treat wounds/sickness"
+        ]
+      }
+    },
+    {
+      "id": "E2.26",
+      "name": "Shellfish gathering",
+      "era": "E2",
+      "prerequisites": [],
+      "needs": [
+        "shoreline"
+      ],
+      "introduces": {
+        "items": [
+          "shellfish"
+        ],
+        "actions": [
+          "coastal foraging"
+        ]
+      }
+    },
+    {
+      "id": "E2.27",
+      "name": "Hand fishing / tidal traps",
+      "era": "E2",
+      "prerequisites": [
+        "E2.26"
+      ],
+      "needs": [
+        "tide pools"
+      ],
+      "introduces": {
+        "items": [
+          "fish"
+        ],
+        "actions": [
+          "fish (crude)"
+        ]
+      }
+    },
+    {
+      "id": "E2.28",
+      "name": "Meat drying (sun/wind)",
+      "era": "E2",
+      "prerequisites": [
+        "E1.20"
+      ],
+      "needs": [
+        "racks (branches)"
+      ],
+      "introduces": {
+        "items": [
+          "dried meat (storable)"
+        ]
+      }
+    },
+    {
+      "id": "E2.29",
+      "name": "Seasonal round planning",
+      "era": "E2",
+      "prerequisites": [
+        "E1.25"
+      ],
+      "needs": [],
+      "introduces": {
+        "actions": [
+          "seasonal migration",
+          "resource calendars"
+        ]
+      }
+    },
+    {
+      "id": "E2.30",
+      "name": "Wooden containers (bark tray)",
+      "era": "E2",
+      "prerequisites": [
+        "E2.06"
+      ],
+      "needs": [
+        "bark",
+        "handaxe"
+      ],
+      "introduces": {
+        "items": [
+          "bark container"
+        ]
+      }
+    },
+    {
+      "id": "E3.01",
+      "name": "Blade-core technology",
+      "era": "E3",
+      "prerequisites": [
+        "E2.01"
+      ],
+      "needs": [
+        "fine flint",
+        "punch"
+      ],
+      "introduces": {
+        "items": [
+          "stone blade (efficient blanks)"
+        ]
+      }
+    },
+    {
+      "id": "E3.02",
+      "name": "Flint heat treatment",
+      "era": "E3",
+      "prerequisites": [
+        "E2.15",
+        "E3.01"
+      ],
+      "needs": [
+        "hearth",
+        "sand bed"
+      ],
+      "introduces": {
+        "actions": [
+          "improve knappability (better blades)"
+        ]
+      }
+    },
+    {
+      "id": "E3.03",
+      "name": "Pressure flaking",
+      "era": "E3",
+      "prerequisites": [
+        "E3.01"
+      ],
+      "needs": [
+        "antler tine"
+      ],
+      "introduces": {
+        "items": [
+          "fine points"
+        ],
+        "actions": [
+          "precision edges"
+        ]
+      }
+    },
+    {
+      "id": "E3.04",
+      "name": "Burin",
+      "era": "E3",
+      "prerequisites": [
+        "E3.01"
+      ],
+      "needs": [
+        "blade"
+      ],
+      "introduces": {
+        "items": [
+          "burin"
+        ],
+        "actions": [
+          "engrave",
+          "groove bone/antler"
+        ]
+      }
+    },
+    {
+      "id": "E3.05",
+      "name": "End scraper",
+      "era": "E3",
+      "prerequisites": [
+        "E3.01"
+      ],
+      "needs": [
+        "blade"
+      ],
+      "introduces": {
+        "items": [
+          "end scraper (hide work upgrade)"
+        ]
+      }
+    },
+    {
+      "id": "E3.06",
+      "name": "Backed blade / knife",
+      "era": "E3",
+      "prerequisites": [
+        "E3.01"
+      ],
+      "needs": [
+        "blade"
+      ],
+      "introduces": {
+        "items": [
+          "stone knife"
+        ]
+      }
+    },
+    {
+      "id": "E3.07",
+      "name": "Bone working",
+      "era": "E3",
+      "prerequisites": [
+        "E3.04"
+      ],
+      "needs": [
+        "bone",
+        "burin"
+      ],
+      "introduces": {
+        "items": [
+          "bone point",
+          "bone awl"
+        ]
+      }
+    },
+    {
+      "id": "E3.08",
+      "name": "Antler working (groove & splinter)",
+      "era": "E3",
+      "prerequisites": [
+        "E3.04"
+      ],
+      "needs": [
+        "antler",
+        "burin"
+      ],
+      "introduces": {
+        "items": [
+          "antler tines",
+          "billets",
+          "batons"
+        ]
+      }
+    },
+    {
+      "id": "E3.09",
+      "name": "Spear straightener (baton)",
+      "era": "E3",
+      "prerequisites": [
+        "E3.08"
+      ],
+      "needs": [
+        "antler baton"
+      ],
+      "introduces": {
+        "actions": [
+          "straighten shafts (better spears/darts)"
+        ]
+      }
+    },
+    {
+      "id": "E3.10",
+      "name": "Eyed needle",
+      "era": "E3",
+      "prerequisites": [
+        "E3.07",
+        "E2.05"
+      ],
+      "needs": [
+        "bone splinter",
+        "awl"
+      ],
+      "introduces": {
+        "items": [
+          "bone needle"
+        ]
+      }
+    },
+    {
+      "id": "E3.11",
+      "name": "Sinew/gut thread",
+      "era": "E3",
+      "prerequisites": [
+        "E1.05",
+        "E2.07"
+      ],
+      "needs": [
+        "sinew"
+      ],
+      "introduces": {
+        "items": [
+          "thread"
+        ]
+      }
+    },
+    {
+      "id": "E3.12",
+      "name": "Tailored sewn clothing",
+      "era": "E3",
+      "prerequisites": [
+        "E3.10",
+        "E3.11",
+        "E2.18"
+      ],
+      "needs": [
+        "needle",
+        "thread",
+        "hides"
+      ],
+      "introduces": {
+        "items": [
+          "fitted parka",
+          "leggings (major cold protection)"
+        ]
+      }
+    },
+    {
+      "id": "E3.13",
+      "name": "Footwear",
+      "era": "E3",
+      "prerequisites": [
+        "E3.12"
+      ],
+      "needs": [
+        "hide",
+        "cord"
+      ],
+      "introduces": {
+        "items": [
+          "hide boots"
+        ]
+      }
+    },
+    {
+      "id": "E3.14",
+      "name": "Brain tanning",
+      "era": "E3",
+      "prerequisites": [
+        "E2.17"
+      ],
+      "needs": [
+        "brains/fat",
+        "smoke"
+      ],
+      "introduces": {
+        "items": [
+          "soft leather (durable)"
+        ]
+      }
+    },
+    {
+      "id": "E3.15",
+      "name": "Rawhide",
+      "era": "E3",
+      "prerequisites": [
+        "E2.18"
+      ],
+      "needs": [
+        "dried hide"
+      ],
+      "introduces": {
+        "items": [
+          "rawhide (hard bindings)"
+        ]
+      }
+    },
+    {
+      "id": "E3.16",
+      "name": "Plied rope",
+      "era": "E3",
+      "prerequisites": [
+        "E2.07"
+      ],
+      "needs": [
+        "fiber bundles"
+      ],
+      "introduces": {
+        "items": [
+          "rope"
+        ]
+      }
+    },
+    {
+      "id": "E3.17",
+      "name": "Atlatl (spear-thrower)",
+      "era": "E3",
+      "prerequisites": [
+        "E3.08",
+        "E2.11"
+      ],
+      "needs": [
+        "wood/antler",
+        "composite dart"
+      ],
+      "introduces": {
+        "items": [
+          "atlatl",
+          "dart"
+        ],
+        "actions": [
+          "long-range hunt"
+        ]
+      }
+    },
+    {
+      "id": "E3.18",
+      "name": "Barbed harpoon",
+      "era": "E3",
+      "prerequisites": [
+        "E3.07"
+      ],
+      "needs": [
+        "bone/antler",
+        "rope"
+      ],
+      "introduces": {
+        "items": [
+          "harpoon"
+        ],
+        "actions": [
+          "hunt aquatic prey"
+        ]
+      }
+    },
+    {
+      "id": "E3.19",
+      "name": "Leister (fish spear)",
+      "era": "E3",
+      "prerequisites": [
+        "E2.27",
+        "E2.10"
+      ],
+      "needs": [
+        "shaft",
+        "bone prongs"
+      ],
+      "introduces": {
+        "items": [
+          "fish spear"
+        ]
+      }
+    },
+    {
+      "id": "E3.20",
+      "name": "Gorge hook & line fishing",
+      "era": "E3",
+      "prerequisites": [
+        "E3.07",
+        "E3.11"
+      ],
+      "needs": [
+        "bone gorge",
+        "thread"
+      ],
+      "introduces": {
+        "items": [
+          "fishing line"
+        ]
+      }
+    },
+    {
+      "id": "E3.21",
+      "name": "Knotted netting",
+      "era": "E3",
+      "prerequisites": [
+        "E3.16",
+        "E2.08"
+      ],
+      "needs": [
+        "cordage"
+      ],
+      "introduces": {
+        "items": [
+          "net (fish/bird)"
+        ]
+      }
+    },
+    {
+      "id": "E3.22",
+      "name": "Snares",
+      "era": "E3",
+      "prerequisites": [
+        "E2.07"
+      ],
+      "needs": [
+        "cord",
+        "stakes"
+      ],
+      "introduces": {
+        "actions": [
+          "passive small-game capture"
+        ]
+      }
+    },
+    {
+      "id": "E3.23",
+      "name": "Deadfall traps",
+      "era": "E3",
+      "prerequisites": [
+        "E3.22"
+      ],
+      "needs": [
+        "logs",
+        "trigger sticks"
+      ],
+      "introduces": {
+        "actions": [
+          "trap medium game"
+        ]
+      }
+    },
+    {
+      "id": "E3.24",
+      "name": "Pit traps",
+      "era": "E3",
+      "prerequisites": [
+        "E1.08",
+        "E2.12"
+      ],
+      "needs": [
+        "dug pit",
+        "stakes",
+        "cover"
+      ],
+      "introduces": {
+        "actions": [
+          "trap big game"
+        ]
+      }
+    },
+    {
+      "id": "E3.25",
+      "name": "Twined matting",
+      "era": "E3",
+      "prerequisites": [
+        "E2.07"
+      ],
+      "needs": [
+        "reeds",
+        "grass"
+      ],
+      "introduces": {
+        "items": [
+          "mats"
+        ]
+      }
+    },
+    {
+      "id": "E3.26",
+      "name": "Coiled basketry",
+      "era": "E3",
+      "prerequisites": [
+        "E3.25"
+      ],
+      "needs": [
+        "grass",
+        "fiber"
+      ],
+      "introduces": {
+        "items": [
+          "basket (carry capacity up)"
+        ]
+      }
+    },
+    {
+      "id": "E3.27",
+      "name": "Meat smoking",
+      "era": "E3",
+      "prerequisites": [
+        "E2.28",
+        "E2.15"
+      ],
+      "needs": [
+        "smoke rack",
+        "fire"
+      ],
+      "introduces": {
+        "items": [
+          "smoked meat/fish (long storage)"
+        ]
+      }
+    },
+    {
+      "id": "E3.28",
+      "name": "Rendered fat / pemmican",
+      "era": "E3",
+      "prerequisites": [
+        "E1.20"
+      ],
+      "needs": [
+        "fat",
+        "dried meat",
+        "berries"
+      ],
+      "introduces": {
+        "items": [
+          "pemmican (travel food)"
+        ]
+      }
+    },
+    {
+      "id": "E3.29",
+      "name": "Food caching",
+      "era": "E3",
+      "prerequisites": [
+        "E2.28"
+      ],
+      "needs": [
+        "pit/cairn"
+      ],
+      "introduces": {
+        "structures": [
+          "cache"
+        ],
+        "actions": [
+          "store food vs seasons"
+        ]
+      }
+    },
+    {
+      "id": "E3.30",
+      "name": "Oil lamp",
+      "era": "E3",
+      "prerequisites": [
+        "E3.28"
+      ],
+      "needs": [
+        "stone bowl",
+        "fat",
+        "wick"
+      ],
+      "introduces": {
+        "items": [
+          "fat lamp (portable light",
+          "cave work)"
+        ]
+      }
+    },
+    {
+      "id": "E3.31",
+      "name": "Torch",
+      "era": "E3",
+      "prerequisites": [
+        "E2.09",
+        "E1.19"
+      ],
+      "needs": [
+        "resin",
+        "bark",
+        "stick"
+      ],
+      "introduces": {
+        "items": [
+          "torch"
+        ]
+      }
+    },
+    {
+      "id": "E3.32",
+      "name": "Hide tent (portable)",
+      "era": "E3",
+      "prerequisites": [
+        "E2.20",
+        "E3.12"
+      ],
+      "needs": [
+        "poles",
+        "sewn hides"
+      ],
+      "introduces": {
+        "structures": [
+          "hide tent"
+        ]
+      }
+    },
+    {
+      "id": "E3.33",
+      "name": "Travois / sled",
+      "era": "E3",
+      "prerequisites": [
+        "E3.16"
+      ],
+      "needs": [
+        "poles",
+        "rope"
+      ],
+      "introduces": {
+        "items": [
+          "travois"
+        ],
+        "actions": [
+          "haul loads"
+        ]
+      }
+    },
+    {
+      "id": "E3.34",
+      "name": "Grinding slab (pigment/seeds)",
+      "era": "E3",
+      "prerequisites": [
+        "E1.01"
+      ],
+      "needs": [
+        "flat stone",
+        "rubber stone"
+      ],
+      "introduces": {
+        "items": [
+          "grinding slab"
+        ]
+      }
+    },
+    {
+      "id": "E3.35",
+      "name": "Ochre processing",
+      "era": "E3",
+      "prerequisites": [
+        "E3.34",
+        "E2.22"
+      ],
+      "needs": [
+        "slab",
+        "ochre",
+        "fat"
+      ],
+      "introduces": {
+        "items": [
+          "paint"
+        ]
+      }
+    },
+    {
+      "id": "E3.36",
+      "name": "Cave painting",
+      "era": "E3",
+      "prerequisites": [
+        "E3.35",
+        "E3.30"
+      ],
+      "needs": [
+        "paint",
+        "lamp",
+        "cave wall"
+      ],
+      "introduces": {
+        "structures": [
+          "painted cave"
+        ],
+        "actions": [
+          "record/ritual art"
+        ]
+      }
+    },
+    {
+      "id": "E3.37",
+      "name": "Figurine carving",
+      "era": "E3",
+      "prerequisites": [
+        "E3.04"
+      ],
+      "needs": [
+        "ivory/stone/clay"
+      ],
+      "introduces": {
+        "items": [
+          "figurine (ritual/gift item)"
+        ]
+      }
+    },
+    {
+      "id": "E3.38",
+      "name": "Bead & pendant making",
+      "era": "E3",
+      "prerequisites": [
+        "E2.05",
+        "E3.07"
+      ],
+      "needs": [
+        "shell",
+        "teeth",
+        "ivory"
+      ],
+      "introduces": {
+        "items": [
+          "ornaments (status/trade goods)"
+        ]
+      }
+    },
+    {
+      "id": "E3.39",
+      "name": "Bone flute",
+      "era": "E3",
+      "prerequisites": [
+        "E3.04",
+        "E3.07"
+      ],
+      "needs": [
+        "hollow bone"
+      ],
+      "introduces": {
+        "items": [
+          "flute (music",
+          "ritual",
+          "morale)"
+        ]
+      }
+    },
+    {
+      "id": "E3.40",
+      "name": "Drum",
+      "era": "E3",
+      "prerequisites": [
+        "E3.15"
+      ],
+      "needs": [
+        "rawhide",
+        "hollow log"
+      ],
+      "introduces": {
+        "items": [
+          "drum"
+        ]
+      }
+    },
+    {
+      "id": "E3.41",
+      "name": "Storytelling / oral tradition",
+      "era": "E3",
+      "prerequisites": [
+        "E1.25"
+      ],
+      "needs": [
+        "language"
+      ],
+      "introduces": {
+        "actions": [
+          "teach by telling (faster tech diffusion",
+          "lore)"
+        ]
+      }
+    },
+    {
+      "id": "E3.42",
+      "name": "Tally marks / lunar notation",
+      "era": "E3",
+      "prerequisites": [
+        "E3.04"
+      ],
+      "needs": [
+        "bone",
+        "burin"
+      ],
+      "introduces": {
+        "items": [
+          "tally bone"
+        ],
+        "actions": [
+          "count",
+          "track time"
+        ]
+      }
+    },
+    {
+      "id": "E3.43",
+      "name": "Exchange networks",
+      "era": "E3",
+      "prerequisites": [
+        "E3.38",
+        "E2.29"
+      ],
+      "needs": [
+        "neighboring bands"
+      ],
+      "introduces": {
+        "actions": [
+          "barter between groups (tech/goods flow)"
+        ]
+      }
+    },
+    {
+      "id": "E3.44",
+      "name": "Throwing stick / boomerang",
+      "era": "E3",
+      "prerequisites": [
+        "E1.09"
+      ],
+      "needs": [
+        "curved hardwood"
+      ],
+      "introduces": {
+        "items": [
+          "throwing stick (birds",
+          "small game)"
+        ]
+      }
+    },
+    {
+      "id": "E3.45",
+      "name": "Bird snaring & fowling",
+      "era": "E3",
+      "prerequisites": [
+        "E3.21",
+        "E3.22"
+      ],
+      "needs": [
+        "nets",
+        "snares"
+      ],
+      "introduces": {
+        "items": [
+          "fowl",
+          "feathers"
+        ]
+      }
+    },
+    {
+      "id": "E4.01",
+      "name": "Microliths",
+      "era": "E4",
+      "prerequisites": [
+        "E3.01",
+        "E3.03"
+      ],
+      "needs": [
+        "blade segments"
+      ],
+      "introduces": {
+        "items": [
+          "microliths (standard inserts)"
+        ]
+      }
+    },
+    {
+      "id": "E4.02",
+      "name": "Composite edged tools",
+      "era": "E4",
+      "prerequisites": [
+        "E4.01",
+        "E2.10"
+      ],
+      "needs": [
+        "microliths",
+        "tar",
+        "shaft"
+      ],
+      "introduces": {
+        "items": [
+          "microlith knife/saw"
+        ]
+      }
+    },
+    {
+      "id": "E4.03",
+      "name": "Bow construction",
+      "era": "E4",
+      "prerequisites": [
+        "E3.09",
+        "E3.16"
+      ],
+      "needs": [
+        "yew/elm stave",
+        "sinew string"
+      ],
+      "introduces": {
+        "items": [
+          "bow"
+        ]
+      }
+    },
+    {
+      "id": "E4.04",
+      "name": "Arrow making",
+      "era": "E4",
+      "prerequisites": [
+        "E4.01",
+        "E3.09"
+      ],
+      "needs": [
+        "shaft",
+        "microlith/bone point"
+      ],
+      "introduces": {
+        "items": [
+          "arrow"
+        ]
+      }
+    },
+    {
+      "id": "E4.05",
+      "name": "Fletching",
+      "era": "E4",
+      "prerequisites": [
+        "E4.04",
+        "E3.45"
+      ],
+      "needs": [
+        "feathers",
+        "tar/sinew"
+      ],
+      "introduces": {
+        "actions": [
+          "accurate arrows"
+        ]
+      }
+    },
+    {
+      "id": "E4.06",
+      "name": "Archery",
+      "era": "E4",
+      "prerequisites": [
+        "E4.03",
+        "E4.05"
+      ],
+      "needs": [
+        "bow",
+        "arrows"
+      ],
+      "introduces": {
+        "actions": [
+          "ranged hunting/combat (major)"
+        ]
+      }
+    },
+    {
+      "id": "E4.07",
+      "name": "Dog domestication",
+      "era": "E4",
+      "prerequisites": [
+        "E3.22",
+        "E1.20"
+      ],
+      "needs": [
+        "wolf pups event",
+        "meat"
+      ],
+      "introduces": {
+        "items": [
+          "dog (hunting aid",
+          "guard",
+          "companion)"
+        ]
+      }
+    },
+    {
+      "id": "E4.08",
+      "name": "Hunting with dogs",
+      "era": "E4",
+      "prerequisites": [
+        "E4.07",
+        "E4.06"
+      ],
+      "needs": [
+        "dog"
+      ],
+      "introduces": {
+        "actions": [
+          "tracking",
+          "driving game"
+        ]
+      }
+    },
+    {
+      "id": "E4.09",
+      "name": "Fish weir",
+      "era": "E4",
+      "prerequisites": [
+        "E2.27",
+        "E3.21"
+      ],
+      "needs": [
+        "stakes",
+        "wattle"
+      ],
+      "introduces": {
+        "structures": [
+          "fish weir (passive protein)"
+        ]
+      }
+    },
+    {
+      "id": "E4.10",
+      "name": "Basket fish trap",
+      "era": "E4",
+      "prerequisites": [
+        "E3.26"
+      ],
+      "needs": [
+        "withies"
+      ],
+      "introduces": {
+        "items": [
+          "eel/fish trap"
+        ]
+      }
+    },
+    {
+      "id": "E4.11",
+      "name": "Tranchet adze (flaked axe)",
+      "era": "E4",
+      "prerequisites": [
+        "E3.01"
+      ],
+      "needs": [
+        "flint",
+        "haft"
+      ],
+      "introduces": {
+        "items": [
+          "flaked adze/axe"
+        ],
+        "actions": [
+          "fell small trees"
+        ]
+      }
+    },
+    {
+      "id": "E4.12",
+      "name": "Ground-edge tools (early)",
+      "era": "E4",
+      "prerequisites": [
+        "E3.34",
+        "E4.11"
+      ],
+      "needs": [
+        "grinding slab",
+        "water",
+        "sand"
+      ],
+      "introduces": {
+        "items": [
+          "ground-edge axe (durable)"
+        ]
+      }
+    },
+    {
+      "id": "E4.13",
+      "name": "Tree felling",
+      "era": "E4",
+      "prerequisites": [
+        "E4.12"
+      ],
+      "needs": [
+        "axe"
+      ],
+      "introduces": {
+        "blocks": [
+          "log"
+        ],
+        "actions": [
+          "harvest logs"
+        ]
+      }
+    },
+    {
+      "id": "E4.14",
+      "name": "Woodworking (adze/chisel)",
+      "era": "E4",
+      "prerequisites": [
+        "E4.13",
+        "E4.11"
+      ],
+      "needs": [
+        "adze"
+      ],
+      "introduces": {
+        "items": [
+          "worked wood",
+          "bowls",
+          "hafts"
+        ]
+      }
+    },
+    {
+      "id": "E4.15",
+      "name": "Dugout canoe",
+      "era": "E4",
+      "prerequisites": [
+        "E4.13",
+        "E1.19"
+      ],
+      "needs": [
+        "log",
+        "adze",
+        "controlled fire"
+      ],
+      "introduces": {
+        "items": [
+          "dugout canoe"
+        ]
+      }
+    },
+    {
+      "id": "E4.16",
+      "name": "Paddle",
+      "era": "E4",
+      "prerequisites": [
+        "E4.14"
+      ],
+      "needs": [
+        "worked wood"
+      ],
+      "introduces": {
+        "items": [
+          "paddle"
+        ],
+        "actions": [
+          "water travel"
+        ]
+      }
+    },
+    {
+      "id": "E4.17",
+      "name": "Raft",
+      "era": "E4",
+      "prerequisites": [
+        "E3.16",
+        "E4.13"
+      ],
+      "needs": [
+        "logs",
+        "rope"
+      ],
+      "introduces": {
+        "items": [
+          "raft"
+        ]
+      }
+    },
+    {
+      "id": "E4.18",
+      "name": "Deep-water fishing",
+      "era": "E4",
+      "prerequisites": [
+        "E4.15",
+        "E3.20"
+      ],
+      "needs": [
+        "canoe",
+        "lines/nets"
+      ],
+      "introduces": {
+        "actions": [
+          "offshore fishing"
+        ]
+      }
+    },
+    {
+      "id": "E4.19",
+      "name": "Wild grain harvesting",
+      "era": "E4",
+      "prerequisites": [
+        "E1.07",
+        "E4.02"
+      ],
+      "needs": [
+        "wild cereal stands",
+        "sickle blade"
+      ],
+      "introduces": {
+        "items": [
+          "wild grain"
+        ]
+      }
+    },
+    {
+      "id": "E4.20",
+      "name": "Seed grinding",
+      "era": "E4",
+      "prerequisites": [
+        "E3.34",
+        "E4.19"
+      ],
+      "needs": [
+        "grinding slab"
+      ],
+      "introduces": {
+        "items": [
+          "coarse flour"
+        ]
+      }
+    },
+    {
+      "id": "E4.21",
+      "name": "Storage pits (lined)",
+      "era": "E4",
+      "prerequisites": [
+        "E3.29",
+        "E3.25"
+      ],
+      "needs": [
+        "dug pit",
+        "mats/clay"
+      ],
+      "introduces": {
+        "structures": [
+          "lined storage pit"
+        ]
+      }
+    },
+    {
+      "id": "E4.22",
+      "name": "Semi-sedentary camp",
+      "era": "E4",
+      "prerequisites": [
+        "E4.09",
+        "E4.21"
+      ],
+      "needs": [
+        "rich locale"
+      ],
+      "introduces": {
+        "structures": [
+          "seasonal hamlet (huts cluster)"
+        ]
+      }
+    },
+    {
+      "id": "E4.23",
+      "name": "Wattle construction",
+      "era": "E4",
+      "prerequisites": [
+        "E4.11",
+        "E2.20"
+      ],
+      "needs": [
+        "stakes",
+        "withies"
+      ],
+      "introduces": {
+        "structures": [
+          "wattle hut/fence panels"
+        ]
+      }
+    },
+    {
+      "id": "E4.24",
+      "name": "Smoking racks (fish scale-up)",
+      "era": "E4",
+      "prerequisites": [
+        "E3.27",
+        "E4.09"
+      ],
+      "needs": [
+        "racks",
+        "fire"
+      ],
+      "introduces": {
+        "structures": [
+          "smokehouse rack"
+        ]
+      }
+    },
+    {
+      "id": "E4.25",
+      "name": "Honey gathering",
+      "era": "E4",
+      "prerequisites": [
+        "E3.31"
+      ],
+      "needs": [
+        "wild hive",
+        "smoke torch"
+      ],
+      "introduces": {
+        "items": [
+          "honey",
+          "beeswax"
+        ]
+      }
+    },
+    {
+      "id": "E4.26",
+      "name": "Fish poison",
+      "era": "E4",
+      "prerequisites": [
+        "E2.25"
+      ],
+      "needs": [
+        "poison plants"
+      ],
+      "introduces": {
+        "actions": [
+          "stun fish in pools"
+        ]
+      }
+    },
+    {
+      "id": "E4.27",
+      "name": "Skin boat (coracle)",
+      "era": "E4",
+      "prerequisites": [
+        "E3.14",
+        "E4.23"
+      ],
+      "needs": [
+        "hide",
+        "withies",
+        "tar"
+      ],
+      "introduces": {
+        "items": [
+          "coracle"
+        ]
+      }
+    },
+    {
+      "id": "E4.28",
+      "name": "Sledge & winter travel",
+      "era": "E4",
+      "prerequisites": [
+        "E3.33"
+      ],
+      "needs": [
+        "worked wood"
+      ],
+      "introduces": {
+        "items": [
+          "sledge"
+        ],
+        "actions": [
+          "winter transport"
+        ]
+      }
+    },
+    {
+      "id": "E4.29",
+      "name": "Cemetery / grave goods",
+      "era": "E4",
+      "prerequisites": [
+        "E2.24",
+        "E3.38"
+      ],
+      "needs": [
+        "grave field"
+      ],
+      "introduces": {
+        "structures": [
+          "cemetery (culture",
+          "memory anchors)"
+        ]
+      }
+    },
+    {
+      "id": "E4.30",
+      "name": "Bone/antler mattock",
+      "era": "E4",
+      "prerequisites": [
+        "E3.08"
+      ],
+      "needs": [
+        "antler",
+        "haft"
+      ],
+      "introduces": {
+        "items": [
+          "mattock"
+        ],
+        "actions": [
+          "earthworking"
+        ]
+      }
+    },
+    {
+      "id": "E5.01",
+      "name": "Plant selection & seed saving",
+      "era": "E5",
+      "prerequisites": [
+        "E4.19",
+        "E3.42"
+      ],
+      "needs": [
+        "wild grain",
+        "storage"
+      ],
+      "introduces": {
+        "actions": [
+          "keep best seed (crop lineage)"
+        ]
+      }
+    },
+    {
+      "id": "E5.02",
+      "name": "Land clearing (slash & burn)",
+      "era": "E5",
+      "prerequisites": [
+        "E4.13",
+        "E2.13"
+      ],
+      "needs": [
+        "axe",
+        "fire"
+      ],
+      "introduces": {
+        "blocks": [
+          "cleared field plot"
+        ]
+      }
+    },
+    {
+      "id": "E5.03",
+      "name": "Hoe cultivation",
+      "era": "E5",
+      "prerequisites": [
+        "E4.30",
+        "E4.12"
+      ],
+      "needs": [
+        "hoe (stone/antler)"
+      ],
+      "introduces": {
+        "items": [
+          "hoe"
+        ],
+        "blocks": [
+          "tilled soil"
+        ],
+        "actions": [
+          "till soil"
+        ]
+      }
+    },
+    {
+      "id": "E5.04",
+      "name": "Sowing & crop tending",
+      "era": "E5",
+      "prerequisites": [
+        "E5.01",
+        "E5.03"
+      ],
+      "needs": [
+        "seed",
+        "tilled plot"
+      ],
+      "introduces": {
+        "blocks": [
+          "crop blocks (growth stages)"
+        ],
+        "actions": [
+          "plant/weed/tend"
+        ]
+      }
+    },
+    {
+      "id": "E5.05",
+      "name": "Cereal domestication (wheat/barley)",
+      "era": "E5",
+      "prerequisites": [
+        "E5.04"
+      ],
+      "needs": [
+        "generations of cultivation"
+      ],
+      "introduces": {
+        "items": [
+          "domestic wheat",
+          "barley"
+        ]
+      }
+    },
+    {
+      "id": "E5.06",
+      "name": "Pulse crops (lentil, pea)",
+      "era": "E5",
+      "prerequisites": [
+        "E5.04"
+      ],
+      "needs": [
+        "wild pulses"
+      ],
+      "introduces": {
+        "items": [
+          "lentils",
+          "peas (protein",
+          "soil health)"
+        ]
+      }
+    },
+    {
+      "id": "E5.07",
+      "name": "Flax cultivation",
+      "era": "E5",
+      "prerequisites": [
+        "E5.04"
+      ],
+      "needs": [
+        "flax seed"
+      ],
+      "introduces": {
+        "items": [
+          "flax (fiber + linseed)"
+        ]
+      }
+    },
+    {
+      "id": "E5.08",
+      "name": "Harvesting sickle",
+      "era": "E5",
+      "prerequisites": [
+        "E4.02"
+      ],
+      "needs": [
+        "microlith/flint sickle",
+        "haft"
+      ],
+      "introduces": {
+        "items": [
+          "sickle"
+        ]
+      }
+    },
+    {
+      "id": "E5.09",
+      "name": "Threshing",
+      "era": "E5",
+      "prerequisites": [
+        "E5.08"
+      ],
+      "needs": [
+        "threshing floor",
+        "flails"
+      ],
+      "introduces": {
+        "items": [
+          "grain",
+          "straw"
+        ],
+        "blocks": [
+          "threshing floor"
+        ]
+      }
+    },
+    {
+      "id": "E5.10",
+      "name": "Winnowing",
+      "era": "E5",
+      "prerequisites": [
+        "E5.09"
+      ],
+      "needs": [
+        "baskets",
+        "wind"
+      ],
+      "introduces": {
+        "items": [
+          "clean grain",
+          "chaff"
+        ]
+      }
+    },
+    {
+      "id": "E5.11",
+      "name": "Granary",
+      "era": "E5",
+      "prerequisites": [
+        "E4.21",
+        "E5.10"
+      ],
+      "needs": [
+        "raised platform",
+        "mats/mudbrick"
+      ],
+      "introduces": {
+        "structures": [
+          "granary (rodent-proof storage)"
+        ]
+      }
+    },
+    {
+      "id": "E5.12",
+      "name": "Fallowing & rotation",
+      "era": "E5",
+      "prerequisites": [
+        "E5.06"
+      ],
+      "needs": [
+        "multiple plots"
+      ],
+      "introduces": {
+        "actions": [
+          "sustain soil fertility"
+        ]
+      }
+    },
+    {
+      "id": "E5.13",
+      "name": "Manuring",
+      "era": "E5",
+      "prerequisites": [
+        "E5.20"
+      ],
+      "needs": [
+        "dung",
+        "fields"
+      ],
+      "introduces": {
+        "actions": [
+          "fertilize"
+        ]
+      }
+    },
+    {
+      "id": "E5.14",
+      "name": "Garden horticulture",
+      "era": "E5",
+      "prerequisites": [
+        "E5.04"
+      ],
+      "needs": [
+        "vegetables",
+        "gourds"
+      ],
+      "introduces": {
+        "items": [
+          "vegetables",
+          "gourds"
+        ]
+      }
+    },
+    {
+      "id": "E5.15",
+      "name": "Fig/fruit tree tending",
+      "era": "E5",
+      "prerequisites": [
+        "E5.01"
+      ],
+      "needs": [
+        "fig/fruit saplings"
+      ],
+      "introduces": {
+        "structures": [
+          "orchard plot (long-cycle food)"
+        ]
+      }
+    },
+    {
+      "id": "E5.16",
+      "name": "Simple irrigation ditch",
+      "era": "E5",
+      "prerequisites": [
+        "E5.04",
+        "E4.30"
+      ],
+      "needs": [
+        "stream",
+        "mattock"
+      ],
+      "introduces": {
+        "blocks": [
+          "ditch"
+        ],
+        "actions": [
+          "water fields"
+        ]
+      }
+    },
+    {
+      "id": "E5.17",
+      "name": "Goat/sheep domestication",
+      "era": "E5",
+      "prerequisites": [
+        "E4.08",
+        "E2.29"
+      ],
+      "needs": [
+        "wild herds",
+        "penning"
+      ],
+      "introduces": {
+        "items": [
+          "goat",
+          "sheep (tame)"
+        ]
+      }
+    },
+    {
+      "id": "E5.18",
+      "name": "Penning & corrals",
+      "era": "E5",
+      "prerequisites": [
+        "E4.23"
+      ],
+      "needs": [
+        "wattle fence"
+      ],
+      "introduces": {
+        "structures": [
+          "corral"
+        ]
+      }
+    },
+    {
+      "id": "E5.19",
+      "name": "Herding",
+      "era": "E5",
+      "prerequisites": [
+        "E5.17",
+        "E4.07"
+      ],
+      "needs": [
+        "flock",
+        "dog"
+      ],
+      "introduces": {
+        "actions": [
+          "pasture management"
+        ]
+      }
+    },
+    {
+      "id": "E5.20",
+      "name": "Cattle domestication",
+      "era": "E5",
+      "prerequisites": [
+        "E5.18"
+      ],
+      "needs": [
+        "aurochs capture event"
+      ],
+      "introduces": {
+        "items": [
+          "cattle"
+        ]
+      }
+    },
+    {
+      "id": "E5.21",
+      "name": "Pig domestication",
+      "era": "E5",
+      "prerequisites": [
+        "E4.22"
+      ],
+      "needs": [
+        "wild boar",
+        "scraps"
+      ],
+      "introduces": {
+        "items": [
+          "pig"
+        ]
+      }
+    },
+    {
+      "id": "E5.22",
+      "name": "Milking",
+      "era": "E5",
+      "prerequisites": [],
+      "prerequisites_any_of": [
+        [
+          "E5.17",
+          "E5.20"
+        ]
+      ],
+      "needs": [
+        "tame animals",
+        "vessel"
+      ],
+      "introduces": {
+        "items": [
+          "milk"
+        ]
+      }
+    },
+    {
+      "id": "E5.23",
+      "name": "Curdling & cheese",
+      "era": "E5",
+      "prerequisites": [
+        "E5.22",
+        "E5.34"
+      ],
+      "needs": [
+        "milk",
+        "warm hearth",
+        "rennet"
+      ],
+      "introduces": {
+        "items": [
+          "curds",
+          "cheese (storable dairy)"
+        ]
+      }
+    },
+    {
+      "id": "E5.24",
+      "name": "Wool exploitation (plucking)",
+      "era": "E5",
+      "prerequisites": [
+        "E5.17"
+      ],
+      "needs": [
+        "sheep"
+      ],
+      "introduces": {
+        "items": [
+          "wool"
+        ]
+      }
+    },
+    {
+      "id": "E5.25",
+      "name": "Castration & draft oxen",
+      "era": "E5",
+      "prerequisites": [
+        "E5.20"
+      ],
+      "needs": [
+        "cattle"
+      ],
+      "introduces": {
+        "items": [
+          "ox (draft power)"
+        ]
+      }
+    },
+    {
+      "id": "E5.26",
+      "name": "Selective breeding (livestock)",
+      "era": "E5",
+      "prerequisites": [
+        "E5.19",
+        "E3.42"
+      ],
+      "needs": [
+        "generations"
+      ],
+      "introduces": {
+        "actions": [
+          "improve yield/temperament"
+        ]
+      }
+    },
+    {
+      "id": "E5.27",
+      "name": "Saddle quern",
+      "era": "E5",
+      "prerequisites": [
+        "E4.20"
+      ],
+      "needs": [
+        "shaped quern stones"
+      ],
+      "introduces": {
+        "items": [
+          "saddle quern",
+          "flour"
+        ]
+      }
+    },
+    {
+      "id": "E5.28",
+      "name": "Mortar & pestle",
+      "era": "E5",
+      "prerequisites": [
+        "E4.20"
+      ],
+      "needs": [
+        "stone mortar"
+      ],
+      "introduces": {
+        "items": [
+          "mortar & pestle"
+        ]
+      }
+    },
+    {
+      "id": "E5.29",
+      "name": "Flatbread baking",
+      "era": "E5",
+      "prerequisites": [
+        "E5.27",
+        "E2.15"
+      ],
+      "needs": [
+        "flour",
+        "water",
+        "hot stone/hearth"
+      ],
+      "introduces": {
+        "items": [
+          "flatbread"
+        ]
+      }
+    },
+    {
+      "id": "E5.30",
+      "name": "Porridge & gruel",
+      "era": "E5",
+      "prerequisites": [
+        "E5.27",
+        "E5.34"
+      ],
+      "needs": [
+        "grain",
+        "pot",
+        "fire"
+      ],
+      "introduces": {
+        "items": [
+          "porridge"
+        ]
+      }
+    },
+    {
+      "id": "E5.31",
+      "name": "Beer brewing",
+      "era": "E5",
+      "prerequisites": [
+        "E5.29",
+        "E5.34"
+      ],
+      "needs": [
+        "sprouted grain",
+        "pot",
+        "time"
+      ],
+      "introduces": {
+        "items": [
+          "beer (social/ritual good)"
+        ]
+      }
+    },
+    {
+      "id": "E5.32",
+      "name": "Fermentation & pickling",
+      "era": "E5",
+      "prerequisites": [
+        "E5.34"
+      ],
+      "needs": [
+        "pots",
+        "brine/whey"
+      ],
+      "introduces": {
+        "items": [
+          "preserved foods"
+        ]
+      }
+    },
+    {
+      "id": "E5.33",
+      "name": "Salt gathering",
+      "era": "E5",
+      "prerequisites": [
+        "E2.26"
+      ],
+      "needs": [
+        "salt pan/spring"
+      ],
+      "introduces": {
+        "items": [
+          "salt (preservative",
+          "trade good)"
+        ]
+      }
+    },
+    {
+      "id": "E5.34",
+      "name": "Coil pottery",
+      "era": "E5",
+      "prerequisites": [
+        "E3.37",
+        "E2.15"
+      ],
+      "needs": [
+        "clay deposit",
+        "temper"
+      ],
+      "introduces": {
+        "items": [
+          "clay pot (cooking/storage revolution)"
+        ]
+      }
+    },
+    {
+      "id": "E5.35",
+      "name": "Open/pit firing",
+      "era": "E5",
+      "prerequisites": [
+        "E5.34"
+      ],
+      "needs": [
+        "fuel",
+        "pit"
+      ],
+      "introduces": {
+        "structures": [
+          "firing pit"
+        ],
+        "actions": [
+          "fire ceramics"
+        ]
+      }
+    },
+    {
+      "id": "E5.36",
+      "name": "Slips & burnishing",
+      "era": "E5",
+      "prerequisites": [
+        "E5.35",
+        "E2.22"
+      ],
+      "needs": [
+        "fine clay",
+        "pebble"
+      ],
+      "introduces": {
+        "items": [
+          "decorated ware (trade/status)"
+        ]
+      }
+    },
+    {
+      "id": "E5.37",
+      "name": "Updraft kiln",
+      "era": "E5",
+      "prerequisites": [
+        "E5.35",
+        "E5.52"
+      ],
+      "needs": [
+        "mudbrick/clay kiln"
+      ],
+      "introduces": {
+        "structures": [
+          "kiln (hotter",
+          "reliable firing)"
+        ]
+      }
+    },
+    {
+      "id": "E5.38",
+      "name": "Bow drill",
+      "era": "E5",
+      "prerequisites": [
+        "E4.03",
+        "E2.13"
+      ],
+      "needs": [
+        "bow",
+        "spindle"
+      ],
+      "introduces": {
+        "items": [
+          "bow drill"
+        ],
+        "actions": [
+          "fast fire",
+          "drill holes"
+        ]
+      }
+    },
+    {
+      "id": "E5.39",
+      "name": "Stone drilling & perforation",
+      "era": "E5",
+      "prerequisites": [
+        "E5.38",
+        "E3.34"
+      ],
+      "needs": [
+        "drill",
+        "sand abrasive"
+      ],
+      "introduces": {
+        "actions": [
+          "axe eyes",
+          "beads at scale"
+        ]
+      }
+    },
+    {
+      "id": "E5.40",
+      "name": "Polished stone axe/adze",
+      "era": "E5",
+      "prerequisites": [
+        "E4.12"
+      ],
+      "needs": [
+        "grinding",
+        "polishing stones"
+      ],
+      "introduces": {
+        "items": [
+          "polished axe (forest clearing at scale)"
+        ]
+      }
+    },
+    {
+      "id": "E5.41",
+      "name": "Fiber retting & processing",
+      "era": "E5",
+      "prerequisites": [
+        "E5.07"
+      ],
+      "needs": [
+        "flax",
+        "water pit"
+      ],
+      "introduces": {
+        "items": [
+          "flax fiber"
+        ]
+      }
+    },
+    {
+      "id": "E5.42",
+      "name": "Spindle-whorl spinning",
+      "era": "E5",
+      "prerequisites": [],
+      "prerequisites_any_of": [
+        [
+          "E5.41",
+          "E5.24"
+        ]
+      ],
+      "needs": [
+        "spindle",
+        "whorl"
+      ],
+      "introduces": {
+        "items": [
+          "yarn/thread (linen",
+          "wool)"
+        ]
+      }
+    },
+    {
+      "id": "E5.43",
+      "name": "Warp-weighted loom",
+      "era": "E5",
+      "prerequisites": [
+        "E5.42",
+        "E4.14"
+      ],
+      "needs": [
+        "loom frame",
+        "weights"
+      ],
+      "introduces": {
+        "items": [
+          "woven cloth"
+        ],
+        "structures": [
+          "loom"
+        ]
+      }
+    },
+    {
+      "id": "E5.44",
+      "name": "Plant dyeing",
+      "era": "E5",
+      "prerequisites": [
+        "E5.43",
+        "E2.25"
+      ],
+      "needs": [
+        "dye plants",
+        "mordant"
+      ],
+      "introduces": {
+        "items": [
+          "dyed cloth"
+        ]
+      }
+    },
+    {
+      "id": "E5.45",
+      "name": "Woven garments",
+      "era": "E5",
+      "prerequisites": [
+        "E5.43",
+        "E3.12"
+      ],
+      "needs": [
+        "cloth",
+        "needle"
+      ],
+      "introduces": {
+        "items": [
+          "tunics",
+          "cloaks"
+        ]
+      }
+    },
+    {
+      "id": "E5.46",
+      "name": "Wattle & daub",
+      "era": "E5",
+      "prerequisites": [
+        "E4.23"
+      ],
+      "needs": [
+        "wattle",
+        "clay/dung daub"
+      ],
+      "introduces": {
+        "blocks": [
+          "daub wall"
+        ],
+        "structures": [
+          "wattle-daub house"
+        ]
+      }
+    },
+    {
+      "id": "E5.47",
+      "name": "Thatched roofing",
+      "era": "E5",
+      "prerequisites": [
+        "E5.46",
+        "E4.19"
+      ],
+      "needs": [
+        "straw/reed bundles"
+      ],
+      "introduces": {
+        "blocks": [
+          "thatch roof"
+        ]
+      }
+    },
+    {
+      "id": "E5.48",
+      "name": "Mudbrick making",
+      "era": "E5",
+      "prerequisites": [
+        "E5.34",
+        "E5.09"
+      ],
+      "needs": [
+        "clay",
+        "straw",
+        "molds",
+        "sun"
+      ],
+      "introduces": {
+        "items": [
+          "mudbrick"
+        ],
+        "blocks": [
+          "mudbrick"
+        ]
+      }
+    },
+    {
+      "id": "E5.49",
+      "name": "Mudbrick house",
+      "era": "E5",
+      "prerequisites": [
+        "E5.48"
+      ],
+      "needs": [
+        "bricks",
+        "mortar (mud)"
+      ],
+      "introduces": {
+        "structures": [
+          "mudbrick house"
+        ]
+      }
+    },
+    {
+      "id": "E5.50",
+      "name": "Lime plaster",
+      "era": "E5",
+      "prerequisites": [
+        "E5.37"
+      ],
+      "needs": [
+        "burnt limestone",
+        "water"
+      ],
+      "introduces": {
+        "items": [
+          "lime plaster (floors",
+          "walls",
+          "cisterns)"
+        ]
+      }
+    },
+    {
+      "id": "E5.51",
+      "name": "Dug well",
+      "era": "E5",
+      "prerequisites": [
+        "E4.30",
+        "E5.50"
+      ],
+      "needs": [
+        "deep digging",
+        "lining"
+      ],
+      "introduces": {
+        "structures": [
+          "well (settle away from rivers)"
+        ]
+      }
+    },
+    {
+      "id": "E5.52",
+      "name": "Clay oven",
+      "era": "E5",
+      "prerequisites": [
+        "E5.34",
+        "E5.29"
+      ],
+      "needs": [
+        "clay dome"
+      ],
+      "introduces": {
+        "structures": [
+          "bread oven"
+        ]
+      }
+    },
+    {
+      "id": "E5.53",
+      "name": "Ditch & palisade",
+      "era": "E5",
+      "prerequisites": [
+        "E4.13",
+        "E4.30"
+      ],
+      "needs": [
+        "logs",
+        "earthwork"
+      ],
+      "introduces": {
+        "structures": [
+          "palisade",
+          "defensive ditch"
+        ]
+      }
+    },
+    {
+      "id": "E5.54",
+      "name": "Megalith raising",
+      "era": "E5",
+      "prerequisites": [
+        "E3.33",
+        "E5.68"
+      ],
+      "needs": [
+        "large stones",
+        "rollers",
+        "ropes",
+        "crowd"
+      ],
+      "introduces": {
+        "structures": [
+          "menhir/dolmen/circle (ritual anchor)"
+        ]
+      }
+    },
+    {
+      "id": "E5.55",
+      "name": "Communal buildings",
+      "era": "E5",
+      "prerequisites": [
+        "E5.49"
+      ],
+      "needs": [
+        "surplus labor"
+      ],
+      "introduces": {
+        "structures": [
+          "shrine/meeting house"
+        ]
+      }
+    },
+    {
+      "id": "E5.56",
+      "name": "Village life (sedentism)",
+      "era": "E5",
+      "prerequisites": [
+        "E5.11",
+        "E5.46"
+      ],
+      "needs": [
+        "food surplus"
+      ],
+      "introduces": {
+        "structures": [
+          "village (population growth unlocked)"
+        ]
+      }
+    },
+    {
+      "id": "E5.57",
+      "name": "Property & ownership marks",
+      "era": "E5",
+      "prerequisites": [
+        "E5.56",
+        "E2.23"
+      ],
+      "needs": [
+        "pottery/tokens"
+      ],
+      "introduces": {
+        "actions": [
+          "ownership rules (theft becomes a concept)"
+        ]
+      }
+    },
+    {
+      "id": "E5.58",
+      "name": "Clay tokens (accounting)",
+      "era": "E5",
+      "prerequisites": [
+        "E5.34",
+        "E3.42"
+      ],
+      "needs": [
+        "clay"
+      ],
+      "introduces": {
+        "items": [
+          "counting tokens"
+        ]
+      }
+    },
+    {
+      "id": "E5.59",
+      "name": "Regular trade routes",
+      "era": "E5",
+      "prerequisites": [
+        "E3.43",
+        "E5.56"
+      ],
+      "needs": [
+        "paths",
+        "surplus"
+      ],
+      "introduces": {
+        "actions": [
+          "inter-village trade (obsidian",
+          "salt",
+          "shells)"
+        ]
+      }
+    },
+    {
+      "id": "E5.60",
+      "name": "Reed boats",
+      "era": "E5",
+      "prerequisites": [
+        "E3.25",
+        "E4.17"
+      ],
+      "needs": [
+        "reed bundles",
+        "rope"
+      ],
+      "introduces": {
+        "items": [
+          "reed boat"
+        ]
+      }
+    },
+    {
+      "id": "E5.61",
+      "name": "Sling",
+      "era": "E5",
+      "prerequisites": [
+        "E2.07",
+        "E5.43"
+      ],
+      "needs": [
+        "woven/leather sling"
+      ],
+      "introduces": {
+        "items": [
+          "sling",
+          "sling stones"
+        ]
+      }
+    },
+    {
+      "id": "E5.62",
+      "name": "Mace",
+      "era": "E5",
+      "prerequisites": [
+        "E5.39"
+      ],
+      "needs": [
+        "perforated stone head",
+        "haft"
+      ],
+      "introduces": {
+        "items": [
+          "mace (first pure weapon)"
+        ]
+      }
+    },
+    {
+      "id": "E5.63",
+      "name": "Organized raiding & defense",
+      "era": "E5",
+      "prerequisites": [
+        "E5.53",
+        "E5.62"
+      ],
+      "needs": [
+        "warriors"
+      ],
+      "introduces": {
+        "actions": [
+          "group combat doctrine"
+        ]
+      }
+    },
+    {
+      "id": "E5.64",
+      "name": "Shrines & ritual practice",
+      "era": "E5",
+      "prerequisites": [
+        "E5.55",
+        "E3.36"
+      ],
+      "needs": [
+        "shrine",
+        "figurines"
+      ],
+      "introduces": {
+        "actions": [
+          "ritual calendar (cohesion",
+          "festivals)"
+        ]
+      }
+    },
+    {
+      "id": "E5.65",
+      "name": "Ancestor cult",
+      "era": "E5",
+      "prerequisites": [
+        "E4.29",
+        "E5.64"
+      ],
+      "needs": [
+        "cemetery",
+        "shrine"
+      ],
+      "introduces": {
+        "actions": [
+          "lineage identity"
+        ]
+      }
+    },
+    {
+      "id": "E5.66",
+      "name": "Trepanation & bone setting",
+      "era": "E5",
+      "prerequisites": [
+        "E2.25",
+        "E3.06"
+      ],
+      "needs": [
+        "flint tools",
+        "herbs"
+      ],
+      "introduces": {
+        "actions": [
+          "surgery (risky healing)"
+        ]
+      }
+    },
+    {
+      "id": "E5.67",
+      "name": "Solstice markers / calendar",
+      "era": "E5",
+      "prerequisites": [
+        "E5.54",
+        "E3.42"
+      ],
+      "needs": [
+        "aligned stones"
+      ],
+      "introduces": {
+        "actions": [
+          "solar calendar (farming timing)"
+        ]
+      }
+    },
+    {
+      "id": "E5.68",
+      "name": "Levers, rollers & ramps",
+      "era": "E5",
+      "prerequisites": [
+        "E4.13"
+      ],
+      "needs": [
+        "logs",
+        "know-how"
+      ],
+      "introduces": {
+        "actions": [
+          "move heavy loads"
+        ]
+      }
+    },
+    {
+      "id": "E5.69",
+      "name": "Pack animal use",
+      "era": "E5",
+      "prerequisites": [
+        "E5.17"
+      ],
+      "needs": [
+        "goat/donkey",
+        "baskets"
+      ],
+      "introduces": {
+        "actions": [
+          "animal transport"
+        ]
+      }
+    },
+    {
+      "id": "E5.70",
+      "name": "Food redistribution (feasting)",
+      "era": "E5",
+      "prerequisites": [
+        "E5.31",
+        "E5.56"
+      ],
+      "needs": [
+        "surplus",
+        "communal house"
+      ],
+      "introduces": {
+        "actions": [
+          "feasts (status",
+          "alliances)"
+        ]
+      }
+    },
+    {
+      "id": "E6.01",
+      "name": "Native copper collecting",
+      "era": "E6",
+      "prerequisites": [
+        "E1.03",
+        "E3.43"
+      ],
+      "needs": [
+        "surface copper nuggets"
+      ],
+      "introduces": {
+        "items": [
+          "native copper"
+        ]
+      }
+    },
+    {
+      "id": "E6.02",
+      "name": "Cold hammering copper",
+      "era": "E6",
+      "prerequisites": [
+        "E6.01",
+        "E1.01"
+      ],
+      "needs": [
+        "nugget",
+        "hammerstone"
+      ],
+      "introduces": {
+        "items": [
+          "copper beads",
+          "awls (first metal)"
+        ]
+      }
+    },
+    {
+      "id": "E6.03",
+      "name": "Annealing",
+      "era": "E6",
+      "prerequisites": [
+        "E6.02",
+        "E2.15"
+      ],
+      "needs": [
+        "hearth"
+      ],
+      "introduces": {
+        "actions": [
+          "soften work-hardened copper"
+        ]
+      }
+    },
+    {
+      "id": "E6.04",
+      "name": "Ore recognition (malachite/azurite)",
+      "era": "E6",
+      "prerequisites": [
+        "E6.01",
+        "E2.22"
+      ],
+      "needs": [
+        "green/blue ores"
+      ],
+      "introduces": {
+        "actions": [
+          "identify copper ores"
+        ]
+      }
+    },
+    {
+      "id": "E6.05",
+      "name": "Charcoal making",
+      "era": "E6",
+      "prerequisites": [
+        "E4.13",
+        "E5.35"
+      ],
+      "needs": [
+        "wood",
+        "earth-covered clamp"
+      ],
+      "introduces": {
+        "items": [
+          "charcoal (high-temp fuel)"
+        ],
+        "structures": [
+          "charcoal clamp"
+        ]
+      }
+    },
+    {
+      "id": "E6.06",
+      "name": "Crucible",
+      "era": "E6",
+      "prerequisites": [
+        "E5.37"
+      ],
+      "needs": [
+        "refractory clay"
+      ],
+      "introduces": {
+        "items": [
+          "crucible"
+        ]
+      }
+    },
+    {
+      "id": "E6.07",
+      "name": "Copper smelting",
+      "era": "E6",
+      "prerequisites": [
+        "E6.04",
+        "E6.05",
+        "E6.06",
+        "E5.37"
+      ],
+      "needs": [
+        "ore",
+        "charcoal",
+        "kiln/furnace"
+      ],
+      "introduces": {
+        "items": [
+          "copper ingot"
+        ],
+        "structures": [
+          "smelting furnace"
+        ]
+      }
+    },
+    {
+      "id": "E6.08",
+      "name": "Open-mold casting",
+      "era": "E6",
+      "prerequisites": [
+        "E6.07"
+      ],
+      "needs": [
+        "stone/clay mold"
+      ],
+      "introduces": {
+        "items": [
+          "cast copper flat axe",
+          "chisel"
+        ]
+      }
+    },
+    {
+      "id": "E6.09",
+      "name": "Copper toolkit",
+      "era": "E6",
+      "prerequisites": [
+        "E6.08",
+        "E6.03"
+      ],
+      "needs": [
+        "copper",
+        "hafts"
+      ],
+      "introduces": {
+        "items": [
+          "copper axe",
+          "adze",
+          "chisel",
+          "awl",
+          "knife"
+        ]
+      }
+    },
+    {
+      "id": "E6.10",
+      "name": "Copper daggers",
+      "era": "E6",
+      "prerequisites": [
+        "E6.08"
+      ],
+      "needs": [
+        "copper",
+        "rivets"
+      ],
+      "introduces": {
+        "items": [
+          "copper dagger (status weapon)"
+        ]
+      }
+    },
+    {
+      "id": "E6.11",
+      "name": "Prospecting",
+      "era": "E6",
+      "prerequisites": [
+        "E6.04",
+        "E2.29"
+      ],
+      "needs": [
+        "survey travel"
+      ],
+      "introduces": {
+        "actions": [
+          "find ore veins (map resource)"
+        ]
+      }
+    },
+    {
+      "id": "E6.12",
+      "name": "Pit & shaft mining (shallow)",
+      "era": "E6",
+      "prerequisites": [
+        "E6.11",
+        "E4.30",
+        "E3.31"
+      ],
+      "needs": [
+        "picks",
+        "lamps",
+        "timber"
+      ],
+      "introduces": {
+        "blocks": [
+          "ore blocks exposed"
+        ],
+        "structures": [
+          "mine"
+        ]
+      }
+    },
+    {
+      "id": "E6.13",
+      "name": "Gold working (native)",
+      "era": "E6",
+      "prerequisites": [
+        "E6.02"
+      ],
+      "needs": [
+        "placer gold"
+      ],
+      "introduces": {
+        "items": [
+          "gold ornaments (prestige economy)"
+        ]
+      }
+    },
+    {
+      "id": "E6.14",
+      "name": "Silver & lead smelting",
+      "era": "E6",
+      "prerequisites": [
+        "E6.07"
+      ],
+      "needs": [
+        "galena ore"
+      ],
+      "introduces": {
+        "items": [
+          "lead",
+          "silver"
+        ]
+      }
+    },
+    {
+      "id": "E6.15",
+      "name": "Tournette (slow potter's wheel)",
+      "era": "E6",
+      "prerequisites": [
+        "E5.34",
+        "E5.39"
+      ],
+      "needs": [
+        "pivoted platform"
+      ],
+      "introduces": {
+        "items": [
+          "tournette (faster",
+          "rounder pots)"
+        ]
+      }
+    },
+    {
+      "id": "E6.16",
+      "name": "The wheel (solid disc)",
+      "era": "E6",
+      "prerequisites": [
+        "E5.68",
+        "E4.14"
+      ],
+      "needs": [
+        "plank wood",
+        "axe/adze"
+      ],
+      "introduces": {
+        "items": [
+          "wheel"
+        ]
+      }
+    },
+    {
+      "id": "E6.17",
+      "name": "Yoke & animal traction",
+      "era": "E6",
+      "prerequisites": [
+        "E5.25"
+      ],
+      "needs": [
+        "ox",
+        "carved yoke"
+      ],
+      "introduces": {
+        "actions": [
+          "harness draft power"
+        ]
+      }
+    },
+    {
+      "id": "E6.18",
+      "name": "Ox-cart",
+      "era": "E6",
+      "prerequisites": [
+        "E6.16",
+        "E6.17"
+      ],
+      "needs": [
+        "wheels",
+        "axle",
+        "bed",
+        "ox"
+      ],
+      "introduces": {
+        "items": [
+          "cart (bulk land transport)"
+        ]
+      }
+    },
+    {
+      "id": "E6.19",
+      "name": "Ard (scratch plow)",
+      "era": "E6",
+      "prerequisites": [
+        "E6.17",
+        "E4.14"
+      ],
+      "needs": [
+        "wooden ard",
+        "ox"
+      ],
+      "introduces": {
+        "items": [
+          "ard (fields scale up 5×)"
+        ]
+      }
+    },
+    {
+      "id": "E6.20",
+      "name": "Canal irrigation",
+      "era": "E6",
+      "prerequisites": [
+        "E5.16",
+        "E5.68"
+      ],
+      "needs": [
+        "organized labor"
+      ],
+      "introduces": {
+        "blocks": [
+          "canal network (surplus",
+          "but coordination needed)"
+        ]
+      }
+    },
+    {
+      "id": "E6.21",
+      "name": "Donkey domestication",
+      "era": "E6",
+      "prerequisites": [
+        "E5.69"
+      ],
+      "needs": [
+        "wild ass"
+      ],
+      "introduces": {
+        "items": [
+          "donkey (caravans)"
+        ]
+      }
+    },
+    {
+      "id": "E6.22",
+      "name": "Horse domestication",
+      "era": "E6",
+      "prerequisites": [
+        "E5.19"
+      ],
+      "needs": [
+        "steppe horses"
+      ],
+      "introduces": {
+        "items": [
+          "horse (herding",
+          "later riding)"
+        ]
+      }
+    },
+    {
+      "id": "E6.23",
+      "name": "Woolly sheep breeds",
+      "era": "E6",
+      "prerequisites": [
+        "E5.26",
+        "E5.24"
+      ],
+      "needs": [
+        "breeding generations"
+      ],
+      "introduces": {
+        "items": [
+          "wool-rich sheep (textile economy)"
+        ]
+      }
+    },
+    {
+      "id": "E6.24",
+      "name": "Wool combs (plucking)",
+      "era": "E6",
+      "prerequisites": [
+        "E5.24"
+      ],
+      "needs": [
+        "bone combs"
+      ],
+      "introduces": {
+        "items": [
+          "wool comb"
+        ]
+      }
+    },
+    {
+      "id": "E6.25",
+      "name": "Horizontal ground loom",
+      "era": "E6",
+      "prerequisites": [
+        "E5.43"
+      ],
+      "needs": [
+        "pegged loom"
+      ],
+      "introduces": {
+        "structures": [
+          "ground loom (wider cloth)"
+        ]
+      }
+    },
+    {
+      "id": "E6.26",
+      "name": "Olive & grape horticulture",
+      "era": "E6",
+      "prerequisites": [
+        "E5.15"
+      ],
+      "needs": [
+        "cuttings",
+        "presses (basic)"
+      ],
+      "introduces": {
+        "items": [
+          "olives",
+          "grapes"
+        ]
+      }
+    },
+    {
+      "id": "E6.27",
+      "name": "Wine making",
+      "era": "E6",
+      "prerequisites": [
+        "E6.26",
+        "E5.31"
+      ],
+      "needs": [
+        "grapes",
+        "vats"
+      ],
+      "introduces": {
+        "items": [
+          "wine (elite/trade good)"
+        ]
+      }
+    },
+    {
+      "id": "E6.28",
+      "name": "Oil pressing",
+      "era": "E6",
+      "prerequisites": [
+        "E6.26",
+        "E5.28"
+      ],
+      "needs": [
+        "press stones"
+      ],
+      "introduces": {
+        "items": [
+          "olive oil (food",
+          "light",
+          "trade)"
+        ]
+      }
+    },
+    {
+      "id": "E6.29",
+      "name": "Stamp seals",
+      "era": "E6",
+      "prerequisites": [
+        "E5.57",
+        "E3.37"
+      ],
+      "needs": [
+        "carved stone"
+      ],
+      "introduces": {
+        "items": [
+          "stamp seal (identity",
+          "sealing goods)"
+        ]
+      }
+    },
+    {
+      "id": "E6.30",
+      "name": "Closed kiln (two-chamber)",
+      "era": "E6",
+      "prerequisites": [
+        "E5.37"
+      ],
+      "needs": [
+        "refined kiln build"
+      ],
+      "introduces": {
+        "structures": [
+          "advanced kiln (~1100°C)"
+        ]
+      }
+    },
+    {
+      "id": "E6.31",
+      "name": "Salt mining/boiling",
+      "era": "E6",
+      "prerequisites": [
+        "E5.33"
+      ],
+      "needs": [
+        "salt deposit",
+        "brine pans"
+      ],
+      "introduces": {
+        "structures": [
+          "saltworks (industrial preservative)"
+        ]
+      }
+    },
+    {
+      "id": "E6.32",
+      "name": "Craft specialization",
+      "era": "E6",
+      "prerequisites": [
+        "E5.56",
+        "E6.09"
+      ],
+      "needs": [
+        "surplus food"
+      ],
+      "introduces": {
+        "actions": [
+          "full-time potter/smith/weaver roles"
+        ]
+      }
+    },
+    {
+      "id": "E6.33",
+      "name": "Social stratification (chiefdoms)",
+      "era": "E6",
+      "prerequisites": [
+        "E6.32",
+        "E6.13"
+      ],
+      "needs": [
+        "prestige goods"
+      ],
+      "introduces": {
+        "actions": [
+          "chief role",
+          "tribute"
+        ]
+      }
+    },
+    {
+      "id": "E6.34",
+      "name": "Fortified settlements (stone/mudbrick walls)",
+      "era": "E6",
+      "prerequisites": [
+        "E5.53",
+        "E5.49"
+      ],
+      "needs": [
+        "wall building"
+      ],
+      "introduces": {
+        "structures": [
+          "town wall",
+          "gate"
+        ]
+      }
+    },
+    {
+      "id": "E6.35",
+      "name": "Arsenical copper (accidental alloy)",
+      "era": "E6",
+      "prerequisites": [
+        "E6.07"
+      ],
+      "needs": [
+        "arsenic-bearing ores"
+      ],
+      "introduces": {
+        "items": [
+          "hard copper (better blades)"
+        ]
+      }
+    },
+    {
+      "id": "E6.36",
+      "name": "Riding (horseback)",
+      "era": "E6",
+      "prerequisites": [
+        "E6.22"
+      ],
+      "needs": [
+        "horse",
+        "mat/pad"
+      ],
+      "introduces": {
+        "actions": [
+          "riding (speed",
+          "herding",
+          "scouting)"
+        ]
+      }
+    },
+    {
+      "id": "E6.37",
+      "name": "Copper saw & drill bits",
+      "era": "E6",
+      "prerequisites": [
+        "E6.09",
+        "E5.38"
+      ],
+      "needs": [
+        "copper blanks"
+      ],
+      "introduces": {
+        "items": [
+          "copper saw (woodwork precision)"
+        ]
+      }
+    },
+    {
+      "id": "E6.38",
+      "name": "Plank woodworking",
+      "era": "E6",
+      "prerequisites": [
+        "E6.37"
+      ],
+      "needs": [
+        "saw",
+        "logs"
+      ],
+      "introduces": {
+        "items": [
+          "planks"
+        ],
+        "blocks": [
+          "planks"
+        ]
+      }
+    },
+    {
+      "id": "E6.39",
+      "name": "Plank boats (sewn)",
+      "era": "E6",
+      "prerequisites": [
+        "E6.38",
+        "E3.16"
+      ],
+      "needs": [
+        "planks",
+        "cord",
+        "tar"
+      ],
+      "introduces": {
+        "items": [
+          "sewn-plank boat"
+        ]
+      }
+    },
+    {
+      "id": "E6.40",
+      "name": "Standard measures (early)",
+      "era": "E6",
+      "prerequisites": [
+        "E5.58"
+      ],
+      "needs": [
+        "reference rods/vessels"
+      ],
+      "introduces": {
+        "actions": [
+          "consistent lengths/volumes"
+        ]
+      }
+    },
+    {
+      "id": "E7.01",
+      "name": "Tin recognition & trade",
+      "era": "E7",
+      "prerequisites": [
+        "E6.11",
+        "E5.59"
+      ],
+      "needs": [
+        "cassiterite sources (rare)"
+      ],
+      "introduces": {
+        "items": [
+          "tin (strategic resource)"
+        ]
+      }
+    },
+    {
+      "id": "E7.02",
+      "name": "Tin-bronze alloying",
+      "era": "E7",
+      "prerequisites": [
+        "E7.01",
+        "E6.07"
+      ],
+      "needs": [
+        "copper + tin",
+        "crucible"
+      ],
+      "introduces": {
+        "items": [
+          "bronze ingot"
+        ]
+      }
+    },
+    {
+      "id": "E7.03",
+      "name": "Bivalve molds",
+      "era": "E7",
+      "prerequisites": [
+        "E6.08"
+      ],
+      "needs": [
+        "two-part stone/clay molds"
+      ],
+      "introduces": {
+        "items": [
+          "complex castings (socketed tools)"
+        ]
+      }
+    },
+    {
+      "id": "E7.04",
+      "name": "Lost-wax casting",
+      "era": "E7",
+      "prerequisites": [
+        "E7.03",
+        "E4.25"
+      ],
+      "needs": [
+        "beeswax",
+        "clay investment"
+      ],
+      "introduces": {
+        "items": [
+          "intricate bronze (figures",
+          "fittings)"
+        ]
+      }
+    },
+    {
+      "id": "E7.05",
+      "name": "Bronze toolkit",
+      "era": "E7",
+      "prerequisites": [
+        "E7.02",
+        "E7.03"
+      ],
+      "needs": [
+        "bronze",
+        "hafts"
+      ],
+      "introduces": {
+        "items": [
+          "bronze axe",
+          "saw",
+          "chisel",
+          "knife",
+          "sickle"
+        ]
+      }
+    },
+    {
+      "id": "E7.06",
+      "name": "Bronze weapons",
+      "era": "E7",
+      "prerequisites": [
+        "E7.05"
+      ],
+      "needs": [
+        "bronze",
+        "rivets"
+      ],
+      "introduces": {
+        "items": [
+          "spearhead",
+          "dagger",
+          "arrowhead (bronze)"
+        ]
+      }
+    },
+    {
+      "id": "E7.07",
+      "name": "The sword",
+      "era": "E7",
+      "prerequisites": [
+        "E7.06"
+      ],
+      "needs": [
+        "long casting + smithing"
+      ],
+      "introduces": {
+        "items": [
+          "bronze sword"
+        ]
+      }
+    },
+    {
+      "id": "E7.08",
+      "name": "Sheet metalworking",
+      "era": "E7",
+      "prerequisites": [
+        "E6.03",
+        "E7.02"
+      ],
+      "needs": [
+        "hammers",
+        "stakes"
+      ],
+      "introduces": {
+        "items": [
+          "bronze vessels",
+          "helmets (raising/sinking)"
+        ]
+      }
+    },
+    {
+      "id": "E7.09",
+      "name": "Bronze armor",
+      "era": "E7",
+      "prerequisites": [
+        "E7.08"
+      ],
+      "needs": [
+        "sheet bronze",
+        "leather backing"
+      ],
+      "introduces": {
+        "items": [
+          "helmet",
+          "cuirass",
+          "greaves"
+        ]
+      }
+    },
+    {
+      "id": "E7.10",
+      "name": "Shield making",
+      "era": "E7",
+      "prerequisites": [
+        "E3.14",
+        "E4.14"
+      ],
+      "needs": [
+        "wood",
+        "hide",
+        "bronze boss"
+      ],
+      "introduces": {
+        "items": [
+          "shield"
+        ]
+      }
+    },
+    {
+      "id": "E7.11",
+      "name": "Riveting & joining",
+      "era": "E7",
+      "prerequisites": [
+        "E7.08"
+      ],
+      "needs": [
+        "rivets"
+      ],
+      "introduces": {
+        "actions": [
+          "assemble metal parts"
+        ]
+      }
+    },
+    {
+      "id": "E7.12",
+      "name": "Wire drawing/making",
+      "era": "E7",
+      "prerequisites": [
+        "E7.08"
+      ],
+      "needs": [
+        "drawplates/strips"
+      ],
+      "introduces": {
+        "items": [
+          "wire (jewelry",
+          "mail later)"
+        ]
+      }
+    },
+    {
+      "id": "E7.13",
+      "name": "Bag & pot bellows",
+      "era": "E7",
+      "prerequisites": [
+        "E3.14",
+        "E6.07"
+      ],
+      "needs": [
+        "hide bags",
+        "tuyères"
+      ],
+      "introduces": {
+        "items": [
+          "bellows (hotter furnaces)"
+        ]
+      }
+    },
+    {
+      "id": "E7.14",
+      "name": "Ore roasting & fluxing",
+      "era": "E7",
+      "prerequisites": [
+        "E6.07"
+      ],
+      "needs": [
+        "roasting beds"
+      ],
+      "introduces": {
+        "actions": [
+          "efficient smelting of sulfide ores"
+        ]
+      }
+    },
+    {
+      "id": "E7.15",
+      "name": "Deep-shaft mining",
+      "era": "E7",
+      "prerequisites": [
+        "E6.12",
+        "E7.05"
+      ],
+      "needs": [
+        "bronze picks",
+        "timbering",
+        "lamps"
+      ],
+      "introduces": {
+        "structures": [
+          "deep mine (galleries)"
+        ]
+      }
+    },
+    {
+      "id": "E7.16",
+      "name": "Cupellation",
+      "era": "E7",
+      "prerequisites": [
+        "E6.14"
+      ],
+      "needs": [
+        "bone-ash hearth"
+      ],
+      "introduces": {
+        "items": [
+          "refined silver (currency metal)"
+        ]
+      }
+    },
+    {
+      "id": "E7.17",
+      "name": "Goldsmithing (granulation, filigree)",
+      "era": "E7",
+      "prerequisites": [
+        "E6.13",
+        "E7.12"
+      ],
+      "needs": [
+        "fine tools"
+      ],
+      "introduces": {
+        "items": [
+          "masterwork jewelry"
+        ]
+      }
+    },
+    {
+      "id": "E7.18",
+      "name": "Faience",
+      "era": "E7",
+      "prerequisites": [
+        "E6.30",
+        "E5.36"
+      ],
+      "needs": [
+        "quartz paste",
+        "glaze"
+      ],
+      "introduces": {
+        "items": [
+          "faience beads/amulets"
+        ]
+      }
+    },
+    {
+      "id": "E7.19",
+      "name": "Glassmaking (core-formed)",
+      "era": "E7",
+      "prerequisites": [
+        "E7.18",
+        "E7.13"
+      ],
+      "needs": [
+        "sand",
+        "natron",
+        "high heat"
+      ],
+      "introduces": {
+        "items": [
+          "glass beads",
+          "small vessels"
+        ]
+      }
+    },
+    {
+      "id": "E7.20",
+      "name": "Pottery glazes",
+      "era": "E7",
+      "prerequisites": [
+        "E7.18"
+      ],
+      "needs": [
+        "glaze minerals"
+      ],
+      "introduces": {
+        "items": [
+          "glazed ware"
+        ]
+      }
+    },
+    {
+      "id": "E7.21",
+      "name": "Fast potter's wheel",
+      "era": "E7",
+      "prerequisites": [
+        "E6.15",
+        "E6.16"
+      ],
+      "needs": [
+        "flywheel"
+      ],
+      "introduces": {
+        "structures": [
+          "potter's wheel (mass production)"
+        ]
+      }
+    },
+    {
+      "id": "E7.22",
+      "name": "Spoked wheel",
+      "era": "E7",
+      "prerequisites": [
+        "E6.16",
+        "E6.37"
+      ],
+      "needs": [
+        "bentwood",
+        "precision joinery"
+      ],
+      "introduces": {
+        "items": [
+          "spoked wheel (light",
+          "fast)"
+        ]
+      }
+    },
+    {
+      "id": "E7.23",
+      "name": "Chariot",
+      "era": "E7",
+      "prerequisites": [
+        "E7.22",
+        "E6.22",
+        "E7.11"
+      ],
+      "needs": [
+        "2 horses",
+        "light frame"
+      ],
+      "introduces": {
+        "items": [
+          "war chariot"
+        ]
+      }
+    },
+    {
+      "id": "E7.24",
+      "name": "Horse bit & tack",
+      "era": "E7",
+      "prerequisites": [
+        "E6.36",
+        "E3.14"
+      ],
+      "needs": [
+        "bronze bit",
+        "leather"
+      ],
+      "introduces": {
+        "items": [
+          "bridle",
+          "bit (control at speed)"
+        ]
+      }
+    },
+    {
+      "id": "E7.25",
+      "name": "Square sail",
+      "era": "E7",
+      "prerequisites": [
+        "E5.43",
+        "E6.39"
+      ],
+      "needs": [
+        "cloth sail",
+        "mast",
+        "rigging"
+      ],
+      "introduces": {
+        "actions": [
+          "wind propulsion"
+        ]
+      }
+    },
+    {
+      "id": "E7.26",
+      "name": "Mortise-and-tenon shipbuilding",
+      "era": "E7",
+      "prerequisites": [
+        "E6.38",
+        "E7.05"
+      ],
+      "needs": [
+        "bronze tools"
+      ],
+      "introduces": {
+        "items": [
+          "seagoing ship"
+        ]
+      }
+    },
+    {
+      "id": "E7.27",
+      "name": "Coastal & star navigation",
+      "era": "E7",
+      "prerequisites": [
+        "E7.25",
+        "E5.67"
+      ],
+      "needs": [
+        "pilot lore"
+      ],
+      "introduces": {
+        "actions": [
+          "long-range sea trade"
+        ]
+      }
+    },
+    {
+      "id": "E7.28",
+      "name": "Anchor & harbor works",
+      "era": "E7",
+      "prerequisites": [
+        "E7.26"
+      ],
+      "needs": [
+        "stone anchors",
+        "moles"
+      ],
+      "introduces": {
+        "structures": [
+          "harbor"
+        ]
+      }
+    },
+    {
+      "id": "E7.29",
+      "name": "Pictographic record keeping",
+      "era": "E7",
+      "prerequisites": [
+        "E5.58",
+        "E6.29"
+      ],
+      "needs": [
+        "clay tablets",
+        "stylus"
+      ],
+      "introduces": {
+        "items": [
+          "proto-writing tablets"
+        ]
+      }
+    },
+    {
+      "id": "E7.30",
+      "name": "Writing (cuneiform-like)",
+      "era": "E7",
+      "prerequisites": [
+        "E7.29"
+      ],
+      "needs": [
+        "scribes",
+        "training"
+      ],
+      "introduces": {
+        "actions": [
+          "full writing (contracts",
+          "letters",
+          "lore storage)"
+        ]
+      }
+    },
+    {
+      "id": "E7.31",
+      "name": "Scribal schools",
+      "era": "E7",
+      "prerequisites": [
+        "E7.30",
+        "E5.55"
+      ],
+      "needs": [
+        "tablet house"
+      ],
+      "introduces": {
+        "structures": [
+          "school (fast knowledge diffusion)"
+        ]
+      }
+    },
+    {
+      "id": "E7.32",
+      "name": "Cylinder seals & contracts",
+      "era": "E7",
+      "prerequisites": [
+        "E6.29",
+        "E7.30"
+      ],
+      "needs": [
+        "carved cylinders"
+      ],
+      "introduces": {
+        "actions": [
+          "sealed contracts"
+        ]
+      }
+    },
+    {
+      "id": "E7.33",
+      "name": "Standard weights & measures",
+      "era": "E7",
+      "prerequisites": [
+        "E6.40",
+        "E7.30"
+      ],
+      "needs": [
+        "balance scale",
+        "weight sets"
+      ],
+      "introduces": {
+        "items": [
+          "balance scale"
+        ],
+        "actions": [
+          "fair markets"
+        ]
+      }
+    },
+    {
+      "id": "E7.34",
+      "name": "Arithmetic & geometry",
+      "era": "E7",
+      "prerequisites": [
+        "E7.30",
+        "E3.42"
+      ],
+      "needs": [
+        "numeracy training"
+      ],
+      "introduces": {
+        "actions": [
+          "area",
+          "volume",
+          "interest calc"
+        ]
+      }
+    },
+    {
+      "id": "E7.35",
+      "name": "Astronomical calendar",
+      "era": "E7",
+      "prerequisites": [
+        "E5.67",
+        "E7.34"
+      ],
+      "needs": [
+        "observation records"
+      ],
+      "introduces": {
+        "actions": [
+          "lunisolar calendar",
+          "eclipse lore"
+        ]
+      }
+    },
+    {
+      "id": "E7.36",
+      "name": "Bureaucracy & taxation",
+      "era": "E7",
+      "prerequisites": [
+        "E7.33",
+        "E7.32"
+      ],
+      "needs": [
+        "scribes",
+        "storehouses"
+      ],
+      "introduces": {
+        "actions": [
+          "centralized redistribution"
+        ]
+      }
+    },
+    {
+      "id": "E7.37",
+      "name": "Law codes",
+      "era": "E7",
+      "prerequisites": [
+        "E7.30",
+        "E6.33"
+      ],
+      "needs": [
+        "stelae",
+        "judges"
+      ],
+      "introduces": {
+        "actions": [
+          "codified justice"
+        ]
+      }
+    },
+    {
+      "id": "E7.38",
+      "name": "City planning",
+      "era": "E7",
+      "prerequisites": [
+        "E6.34",
+        "E7.36"
+      ],
+      "needs": [
+        "surveyors"
+      ],
+      "introduces": {
+        "structures": [
+          "city (districts",
+          "streets)"
+        ]
+      }
+    },
+    {
+      "id": "E7.39",
+      "name": "Palace/temple economy",
+      "era": "E7",
+      "prerequisites": [
+        "E7.36",
+        "E5.64"
+      ],
+      "needs": [
+        "monumental buildings"
+      ],
+      "introduces": {
+        "structures": [
+          "palace",
+          "temple complex"
+        ]
+      }
+    },
+    {
+      "id": "E7.40",
+      "name": "Monumental architecture",
+      "era": "E7",
+      "prerequisites": [
+        "E5.54",
+        "E5.68",
+        "E7.34"
+      ],
+      "needs": [
+        "dressed stone",
+        "ramps",
+        "labor"
+      ],
+      "introduces": {
+        "structures": [
+          "ziggurat/great temple"
+        ]
+      }
+    },
+    {
+      "id": "E7.41",
+      "name": "Stone dressing & masonry",
+      "era": "E7",
+      "prerequisites": [
+        "E7.05",
+        "E5.50"
+      ],
+      "needs": [
+        "bronze chisels",
+        "squares"
+      ],
+      "introduces": {
+        "blocks": [
+          "dressed stone"
+        ],
+        "actions": [
+          "fine masonry"
+        ]
+      }
+    },
+    {
+      "id": "E7.42",
+      "name": "Professional soldiery",
+      "era": "E7",
+      "prerequisites": [
+        "E7.36",
+        "E7.06"
+      ],
+      "needs": [
+        "rations",
+        "armory"
+      ],
+      "introduces": {
+        "actions": [
+          "standing troops",
+          "drill"
+        ]
+      }
+    },
+    {
+      "id": "E7.43",
+      "name": "Siegecraft (ladders, rams)",
+      "era": "E7",
+      "prerequisites": [
+        "E7.42",
+        "E6.34"
+      ],
+      "needs": [
+        "timber engines"
+      ],
+      "introduces": {
+        "actions": [
+          "assault fortifications"
+        ]
+      }
+    },
+    {
+      "id": "E7.44",
+      "name": "Composite bow",
+      "era": "E7",
+      "prerequisites": [
+        "E4.03",
+        "E2.09",
+        "E3.08"
+      ],
+      "needs": [
+        "horn",
+        "sinew",
+        "wood",
+        "glue"
+      ],
+      "introduces": {
+        "items": [
+          "composite bow (compact power)"
+        ]
+      }
+    },
+    {
+      "id": "E7.45",
+      "name": "Shaduf irrigation",
+      "era": "E7",
+      "prerequisites": [
+        "E5.68",
+        "E6.20"
+      ],
+      "needs": [
+        "counterweight lever"
+      ],
+      "introduces": {
+        "items": [
+          "shaduf (lift water)"
+        ]
+      }
+    },
+    {
+      "id": "E7.46",
+      "name": "Terrace farming",
+      "era": "E7",
+      "prerequisites": [
+        "E6.20",
+        "E7.41"
+      ],
+      "needs": [
+        "hillside walls"
+      ],
+      "introduces": {
+        "blocks": [
+          "terraces"
+        ]
+      }
+    },
+    {
+      "id": "E7.47",
+      "name": "Beekeeping",
+      "era": "E7",
+      "prerequisites": [
+        "E4.25",
+        "E5.34"
+      ],
+      "needs": [
+        "hive pots"
+      ],
+      "introduces": {
+        "items": [
+          "honey/wax at scale"
+        ],
+        "structures": [
+          "apiary"
+        ]
+      }
+    },
+    {
+      "id": "E7.48",
+      "name": "Textile industry & dye trade",
+      "era": "E7",
+      "prerequisites": [
+        "E6.25",
+        "E6.23",
+        "E5.44"
+      ],
+      "needs": [
+        "workshops",
+        "murex/indigo"
+      ],
+      "introduces": {
+        "items": [
+          "luxury cloth (export good)"
+        ]
+      }
+    },
+    {
+      "id": "E7.49",
+      "name": "Perfume & cosmetics",
+      "era": "E7",
+      "prerequisites": [
+        "E6.28",
+        "E7.19"
+      ],
+      "needs": [
+        "oils",
+        "resins"
+      ],
+      "introduces": {
+        "items": [
+          "perfume",
+          "kohl"
+        ]
+      }
+    },
+    {
+      "id": "E7.50",
+      "name": "Early soap",
+      "era": "E7",
+      "prerequisites": [
+        "E6.28",
+        "E6.05"
+      ],
+      "needs": [
+        "oil + ashes (lye)"
+      ],
+      "introduces": {
+        "items": [
+          "soap"
+        ]
+      }
+    },
+    {
+      "id": "E7.51",
+      "name": "Pharmacopeia & surgical kit",
+      "era": "E7",
+      "prerequisites": [
+        "E5.66",
+        "E7.30"
+      ],
+      "needs": [
+        "written recipes",
+        "bronze scalpels"
+      ],
+      "introduces": {
+        "actions": [
+          "recorded medicine"
+        ]
+      }
+    },
+    {
+      "id": "E7.52",
+      "name": "Stringed instruments",
+      "era": "E7",
+      "prerequisites": [
+        "E3.39",
+        "E3.11"
+      ],
+      "needs": [
+        "lyre/harp builds"
+      ],
+      "introduces": {
+        "items": [
+          "lyre",
+          "harp"
+        ]
+      }
+    },
+    {
+      "id": "E7.53",
+      "name": "Board games & dice",
+      "era": "E7",
+      "prerequisites": [
+        "E7.34"
+      ],
+      "needs": [
+        "boards",
+        "knucklebones"
+      ],
+      "introduces": {
+        "items": [
+          "game sets (leisure culture)"
+        ]
+      }
+    },
+    {
+      "id": "E7.54",
+      "name": "Ice/cool storage houses",
+      "era": "E7",
+      "prerequisites": [
+        "E5.49"
+      ],
+      "needs": [
+        "thick-walled cellar"
+      ],
+      "introduces": {
+        "structures": [
+          "cool store"
+        ]
+      }
+    },
+    {
+      "id": "E7.55",
+      "name": "Caravan trade (donkey trains)",
+      "era": "E7",
+      "prerequisites": [
+        "E6.21",
+        "E7.33"
+      ],
+      "needs": [
+        "way stations"
+      ],
+      "introduces": {
+        "structures": [
+          "caravanserai"
+        ],
+        "actions": [
+          "long-distance overland trade"
+        ]
+      }
+    },
+    {
+      "id": "E8.01",
+      "name": "Iron ore recognition (bog/hematite)",
+      "era": "E8",
+      "prerequisites": [
+        "E6.11"
+      ],
+      "needs": [
+        "iron ores"
+      ],
+      "introduces": {
+        "actions": [
+          "identify iron sources (common!)"
+        ]
+      }
+    },
+    {
+      "id": "E8.02",
+      "name": "Bloomery furnace",
+      "era": "E8",
+      "prerequisites": [
+        "E8.01",
+        "E7.13",
+        "E6.05"
+      ],
+      "needs": [
+        "clay furnace",
+        "charcoal",
+        "bellows"
+      ],
+      "introduces": {
+        "items": [
+          "iron bloom"
+        ],
+        "structures": [
+          "bloomery"
+        ]
+      }
+    },
+    {
+      "id": "E8.03",
+      "name": "Bloom consolidation",
+      "era": "E8",
+      "prerequisites": [
+        "E8.02",
+        "E1.01"
+      ],
+      "needs": [
+        "hammer",
+        "anvil stone"
+      ],
+      "introduces": {
+        "items": [
+          "wrought iron billet"
+        ]
+      }
+    },
+    {
+      "id": "E8.04",
+      "name": "Smithing hearth & anvil",
+      "era": "E8",
+      "prerequisites": [
+        "E8.03"
+      ],
+      "needs": [
+        "charcoal hearth",
+        "iron/stone anvil"
+      ],
+      "introduces": {
+        "items": [
+          "anvil",
+          "tongs",
+          "smith's hammer"
+        ],
+        "structures": [
+          "smithy"
+        ]
+      }
+    },
+    {
+      "id": "E8.05",
+      "name": "Forging fundamentals",
+      "era": "E8",
+      "prerequisites": [
+        "E8.04"
+      ],
+      "needs": [
+        "smithy"
+      ],
+      "introduces": {
+        "actions": [
+          "draw",
+          "upset",
+          "bend",
+          "punch iron"
+        ]
+      }
+    },
+    {
+      "id": "E8.06",
+      "name": "Forge welding",
+      "era": "E8",
+      "prerequisites": [
+        "E8.05"
+      ],
+      "needs": [
+        "flux (sand)",
+        "high heat"
+      ],
+      "introduces": {
+        "actions": [
+          "join iron pieces"
+        ]
+      }
+    },
+    {
+      "id": "E8.07",
+      "name": "Carburization (steeling)",
+      "era": "E8",
+      "prerequisites": [
+        "E8.05"
+      ],
+      "needs": [
+        "prolonged charcoal contact"
+      ],
+      "introduces": {
+        "items": [
+          "steel edges"
+        ]
+      }
+    },
+    {
+      "id": "E8.08",
+      "name": "Quench hardening",
+      "era": "E8",
+      "prerequisites": [
+        "E8.07"
+      ],
+      "needs": [
+        "water/oil trough"
+      ],
+      "introduces": {
+        "actions": [
+          "harden blades"
+        ]
+      }
+    },
+    {
+      "id": "E8.09",
+      "name": "Tempering",
+      "era": "E8",
+      "prerequisites": [
+        "E8.08"
+      ],
+      "needs": [
+        "controlled reheat"
+      ],
+      "introduces": {
+        "actions": [
+          "tough + hard blades (mastery)"
+        ]
+      }
+    },
+    {
+      "id": "E8.10",
+      "name": "Iron toolkit",
+      "era": "E8",
+      "prerequisites": [
+        "E8.05"
+      ],
+      "needs": [
+        "iron stock"
+      ],
+      "introduces": {
+        "items": [
+          "iron axe",
+          "saw",
+          "hammer",
+          "chisel",
+          "knife",
+          "tongs"
+        ]
+      }
+    },
+    {
+      "id": "E8.11",
+      "name": "Iron nails & fittings",
+      "era": "E8",
+      "prerequisites": [
+        "E8.05"
+      ],
+      "needs": [
+        "iron rod"
+      ],
+      "introduces": {
+        "items": [
+          "nails",
+          "hinges",
+          "fittings (construction leap)"
+        ]
+      }
+    },
+    {
+      "id": "E8.12",
+      "name": "Iron agricultural tools",
+      "era": "E8",
+      "prerequisites": [
+        "E8.10"
+      ],
+      "needs": [
+        "iron",
+        "wood"
+      ],
+      "introduces": {
+        "items": [
+          "iron sickle",
+          "scythe",
+          "spade",
+          "hoe"
+        ]
+      }
+    },
+    {
+      "id": "E8.13",
+      "name": "Iron plowshare",
+      "era": "E8",
+      "prerequisites": [
+        "E8.12",
+        "E6.19"
+      ],
+      "needs": [
+        "ard + iron share"
+      ],
+      "introduces": {
+        "items": [
+          "iron plow (heavy soils open up)"
+        ]
+      }
+    },
+    {
+      "id": "E8.14",
+      "name": "Iron weapons",
+      "era": "E8",
+      "prerequisites": [
+        "E8.07",
+        "E8.09"
+      ],
+      "needs": [
+        "steel-edged iron"
+      ],
+      "introduces": {
+        "items": [
+          "iron sword",
+          "spear",
+          "arrowheads"
+        ]
+      }
+    },
+    {
+      "id": "E8.15",
+      "name": "Iron armor & helmets",
+      "era": "E8",
+      "prerequisites": [
+        "E8.05",
+        "E7.09"
+      ],
+      "needs": [
+        "iron sheet/scales"
+      ],
+      "introduces": {
+        "items": [
+          "iron helmet",
+          "scale armor"
+        ]
+      }
+    },
+    {
+      "id": "E8.16",
+      "name": "Chain mail",
+      "era": "E8",
+      "prerequisites": [
+        "E7.12",
+        "E8.06"
+      ],
+      "needs": [
+        "iron wire",
+        "rivets"
+      ],
+      "introduces": {
+        "items": [
+          "mail shirt"
+        ]
+      }
+    },
+    {
+      "id": "E8.17",
+      "name": "Cavalry warfare",
+      "era": "E8",
+      "prerequisites": [
+        "E6.36",
+        "E8.14",
+        "E7.24"
+      ],
+      "needs": [
+        "trained horse+rider corps"
+      ],
+      "introduces": {
+        "actions": [
+          "cavalry doctrine"
+        ]
+      }
+    },
+    {
+      "id": "E8.18",
+      "name": "Rotary quern",
+      "era": "E8",
+      "prerequisites": [
+        "E5.27",
+        "E8.10"
+      ],
+      "needs": [
+        "dressed stones",
+        "iron spindle"
+      ],
+      "introduces": {
+        "items": [
+          "rotary quern (household flour 5× faster)"
+        ]
+      }
+    },
+    {
+      "id": "E8.19",
+      "name": "Animal-driven mill",
+      "era": "E8",
+      "prerequisites": [
+        "E8.18",
+        "E6.17"
+      ],
+      "needs": [
+        "large quern",
+        "donkey/ox"
+      ],
+      "introduces": {
+        "structures": [
+          "animal mill"
+        ]
+      }
+    },
+    {
+      "id": "E8.20",
+      "name": "Water mill (terminal node)",
+      "era": "E8",
+      "prerequisites": [
+        "E8.19",
+        "E7.41"
+      ],
+      "needs": [
+        "stream race",
+        "wheel"
+      ],
+      "introduces": {
+        "structures": [
+          "water mill (first non-muscle power)"
+        ]
+      }
+    },
+    {
+      "id": "E8.21",
+      "name": "Bow lathe",
+      "era": "E8",
+      "prerequisites": [
+        "E5.38",
+        "E8.10"
+      ],
+      "needs": [
+        "lathe frame",
+        "iron tools"
+      ],
+      "introduces": {
+        "items": [
+          "turned bowls",
+          "spokes"
+        ],
+        "structures": [
+          "lathe"
+        ]
+      }
+    },
+    {
+      "id": "E8.22",
+      "name": "Advanced joinery",
+      "era": "E8",
+      "prerequisites": [
+        "E8.10",
+        "E8.11"
+      ],
+      "needs": [
+        "planes",
+        "augers"
+      ],
+      "introduces": {
+        "actions": [
+          "framed buildings",
+          "furniture"
+        ]
+      }
+    },
+    {
+      "id": "E8.23",
+      "name": "Timber-framed architecture",
+      "era": "E8",
+      "prerequisites": [
+        "E8.22"
+      ],
+      "needs": [
+        "beams",
+        "joints",
+        "nails"
+      ],
+      "introduces": {
+        "structures": [
+          "timber-frame houses",
+          "halls"
+        ]
+      }
+    },
+    {
+      "id": "E8.24",
+      "name": "True arch",
+      "era": "E8",
+      "prerequisites": [
+        "E7.41"
+      ],
+      "needs": [
+        "voussoirs",
+        "centering"
+      ],
+      "introduces": {
+        "blocks": [
+          "arch (gates",
+          "bridges)"
+        ]
+      }
+    },
+    {
+      "id": "E8.25",
+      "name": "Stone bridges",
+      "era": "E8",
+      "prerequisites": [
+        "E8.24"
+      ],
+      "needs": [
+        "masonry",
+        "falsework"
+      ],
+      "introduces": {
+        "structures": [
+          "stone bridge"
+        ]
+      }
+    },
+    {
+      "id": "E8.26",
+      "name": "Paved roads",
+      "era": "E8",
+      "prerequisites": [
+        "E7.38",
+        "E8.24"
+      ],
+      "needs": [
+        "roadbed",
+        "paving"
+      ],
+      "introduces": {
+        "blocks": [
+          "paved road (trade speed)"
+        ]
+      }
+    },
+    {
+      "id": "E8.27",
+      "name": "Drainage & sewers",
+      "era": "E8",
+      "prerequisites": [
+        "E8.24",
+        "E7.38"
+      ],
+      "needs": [
+        "channels",
+        "culverts"
+      ],
+      "introduces": {
+        "structures": [
+          "sewer (city health)"
+        ]
+      }
+    },
+    {
+      "id": "E8.28",
+      "name": "Aqueduct/water channels",
+      "era": "E8",
+      "prerequisites": [
+        "E8.24",
+        "E7.45"
+      ],
+      "needs": [
+        "graded channels"
+      ],
+      "introduces": {
+        "structures": [
+          "aqueduct (urban water)"
+        ]
+      }
+    },
+    {
+      "id": "E8.29",
+      "name": "Alphabetic writing",
+      "era": "E8",
+      "prerequisites": [
+        "E7.30"
+      ],
+      "needs": [
+        "simplified signs"
+      ],
+      "introduces": {
+        "actions": [
+          "mass literacy possible (22–30 signs)"
+        ]
+      }
+    },
+    {
+      "id": "E8.30",
+      "name": "Coinage",
+      "era": "E8",
+      "prerequisites": [
+        "E7.16",
+        "E6.29",
+        "E7.33"
+      ],
+      "needs": [
+        "stamped precious metal"
+      ],
+      "introduces": {
+        "items": [
+          "coins"
+        ],
+        "actions": [
+          "money economy"
+        ]
+      }
+    },
+    {
+      "id": "E8.31",
+      "name": "Markets & shops",
+      "era": "E8",
+      "prerequisites": [
+        "E8.30",
+        "E7.38"
+      ],
+      "needs": [
+        "agora/forum"
+      ],
+      "introduces": {
+        "structures": [
+          "marketplace"
+        ]
+      }
+    },
+    {
+      "id": "E8.32",
+      "name": "Interest & credit",
+      "era": "E8",
+      "prerequisites": [
+        "E8.30",
+        "E7.34"
+      ],
+      "needs": [
+        "ledgers"
+      ],
+      "introduces": {
+        "actions": [
+          "loans",
+          "banking (proto)"
+        ]
+      }
+    },
+    {
+      "id": "E8.33",
+      "name": "Maps & surveying",
+      "era": "E8",
+      "prerequisites": [
+        "E7.34",
+        "E8.26"
+      ],
+      "needs": [
+        "groma/ropes",
+        "records"
+      ],
+      "introduces": {
+        "items": [
+          "maps"
+        ],
+        "actions": [
+          "land division"
+        ]
+      }
+    },
+    {
+      "id": "E8.34",
+      "name": "Libraries & archives",
+      "era": "E8",
+      "prerequisites": [
+        "E8.29",
+        "E7.31"
+      ],
+      "needs": [
+        "scroll/tablet stores"
+      ],
+      "introduces": {
+        "structures": [
+          "library (tech preservation vs loss)"
+        ]
+      }
+    },
+    {
+      "id": "E8.35",
+      "name": "Rational medicine",
+      "era": "E8",
+      "prerequisites": [
+        "E7.51",
+        "E8.29"
+      ],
+      "needs": [
+        "written case lore"
+      ],
+      "introduces": {
+        "actions": [
+          "diagnosis",
+          "prognosis",
+          "iron surgical tools"
+        ]
+      }
+    },
+    {
+      "id": "E8.36",
+      "name": "Shears & scissors",
+      "era": "E8",
+      "prerequisites": [
+        "E8.05"
+      ],
+      "needs": [
+        "sprung iron"
+      ],
+      "introduces": {
+        "items": [
+          "shears (true sheep shearing",
+          "barbering)"
+        ]
+      }
+    },
+    {
+      "id": "E8.37",
+      "name": "Wool industry (shearing)",
+      "era": "E8",
+      "prerequisites": [
+        "E8.36",
+        "E6.23"
+      ],
+      "needs": [
+        "shears",
+        "looms"
+      ],
+      "introduces": {
+        "items": [
+          "wool trade at scale"
+        ]
+      }
+    },
+    {
+      "id": "E8.38",
+      "name": "Beam press",
+      "era": "E8",
+      "prerequisites": [
+        "E5.68",
+        "E8.22"
+      ],
+      "needs": [
+        "timber beam",
+        "weights"
+      ],
+      "introduces": {
+        "structures": [
+          "oil/wine press (industrial)"
+        ]
+      }
+    },
+    {
+      "id": "E8.39",
+      "name": "Amphora & bulk trade",
+      "era": "E8",
+      "prerequisites": [
+        "E7.21",
+        "E7.26"
+      ],
+      "needs": [
+        "standard vessels",
+        "ships"
+      ],
+      "introduces": {
+        "items": [
+          "amphorae"
+        ],
+        "actions": [
+          "bulk commodity shipping"
+        ]
+      }
+    },
+    {
+      "id": "E8.40",
+      "name": "Wooden pin locks & keys",
+      "era": "E8",
+      "prerequisites": [
+        "E8.22"
+      ],
+      "needs": [
+        "precision woodwork"
+      ],
+      "introduces": {
+        "items": [
+          "lock & key (property security)"
+        ]
+      }
+    },
+    {
+      "id": "E8.41",
+      "name": "Pattern-welded blades",
+      "era": "E8",
+      "prerequisites": [
+        "E8.06",
+        "E8.09"
+      ],
+      "needs": [
+        "steel+iron billets"
+      ],
+      "introduces": {
+        "items": [
+          "masterwork sword (endgame smithing)"
+        ]
+      }
+    },
+    {
+      "id": "E8.42",
+      "name": "Glassblowing (terminal node)",
+      "era": "E8",
+      "prerequisites": [
+        "E7.19",
+        "E7.13"
+      ],
+      "needs": [
+        "blowpipe",
+        "furnace"
+      ],
+      "introduces": {
+        "items": [
+          "blown glassware"
+        ]
+      }
+    },
+    {
+      "id": "E8.43",
+      "name": "Crossbow (optional, regional)",
+      "era": "E8",
+      "prerequisites": [
+        "E4.06",
+        "E8.10"
+      ],
+      "needs": [
+        "stock",
+        "trigger",
+        "iron"
+      ],
+      "introduces": {
+        "items": [
+          "crossbow"
+        ]
+      }
+    },
+    {
+      "id": "E8.44",
+      "name": "Siege engines (torsion, optional)",
+      "era": "E8",
+      "prerequisites": [
+        "E7.43",
+        "E8.22"
+      ],
+      "needs": [
+        "timber",
+        "sinew ropes"
+      ],
+      "introduces": {
+        "items": [
+          "catapult/ballista"
+        ]
+      }
+    },
+    {
+      "id": "E8.45",
+      "name": "Standardized workshops",
+      "era": "E8",
+      "prerequisites": [
+        "E8.10",
+        "E6.32"
+      ],
+      "needs": [
+        "toolsets",
+        "apprentices"
+      ],
+      "introduces": {
+        "actions": [
+          "guild-like production",
+          "apprenticeship (fast teach)"
+        ]
+      }
+    }
+  ]
+}

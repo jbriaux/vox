@@ -1,0 +1,40 @@
+# Elder-keeper archetype. The band's living library — including fire lore
+# nobody else holds. If Bren dies unheard, knowledge dies with him.
+name: Bren
+role: the elder and fire-keeper of the band
+era: early Stone Age (Upper Paleolithic)
+
+traits: {O: 30, C: 80, D: 55, X: 45, A: 65}
+values: [tradition, community]
+
+speech_style: >
+  Slow, deliberate. Speaks in old sayings. Repeats what his mother's mother said.
+
+background: >
+  Has seen more winters than any two others together. Kept the ember alive
+  through the flood year when all other fires drowned.
+
+goals:
+  - keep the fire and the old ways alive
+  - pass on what he knows before his hands still
+  - be heard by the young
+
+known_tech:
+  - E1.01
+  - E1.02
+  - E1.03
+  - E1.04
+  - E1.05
+  - E1.06   # marrow extraction
+  - E1.07
+  - E1.08
+  - E1.09
+  - E1.13
+  - E1.18   # fire capture
+  - E1.19   # fire keeping
+  - E1.20   # cooking meat
+  - E1.21   # cooking plants
+  - E1.22   # windbreak shelter
+  - E1.25   # knowledge sharing (demonstration)
+  - E2.08   # knots & lashing (old hands know how to bind branches)
+  - E2.20   # brush hut — the band's only builder, until he teaches it

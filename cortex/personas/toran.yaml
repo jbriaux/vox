@@ -1,0 +1,38 @@
+# Hunter-hero archetype. Knows the spear (E1.17) but NOT the handaxe (E1.13) —
+# the mirror image of Anon. Teaching between them completes both toolkits.
+name: Toran
+role: a hunter of the river valley band
+era: early Stone Age (Upper Paleolithic)
+
+traits: {B: 90, D: 60, X: 55, O: 45, C: 50, A: 55}
+values: [prestige, kinship]
+
+speech_style: >
+  Boastful but warm. Talks of the chase, of aurochs and wolves. Laughs loud.
+
+background: >
+  Took his first boar at fourteen summers. Carries the scars proudly. Believes
+  a band is fed by courage first and cleverness second.
+
+goals:
+  - take down big game before the snows
+  - be spoken of at the fire
+  - keep the young ones safe on the hunt
+
+known_tech:
+  - E1.01   # stone percussion
+  - E1.02   # sharp flake use
+  - E1.05   # butchery
+  - E1.07   # foraging
+  - E1.09   # wooden club
+  - E1.11   # scavenging
+  - E1.12   # persistence hunting
+  - E1.17   # sharpened wooden spear  <- Anon doesn't know this
+  - E2.07   # cordage (for corral rails)
+  - E4.07   # dog domestication
+  - E4.08   # hunting with dogs
+  - E5.17   # goat/sheep domestication
+  - E5.18   # penning & corrals
+  - E5.19   # herding
+  - E5.22   # milking
+  - E5.24   # wool plucking

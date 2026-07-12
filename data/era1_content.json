@@ -1,0 +1,1577 @@
+{
+  "meta": {
+    "name": "VOX Era-1 Content (Lower Paleolithic)",
+    "version": "1.0",
+    "source": "01_TECH_TREE.md E1 nodes + 02_WORLD_ELEMENTS.md",
+    "notes": "Concrete gameplay bindings for E1 tech nodes: world resources NPCs can gather, recipes they can craft when they know the tech, and food values. Loaded by both Godot (execution) and Cortex (decision)."
+  },
+  "resources": {
+    "loose_cobble": {
+      "label": "loose cobble",
+      "spawn_on": [
+        "grass",
+        "dirt",
+        "stone",
+        "sand"
+      ],
+      "count": 60,
+      "yields": {
+        "cobble": 1
+      },
+      "gather_seconds": 1.5,
+      "respawns": false,
+      "model_height": 0.28
+    },
+    "flint_nodule": {
+      "label": "flint nodule",
+      "spawn_on": [
+        "grass",
+        "dirt",
+        "stone"
+      ],
+      "count": 40,
+      "yields": {
+        "flint": 1
+      },
+      "gather_seconds": 2.0,
+      "respawns": false,
+      "model_height": 0.35
+    },
+    "branch": {
+      "label": "fallen branch",
+      "spawn_on": [
+        "grass",
+        "dirt"
+      ],
+      "near_trees": true,
+      "count": 50,
+      "yields": {
+        "branch": 1
+      },
+      "gather_seconds": 1.5,
+      "respawns": false,
+      "model_height": 0.3
+    },
+    "berry_bush": {
+      "label": "berry bush",
+      "spawn_on": [
+        "grass"
+      ],
+      "count": 35,
+      "yields": {
+        "berries": 3
+      },
+      "gather_seconds": 2.5,
+      "respawns": true,
+      "respawn_seconds": 90,
+      "seasonal": true,
+      "model_height": 0.95
+    },
+    "small_game": {
+      "label": "small game",
+      "spawn_on": [
+        "grass",
+        "dirt"
+      ],
+      "count": 25,
+      "yields": {
+        "raw_meat": 2,
+        "raw_hide": 1,
+        "bone": 1,
+        "sinew": 1
+      },
+      "gather_seconds": 4.0,
+      "gather_verb": "hunting",
+      "respawns": true,
+      "respawn_seconds": 150,
+      "tools_any": [
+        "club",
+        "wooden_spear",
+        "composite_spear",
+        "bow"
+      ],
+      "model_height": 1.05,
+      "wanders": true
+    },
+    "fiber_plant": {
+      "label": "fiber plants",
+      "spawn_on": [
+        "grass"
+      ],
+      "count": 30,
+      "yields": {
+        "bark_fiber": 2
+      },
+      "gather_seconds": 2.0,
+      "respawns": true,
+      "respawn_seconds": 100,
+      "seasonal": true,
+      "model_height": 0.45
+    },
+    "hare": {
+      "label": "hare",
+      "spawn_on": [
+        "grass",
+        "dirt"
+      ],
+      "count": 20,
+      "yields": {
+        "raw_meat": 1
+      },
+      "gather_seconds": 3.0,
+      "gather_verb": "hunting",
+      "respawns": true,
+      "respawn_seconds": 100,
+      "tools_any": [
+        "club",
+        "wooden_spear",
+        "composite_spear",
+        "bow"
+      ],
+      "wanders": true,
+      "model_height": 0.4
+    },
+    "boar": {
+      "label": "wild boar",
+      "spawn_on": [
+        "grass",
+        "dirt"
+      ],
+      "count": 10,
+      "yields": {
+        "raw_meat": 4,
+        "raw_hide": 2,
+        "bone": 2,
+        "sinew": 2
+      },
+      "gather_seconds": 6.0,
+      "gather_verb": "hunting",
+      "respawns": true,
+      "respawn_seconds": 240,
+      "tools_any": [
+        "composite_spear",
+        "bow"
+      ],
+      "wanders": true,
+      "danger": {
+        "chance": 0.35,
+        "damage": 18,
+        "text": "was gored by the boar"
+      },
+      "model_height": 0.85
+    },
+    "fishing_spot": {
+      "label": "fishing shallows",
+      "spawn_on": [
+        "sand"
+      ],
+      "count": 15,
+      "yields": {
+        "fish": 2
+      },
+      "gather_seconds": 4.0,
+      "gather_verb": "fishing",
+      "respawns": true,
+      "respawn_seconds": 80,
+      "tech": "E2.27",
+      "model_height": 0.25
+    },
+    "wild_cereal": {
+      "label": "wild cereal stand",
+      "tech": "E4.19",
+      "spawn_on": [
+        "grass"
+      ],
+      "count": 25,
+      "yields": {
+        "wild_grain": 2,
+        "seed_grain": 1
+      },
+      "gather_seconds": 3.0,
+      "respawns": true,
+      "respawn_seconds": 120,
+      "seasonal": true,
+      "model_height": 0.8
+    },
+    "wild_goat": {
+      "label": "wild goats",
+      "tech": "E5.17",
+      "spawn_on": [
+        "grass"
+      ],
+      "count": 10,
+      "yields": {
+        "captured_goat": 1
+      },
+      "gather_seconds": 5.0,
+      "gather_verb": "cornered and trussed a wild goat",
+      "respawns": true,
+      "respawn_seconds": 200,
+      "model_height": 0.9
+    },
+    "wild_sheep": {
+      "label": "wild sheep",
+      "tech": "E5.17",
+      "spawn_on": [
+        "grass"
+      ],
+      "count": 10,
+      "yields": {
+        "captured_sheep": 1
+      },
+      "gather_seconds": 5.0,
+      "gather_verb": "cornered and trussed a wild sheep",
+      "respawns": true,
+      "respawn_seconds": 200,
+      "model_height": 0.9
+    },
+    "clay_pit": {
+      "label": "clay bank",
+      "tech": "E5.34",
+      "spawn_on": [
+        "sand"
+      ],
+      "count": 12,
+      "yields": {
+        "clay": 2
+      },
+      "gather_seconds": 3.0,
+      "respawns": true,
+      "respawn_seconds": 80,
+      "model_height": 0.4
+    },
+    "copper_vein": {
+      "label": "green-stained copper vein",
+      "tech": "E6.04",
+      "spawn_on": [
+        "stone",
+        "dirt",
+        "grass"
+      ],
+      "count": 24,
+      "yields": {
+        "copper_ore": 2
+      },
+      "gather_seconds": 5.0,
+      "respawns": true,
+      "respawn_seconds": 220,
+      "model_height": 0.5
+    },
+    "tin_vein": {
+      "label": "grey tin gravel",
+      "tech": "E7.01",
+      "spawn_on": [
+        "stone",
+        "sand",
+        "dirt",
+        "grass"
+      ],
+      "count": 2,
+      "yields": {
+        "tin_ore": 1
+      },
+      "gather_seconds": 6.0,
+      "respawns": true,
+      "respawn_seconds": 400,
+      "model_height": 0.4
+    },
+    "bog_iron": {
+      "label": "rust-red bog iron",
+      "tech": "E8.01",
+      "spawn_on": [
+        "sand",
+        "dirt",
+        "grass"
+      ],
+      "count": 16,
+      "yields": {
+        "iron_ore": 2
+      },
+      "gather_seconds": 5.0,
+      "respawns": true,
+      "respawn_seconds": 240,
+      "model_height": 0.35
+    }
+  },
+  "items": {
+    "cobble": {
+      "label": "hard cobble"
+    },
+    "flint": {
+      "label": "flint"
+    },
+    "branch": {
+      "label": "branch"
+    },
+    "berries": {
+      "label": "berries",
+      "food": {
+        "hunger": 18
+      },
+      "spoils_days": 2
+    },
+    "hammerstone": {
+      "label": "hammerstone",
+      "tool": true
+    },
+    "stone_flake": {
+      "label": "stone flake",
+      "tool": true
+    },
+    "chopper": {
+      "label": "chopper",
+      "tool": true
+    },
+    "handaxe": {
+      "label": "handaxe",
+      "tool": true
+    },
+    "digging_stick": {
+      "label": "digging stick",
+      "tool": true
+    },
+    "club": {
+      "label": "wooden club",
+      "tool": true
+    },
+    "wooden_spear": {
+      "label": "wooden spear",
+      "tool": true
+    },
+    "tubers": {
+      "label": "wild tubers",
+      "food": {
+        "hunger": 25
+      },
+      "spoils_days": 4
+    },
+    "raw_meat": {
+      "label": "raw meat",
+      "spoils_days": 1
+    },
+    "cooked_meat": {
+      "label": "cooked meat",
+      "food": {
+        "hunger": 45
+      },
+      "spoils_days": 2
+    },
+    "roasted_tubers": {
+      "label": "roasted tubers",
+      "food": {
+        "hunger": 35
+      },
+      "spoils_days": 3
+    },
+    "raw_hide": {
+      "label": "raw hide"
+    },
+    "bark_fiber": {
+      "label": "bark fiber"
+    },
+    "cord": {
+      "label": "twisted cord"
+    },
+    "scraper": {
+      "label": "side scraper",
+      "tool": true
+    },
+    "cleaned_hide": {
+      "label": "cleaned hide"
+    },
+    "dried_hide": {
+      "label": "dried hide"
+    },
+    "hide_wrap": {
+      "label": "hide wrap",
+      "warmth": true
+    },
+    "stone_point": {
+      "label": "stone point"
+    },
+    "composite_spear": {
+      "label": "stone-tipped spear",
+      "tool": true
+    },
+    "dried_meat": {
+      "label": "dried meat",
+      "food": {
+        "hunger": 40
+      },
+      "spoils_days": 15
+    },
+    "blade": {
+      "label": "stone blade",
+      "tool": true
+    },
+    "bone": {
+      "label": "bone"
+    },
+    "sinew": {
+      "label": "sinew"
+    },
+    "thread": {
+      "label": "sinew thread"
+    },
+    "needle": {
+      "label": "bone needle",
+      "tool": true
+    },
+    "fitted_clothes": {
+      "label": "fitted sewn clothing",
+      "warmth": true
+    },
+    "fish": {
+      "label": "raw fish",
+      "food": {
+        "hunger": 12
+      },
+      "spoils_days": 1
+    },
+    "cooked_fish": {
+      "label": "cooked fish",
+      "food": {
+        "hunger": 30
+      },
+      "spoils_days": 2
+    },
+    "bow": {
+      "label": "bow",
+      "tool": true
+    },
+    "arrows": {
+      "label": "arrows",
+      "tool": true
+    },
+    "wild_grain": {
+      "label": "wild grain",
+      "food": {
+        "hunger": 8
+      },
+      "spoils_days": 6
+    },
+    "seed_grain": {
+      "label": "seed grain",
+      "spoils_days": 20
+    },
+    "grain": {
+      "label": "grain",
+      "food": {
+        "hunger": 12
+      },
+      "spoils_days": 8
+    },
+    "flour": {
+      "label": "flour",
+      "spoils_days": 10
+    },
+    "flatbread": {
+      "label": "flatbread",
+      "food": {
+        "hunger": 45
+      },
+      "spoils_days": 4
+    },
+    "hoe": {
+      "label": "stone hoe",
+      "tool": true
+    },
+    "sickle": {
+      "label": "harvesting sickle",
+      "tool": true
+    },
+    "captured_goat": {
+      "label": "a trussed goat"
+    },
+    "captured_sheep": {
+      "label": "a trussed sheep"
+    },
+    "milk": {
+      "label": "fresh milk",
+      "food": {
+        "hunger": 15
+      },
+      "spoils_days": 2
+    },
+    "cheese": {
+      "label": "cheese",
+      "food": {
+        "hunger": 30
+      },
+      "spoils_days": 25
+    },
+    "wool": {
+      "label": "wool"
+    },
+    "clay": {
+      "label": "clay"
+    },
+    "clay_pot": {
+      "label": "clay pot",
+      "tool": true
+    },
+    "porridge": {
+      "label": "porridge",
+      "food": {
+        "hunger": 35
+      },
+      "spoils_days": 2
+    },
+    "pickled_berries": {
+      "label": "pickled berries",
+      "food": {
+        "hunger": 15
+      },
+      "spoils_days": 40
+    },
+    "yarn": {
+      "label": "spun yarn"
+    },
+    "cloth": {
+      "label": "woven cloth"
+    },
+    "woven_garment": {
+      "label": "woven garment",
+      "warmth": true
+    },
+    "mudbrick": {
+      "label": "mudbrick"
+    },
+    "copper_ore": {
+      "label": "copper ore"
+    },
+    "tin_ore": {
+      "label": "tin ore"
+    },
+    "iron_ore": {
+      "label": "bog iron ore"
+    },
+    "charcoal": {
+      "label": "charcoal"
+    },
+    "copper_ingot": {
+      "label": "copper ingot"
+    },
+    "bronze_ingot": {
+      "label": "bronze ingot"
+    },
+    "iron_bloom": {
+      "label": "iron bloom"
+    },
+    "copper_axe": {
+      "label": "copper axe",
+      "tool": true,
+      "quality": 1.5
+    },
+    "bronze_axe": {
+      "label": "bronze axe",
+      "tool": true,
+      "quality": 2.0
+    },
+    "iron_axe": {
+      "label": "iron axe",
+      "tool": true,
+      "quality": 2.5
+    }
+  },
+  "recipes": {
+    "make_hammerstone": {
+      "label": "pick a good hammerstone",
+      "tech": "E1.01",
+      "inputs": {
+        "cobble": 1
+      },
+      "tools": [],
+      "outputs": {
+        "hammerstone": 1
+      },
+      "seconds": 2.0,
+      "verb": "chose a good hammerstone from a cobble"
+    },
+    "knap_flake": {
+      "label": "knap a stone flake",
+      "tech": "E1.02",
+      "inputs": {
+        "flint": 1
+      },
+      "tools": [
+        "hammerstone"
+      ],
+      "outputs": {
+        "stone_flake": 2
+      },
+      "seconds": 3.0,
+      "verb": "knapped sharp flakes off a flint core"
+    },
+    "make_chopper": {
+      "label": "knap a chopper",
+      "tech": "E1.04",
+      "inputs": {
+        "cobble": 1
+      },
+      "tools": [
+        "hammerstone"
+      ],
+      "outputs": {
+        "chopper": 1
+      },
+      "seconds": 3.5,
+      "verb": "knapped a chopper from a cobble"
+    },
+    "make_handaxe": {
+      "label": "knap a handaxe",
+      "tech": "E1.13",
+      "inputs": {
+        "flint": 1
+      },
+      "tools": [
+        "hammerstone"
+      ],
+      "outputs": {
+        "handaxe": 1
+      },
+      "seconds": 5.0,
+      "verb": "knapped a handaxe, working both faces"
+    },
+    "make_digging_stick": {
+      "label": "make a digging stick",
+      "tech": "E1.08",
+      "inputs": {
+        "branch": 1
+      },
+      "tools": [
+        "stone_flake"
+      ],
+      "outputs": {
+        "digging_stick": 1
+      },
+      "seconds": 2.5,
+      "verb": "shaved a branch into a digging stick"
+    },
+    "make_club": {
+      "label": "shape a wooden club",
+      "tech": "E1.09",
+      "inputs": {
+        "branch": 1
+      },
+      "tools": [
+        "stone_flake"
+      ],
+      "outputs": {
+        "club": 1
+      },
+      "seconds": 2.5,
+      "verb": "shaped a branch into a club"
+    },
+    "sharpen_spear": {
+      "label": "sharpen a wooden spear",
+      "tech": "E1.17",
+      "inputs": {
+        "branch": 1
+      },
+      "tools": [
+        "handaxe"
+      ],
+      "outputs": {
+        "wooden_spear": 1
+      },
+      "seconds": 4.0,
+      "verb": "sharpened a sapling into a spear"
+    },
+    "dig_tubers": {
+      "label": "dig for tubers",
+      "tech": "E1.08",
+      "inputs": {},
+      "tools": [
+        "digging_stick"
+      ],
+      "outputs": {
+        "tubers": 2
+      },
+      "seconds": 4.0,
+      "verb": "dug up wild tubers"
+    },
+    "cook_meat": {
+      "label": "roast meat over the fire",
+      "tech": "E1.20",
+      "inputs": {
+        "raw_meat": 1
+      },
+      "tools": [],
+      "station": "campfire",
+      "outputs": {
+        "cooked_meat": 1
+      },
+      "seconds": 4.0,
+      "verb": "roasted meat over the fire"
+    },
+    "roast_tubers": {
+      "label": "roast tubers in the embers",
+      "tech": "E1.21",
+      "inputs": {
+        "tubers": 1
+      },
+      "tools": [],
+      "station": "campfire",
+      "outputs": {
+        "roasted_tubers": 1
+      },
+      "seconds": 3.0,
+      "verb": "roasted tubers in the embers"
+    },
+    "tend_fire": {
+      "label": "feed and bank the fire",
+      "tech": "E1.19",
+      "inputs": {
+        "branch": 2
+      },
+      "tools": [],
+      "station": "campfire",
+      "outputs": {},
+      "effects": {
+        "fire_fuel": 45
+      },
+      "seconds": 3.0,
+      "verb": "fed the fire and banked the embers"
+    },
+    "make_cord": {
+      "label": "twist fibers into cord",
+      "tech": "E2.07",
+      "inputs": {
+        "bark_fiber": 2
+      },
+      "tools": [],
+      "outputs": {
+        "cord": 1
+      },
+      "seconds": 3.0,
+      "verb": "twisted fibers into a strong cord"
+    },
+    "make_scraper": {
+      "label": "knap a side scraper",
+      "tech": "E2.03",
+      "inputs": {
+        "flint": 1
+      },
+      "tools": [
+        "hammerstone"
+      ],
+      "outputs": {
+        "scraper": 1
+      },
+      "seconds": 3.5,
+      "verb": "retouched a flake into a side scraper"
+    },
+    "make_stone_point": {
+      "label": "knap a stone point",
+      "tech": "E2.04",
+      "inputs": {
+        "flint": 1
+      },
+      "tools": [
+        "hammerstone"
+      ],
+      "outputs": {
+        "stone_point": 1
+      },
+      "seconds": 4.0,
+      "verb": "struck a fine stone point from a prepared core"
+    },
+    "scrape_hide": {
+      "label": "scrape a hide clean",
+      "tech": "E2.17",
+      "inputs": {
+        "raw_hide": 1
+      },
+      "tools": [
+        "scraper"
+      ],
+      "outputs": {
+        "cleaned_hide": 1
+      },
+      "seconds": 4.0,
+      "verb": "scraped a hide clean of fat and flesh"
+    },
+    "dry_hide": {
+      "label": "stretch and dry a hide",
+      "tech": "E2.18",
+      "inputs": {
+        "cleaned_hide": 1,
+        "cord": 1
+      },
+      "tools": [],
+      "outputs": {
+        "dried_hide": 1
+      },
+      "seconds": 5.0,
+      "verb": "stretched a hide on a frame to dry"
+    },
+    "make_hide_wrap": {
+      "label": "cut a hide wrap",
+      "tech": "E2.19",
+      "inputs": {
+        "dried_hide": 1
+      },
+      "tools": [
+        "stone_flake"
+      ],
+      "outputs": {
+        "hide_wrap": 1
+      },
+      "seconds": 4.0,
+      "verb": "cut and fitted a warm hide wrap"
+    },
+    "haft_spear": {
+      "label": "haft a stone-tipped spear",
+      "tech": "E2.11",
+      "inputs": {
+        "branch": 1,
+        "stone_point": 1,
+        "cord": 1
+      },
+      "tools": [],
+      "outputs": {
+        "composite_spear": 1
+      },
+      "seconds": 5.0,
+      "verb": "lashed a stone point onto a shaft \u00e2\u20ac\u201d a true spear"
+    },
+    "dry_meat": {
+      "label": "dry meat on racks",
+      "tech": "E2.28",
+      "inputs": {
+        "raw_meat": 1
+      },
+      "tools": [],
+      "outputs": {
+        "dried_meat": 1
+      },
+      "seconds": 5.0,
+      "verb": "hung strips of meat to dry in the wind"
+    },
+    "build_hut": {
+      "label": "raise a brush hut",
+      "tech": "E2.20",
+      "inputs": {
+        "branch": 6
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "brush_hut"
+      },
+      "seconds": 12.0,
+      "verb": "raised a brush hut of branches and boughs"
+    },
+    "make_blade": {
+      "label": "strike blades from a core",
+      "tech": "E3.01",
+      "inputs": {
+        "flint": 1
+      },
+      "tools": [
+        "hammerstone"
+      ],
+      "outputs": {
+        "blade": 2
+      },
+      "seconds": 4.0,
+      "verb": "struck long blades from a prepared core"
+    },
+    "make_thread": {
+      "label": "twist sinew into thread",
+      "tech": "E3.11",
+      "inputs": {
+        "sinew": 1
+      },
+      "tools": [],
+      "outputs": {
+        "thread": 2
+      },
+      "seconds": 2.5,
+      "verb": "twisted sinew into fine thread"
+    },
+    "make_needle": {
+      "label": "carve an eyed needle",
+      "tech": "E3.10",
+      "inputs": {
+        "bone": 1
+      },
+      "tools": [
+        "blade"
+      ],
+      "outputs": {
+        "needle": 1
+      },
+      "seconds": 4.0,
+      "verb": "carved and pierced a bone needle"
+    },
+    "sew_clothes": {
+      "label": "sew fitted clothing",
+      "tech": "E3.12",
+      "inputs": {
+        "dried_hide": 2,
+        "thread": 2
+      },
+      "tools": [
+        "needle"
+      ],
+      "outputs": {
+        "fitted_clothes": 1
+      },
+      "seconds": 8.0,
+      "verb": "sewed fitted clothing, stitch by stitch"
+    },
+    "make_bow": {
+      "label": "shape and string a bow",
+      "tech": "E4.03",
+      "inputs": {
+        "branch": 1,
+        "cord": 2
+      },
+      "tools": [
+        "blade"
+      ],
+      "outputs": {
+        "bow": 1
+      },
+      "seconds": 8.0,
+      "verb": "shaped a stave and strung a bow"
+    },
+    "make_arrows": {
+      "label": "make arrows",
+      "tech": "E4.04",
+      "inputs": {
+        "branch": 2,
+        "stone_point": 1
+      },
+      "tools": [],
+      "outputs": {
+        "arrows": 4
+      },
+      "seconds": 5.0,
+      "verb": "fletched a handful of arrows"
+    },
+    "roast_fish": {
+      "label": "roast fish over the fire",
+      "tech": "E1.20",
+      "inputs": {
+        "fish": 1
+      },
+      "tools": [],
+      "station": "campfire",
+      "outputs": {
+        "cooked_fish": 1
+      },
+      "seconds": 3.0,
+      "verb": "roasted fish on a stick over the fire"
+    },
+    "dig_cache": {
+      "label": "dig a storage cache",
+      "tech": "E3.29",
+      "inputs": {
+        "branch": 2
+      },
+      "tools": [
+        "digging_stick"
+      ],
+      "outputs": {},
+      "effects": {
+        "build": "cache_pit"
+      },
+      "seconds": 8.0,
+      "verb": "dug and lined a storage cache"
+    },
+    "build_granary": {
+      "label": "raise a granary",
+      "tech": "E5.11",
+      "inputs": {
+        "branch": 8,
+        "cord": 4
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "granary"
+      },
+      "seconds": 18.0,
+      "verb": "raised a granary on posts, out of reach of the rats"
+    },
+    "make_hoe": {
+      "label": "haft a stone hoe",
+      "tech": "E5.03",
+      "inputs": {
+        "branch": 1,
+        "stone_flake": 1
+      },
+      "tools": [],
+      "outputs": {
+        "hoe": 1
+      },
+      "seconds": 3.5,
+      "verb": "lashed a flake to a handle: a hoe"
+    },
+    "make_sickle": {
+      "label": "make a harvesting sickle",
+      "tech": "E5.08",
+      "inputs": {
+        "branch": 1,
+        "stone_flake": 2,
+        "cord": 1
+      },
+      "tools": [],
+      "outputs": {
+        "sickle": 1
+      },
+      "seconds": 4.0,
+      "verb": "set sharp flakes in a curved haft: a sickle"
+    },
+    "till_plot": {
+      "label": "till a field plot",
+      "tech": "E5.04",
+      "inputs": {},
+      "tools": [
+        "hoe"
+      ],
+      "outputs": {},
+      "effects": {
+        "build": "field_plot"
+      },
+      "seconds": 8.0,
+      "verb": "broke and tilled the earth into a field plot"
+    },
+    "sow_field": {
+      "label": "sow seed in a tilled field",
+      "tech": "E5.04",
+      "inputs": {
+        "seed_grain": 2
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "sow": true
+      },
+      "seconds": 5.0,
+      "verb": "sowed seed grain in the tilled earth"
+    },
+    "harvest_field": {
+      "label": "harvest the ripe field",
+      "tech": "E5.04",
+      "inputs": {},
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "harvest": true
+      },
+      "seconds": 5.0,
+      "verb": "cut and gathered the ripe grain"
+    },
+    "grind_grain": {
+      "label": "grind grain into flour",
+      "tech": "E4.20",
+      "inputs": {
+        "grain": 2
+      },
+      "tools": [
+        "hammerstone"
+      ],
+      "outputs": {
+        "flour": 1
+      },
+      "seconds": 4.0,
+      "verb": "ground grain to flour between stones"
+    },
+    "bake_flatbread": {
+      "label": "bake flatbread on the coals",
+      "tech": "E5.29",
+      "station": "campfire",
+      "inputs": {
+        "flour": 1
+      },
+      "tools": [],
+      "outputs": {
+        "flatbread": 1
+      },
+      "seconds": 4.0,
+      "verb": "baked flatbread on a hot stone"
+    },
+    "tame_dog": {
+      "label": "tame a dog",
+      "tech": "E4.07",
+      "inputs": {
+        "raw_meat": 2
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "tame_dog": true
+      },
+      "seconds": 6.0,
+      "verb": "coaxed a wolf cub with meat; a dog now guards the fire"
+    },
+    "build_corral": {
+      "label": "build a corral",
+      "tech": "E5.18",
+      "inputs": {
+        "branch": 6,
+        "cord": 2
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "corral"
+      },
+      "seconds": 12.0,
+      "verb": "raised a ring of posts and rails: a corral"
+    },
+    "pen_goat": {
+      "label": "pen the trussed goat",
+      "tech": "E5.17",
+      "requires_corral": true,
+      "inputs": {
+        "captured_goat": 1
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "pen": "goat"
+      },
+      "seconds": 3.0,
+      "verb": "loosed the goat inside the corral"
+    },
+    "pen_sheep": {
+      "label": "pen the trussed sheep",
+      "tech": "E5.17",
+      "requires_corral": true,
+      "inputs": {
+        "captured_sheep": 1
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "pen": "sheep"
+      },
+      "seconds": 3.0,
+      "verb": "loosed the sheep inside the corral"
+    },
+    "milk_goats": {
+      "label": "milk the goats",
+      "tech": "E5.22",
+      "requires_herd": "goat",
+      "inputs": {},
+      "tools": [],
+      "outputs": {
+        "milk": 1
+      },
+      "seconds": 4.0,
+      "verb": "milked the goats in the corral"
+    },
+    "make_cheese": {
+      "label": "curdle milk into cheese",
+      "tech": "E5.23",
+      "inputs": {
+        "milk": 2
+      },
+      "tools": [],
+      "outputs": {
+        "cheese": 1
+      },
+      "seconds": 5.0,
+      "verb": "curdled milk into a wheel of cheese"
+    },
+    "pluck_wool": {
+      "label": "pluck wool from the sheep",
+      "tech": "E5.24",
+      "requires_herd": "sheep",
+      "inputs": {},
+      "tools": [],
+      "outputs": {
+        "wool": 2
+      },
+      "seconds": 4.0,
+      "verb": "plucked soft wool from the sheep"
+    },
+    "slaughter_goat": {
+      "label": "slaughter a goat from the herd",
+      "tech": "E5.17",
+      "requires_herd": "goat",
+      "inputs": {},
+      "tools": [],
+      "outputs": {
+        "raw_meat": 2,
+        "raw_hide": 1
+      },
+      "effects": {
+        "herd_take": "goat"
+      },
+      "seconds": 5.0,
+      "verb": "slaughtered a goat \u2014 meat without the hunt"
+    },
+    "coil_pot": {
+      "label": "coil and fire a clay pot",
+      "tech": "E5.34",
+      "station": "campfire",
+      "inputs": {
+        "clay": 2
+      },
+      "tools": [],
+      "outputs": {
+        "clay_pot": 1
+      },
+      "seconds": 6.0,
+      "verb": "coiled clay and fired a pot in the embers"
+    },
+    "cook_porridge": {
+      "label": "cook porridge in the pot",
+      "tech": "E5.30",
+      "station": "campfire",
+      "inputs": {
+        "grain": 2
+      },
+      "tools": [
+        "clay_pot"
+      ],
+      "outputs": {
+        "porridge": 1
+      },
+      "seconds": 4.0,
+      "verb": "simmered grain into porridge"
+    },
+    "pickle_berries": {
+      "label": "pickle berries in the pot",
+      "tech": "E5.32",
+      "inputs": {
+        "berries": 3
+      },
+      "tools": [
+        "clay_pot"
+      ],
+      "outputs": {
+        "pickled_berries": 2
+      },
+      "seconds": 4.0,
+      "verb": "set berries to ferment in the pot"
+    },
+    "spin_yarn": {
+      "label": "spin wool into yarn",
+      "tech": "E5.42",
+      "inputs": {
+        "wool": 2
+      },
+      "tools": [],
+      "outputs": {
+        "yarn": 1
+      },
+      "seconds": 4.0,
+      "verb": "spun wool into yarn on a whorl"
+    },
+    "weave_cloth": {
+      "label": "weave yarn into cloth",
+      "tech": "E5.43",
+      "inputs": {
+        "yarn": 2
+      },
+      "tools": [],
+      "outputs": {
+        "cloth": 1
+      },
+      "seconds": 6.0,
+      "verb": "wove yarn into cloth on the loom"
+    },
+    "sew_garment": {
+      "label": "sew a woven garment",
+      "tech": "E5.43",
+      "inputs": {
+        "cloth": 1,
+        "cord": 1
+      },
+      "tools": [],
+      "outputs": {
+        "woven_garment": 1
+      },
+      "seconds": 5.0,
+      "verb": "sewed a warm woven garment"
+    },
+    "make_mudbrick": {
+      "label": "shape mudbricks",
+      "tech": "E5.48",
+      "inputs": {
+        "clay": 2,
+        "bark_fiber": 1
+      },
+      "tools": [],
+      "outputs": {
+        "mudbrick": 2
+      },
+      "seconds": 5.0,
+      "verb": "shaped straw-bound mudbricks to dry in the sun"
+    },
+    "build_mud_house": {
+      "label": "build a mudbrick house",
+      "tech": "E5.49",
+      "inputs": {
+        "mudbrick": 6,
+        "branch": 4
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "mud_house"
+      },
+      "seconds": 20.0,
+      "verb": "raised walls of mudbrick: a real house"
+    },
+    "burn_charcoal": {
+      "label": "burn branches to charcoal",
+      "tech": "E6.05",
+      "station": "campfire",
+      "inputs": {
+        "branch": 4
+      },
+      "tools": [],
+      "outputs": {
+        "charcoal": 2
+      },
+      "seconds": 8.0,
+      "verb": "smothered a slow fire into black charcoal"
+    },
+    "build_smelter": {
+      "label": "build a clay smelter",
+      "tech": "E6.06",
+      "inputs": {
+        "mudbrick": 4,
+        "clay": 2
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "smelter"
+      },
+      "seconds": 15.0,
+      "verb": "raised a squat clay furnace: a smelter"
+    },
+    "smelt_copper": {
+      "label": "smelt copper ore",
+      "tech": "E6.07",
+      "station": "smelter",
+      "inputs": {
+        "copper_ore": 2,
+        "charcoal": 2
+      },
+      "tools": [],
+      "outputs": {
+        "copper_ingot": 1
+      },
+      "seconds": 10.0,
+      "verb": "ran shining copper from the crucible"
+    },
+    "cast_copper_axe": {
+      "label": "cast a copper axe",
+      "tech": "E6.09",
+      "station": "smelter",
+      "inputs": {
+        "copper_ingot": 1,
+        "branch": 1
+      },
+      "tools": [],
+      "outputs": {
+        "copper_axe": 1
+      },
+      "seconds": 8.0,
+      "verb": "cast and hafted a copper axe"
+    },
+    "smelt_bronze": {
+      "label": "alloy tin-bronze",
+      "tech": "E7.02",
+      "station": "smelter",
+      "inputs": {
+        "copper_ore": 2,
+        "tin_ore": 1,
+        "charcoal": 2
+      },
+      "tools": [],
+      "outputs": {
+        "bronze_ingot": 1
+      },
+      "seconds": 12.0,
+      "verb": "alloyed copper with rare tin: bronze"
+    },
+    "cast_bronze_axe": {
+      "label": "cast a bronze axe",
+      "tech": "E7.05",
+      "station": "smelter",
+      "inputs": {
+        "bronze_ingot": 1,
+        "branch": 1
+      },
+      "tools": [],
+      "outputs": {
+        "bronze_axe": 1
+      },
+      "seconds": 9.0,
+      "verb": "cast and hafted a bronze axe"
+    },
+    "smelt_iron": {
+      "label": "bloom iron in the furnace",
+      "tech": "E8.02",
+      "station": "smelter",
+      "inputs": {
+        "iron_ore": 2,
+        "charcoal": 3
+      },
+      "tools": [],
+      "outputs": {
+        "iron_bloom": 1
+      },
+      "seconds": 14.0,
+      "verb": "drew a spongy iron bloom from the furnace"
+    },
+    "forge_iron_axe": {
+      "label": "forge an iron axe",
+      "tech": "E8.05",
+      "station": "smelter",
+      "inputs": {
+        "iron_bloom": 1,
+        "branch": 1
+      },
+      "tools": [
+        "hammerstone"
+      ],
+      "outputs": {
+        "iron_axe": 1
+      },
+      "seconds": 12.0,
+      "verb": "hammered the bloom into an iron axe"
+    }
+  },
+  "needs": {
+    "hunger": {
+      "start": 30,
+      "max": 100,
+      "rise_per_minute": 4.0,
+      "urgent_above": 60
+    },
+    "energy": {
+      "start": 80,
+      "max": 100,
+      "fall_per_minute_moving": 3.0,
+      "recover_per_minute_idle": 6.0,
+      "urgent_below": 25
+    },
+    "health": {
+      "start": 100,
+      "max": 100,
+      "starve_damage_per_minute": 3.0,
+      "regen_per_minute_fed": 2.0,
+      "fed_below_hunger": 50
+    }
+  },
+  "stations": {
+    "campfire": {
+      "label": "the campfire",
+      "fuel_start": 70,
+      "fuel_max": 100,
+      "fuel_decay_per_minute": 2.0,
+      "low_fuel": 35,
+      "warmth_radius": 7.0,
+      "work_radius": 6.0
+    }
+  },
+  "time": {
+    "day_seconds_default": 240,
+    "night_fraction": 0.35,
+    "days_per_season": 3,
+    "seasons": [
+      "spring",
+      "summer",
+      "autumn",
+      "winter"
+    ]
+  },
+  "lifecycle": {
+    "years_per_day": 1,
+    "founder_age_min": 16,
+    "founder_age_max": 45,
+    "adult_age": 14,
+    "lifespan_mean": 62,
+    "lifespan_jitter": 10,
+    "birth_chance_per_dawn": 0.4
+  },
+  "buildables": {
+    "brush_hut": {
+      "label": "brush hut",
+      "warmth_radius": 3.5,
+      "model_height": 2.4,
+      "min_fire_distance": 4.0,
+      "ring_radius": 12.0
+    },
+    "cache_pit": {
+      "label": "storage cache",
+      "capacity": 40,
+      "vermin_safe": false,
+      "model_height": 0.6,
+      "min_fire_distance": 3.0,
+      "ring_radius": 8.0
+    },
+    "granary": {
+      "label": "granary",
+      "capacity": 150,
+      "vermin_safe": true,
+      "model_height": 2.4,
+      "min_fire_distance": 4.0,
+      "ring_radius": 10.0
+    },
+    "field_plot": {
+      "label": "field plot",
+      "model_height": 0.15,
+      "min_fire_distance": 6.0,
+      "ring_radius": 16.0,
+      "growth_days": 3,
+      "harvest_yield": {
+        "grain": 5,
+        "seed_grain": 2
+      }
+    },
+    "corral": {
+      "label": "corral",
+      "model_height": 1.1,
+      "min_fire_distance": 8.0,
+      "ring_radius": 16.0,
+      "animal_capacity": 8,
+      "herd_growth_chance": 0.25
+    },
+    "mud_house": {
+      "label": "mudbrick house",
+      "warmth_radius": 5.0,
+      "model_height": 2.8,
+      "min_fire_distance": 4.0,
+      "ring_radius": 12.0
+    },
+    "smelter": {
+      "label": "clay smelter",
+      "station": true,
+      "model_height": 1.6,
+      "min_fire_distance": 5.0,
+      "ring_radius": 12.0
+    }
+  },
+  "predators": {
+    "wolf": {
+      "label": "wolf",
+      "count": 3,
+      "speed": 3.2,
+      "wander_radius": 9.0,
+      "threat_radius": 6.0,
+      "night_threat_bonus": 3.0,
+      "bite_damage": 12,
+      "safe_fire_radius": 14.0,
+      "retreat_cells": 18.0,
+      "model_height": 0.8
+    }
+  },
+  "storage": {
+    "vermin_raid_chance_per_dawn": 0.3,
+    "vermin_loss_fraction": 0.25,
+    "withdraw_amount": 3
+  }
+}

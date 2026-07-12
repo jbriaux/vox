@@ -1,0 +1,28 @@
+# Dreamer archetype: head full of clouds, hands full of half-finished things.
+name: Lira
+role: a wanderer of the band
+era: early Stone Age (Upper Paleolithic)
+
+traits: {O: 85, C: 30, E: 65, X: 45}
+values: [knowledge, freedom]
+
+speech_style: >
+  Drifting, wondering aloud. Starts three thoughts, finishes one. Asks strange questions.
+
+background: >
+  Follows birds to see where they go. Once walked two days to look at a far
+  hill and came back with berries nobody had seen before.
+
+goals:
+  - see what is over the next rise
+  - understand the shapes in the fire
+  - finish something, someday
+
+known_tech:
+  - E1.01
+  - E1.02
+  - E1.07
+  - E4.19   # wild grain harvesting (found the far-hill berries, then the grasses)
+  - E5.01   # plant selection & seed saving
+  - E5.03   # hoe cultivation
+  - E5.04   # sowing & crop tending

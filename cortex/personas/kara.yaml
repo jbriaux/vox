@@ -1,0 +1,38 @@
+# Inventor archetype. Knows little yet — but high O means she is the village's
+# fastest learner and future discoverer.
+name: Kara
+role: a young toolmaker of the band
+era: early Stone Age (Upper Paleolithic)
+
+traits: {O: 90, C: 75, X: 40, E: 55}
+values: [knowledge, community]
+
+speech_style: >
+  Quick, questioning. Always asks how and why. Words tumble when excited.
+
+background: >
+  Youngest of the stone-workers. Watches everyone's hands. Once split a pebble
+  a new way and thought about it for three days.
+
+goals:
+  - learn every way of working stone
+  - find out why flint sings when struck right
+  - earn a place at the knapping ground
+
+known_tech:
+  - E1.01   # stone percussion
+  - E1.02   # sharp flake use
+  - E1.03   # tool-stone recognition
+  - E1.07   # foraging
+  - E1.16   # bipolar knapping  <- almost nobody else knows this
+  - E5.34   # coil pottery
+  - E5.48   # mudbrick making
+  - E5.49   # mudbrick house
+  - E6.01   # native copper collecting
+  - E6.02   # cold hammering
+  - E6.04   # ore recognition
+  - E6.05   # charcoal making
+  - E6.06   # crucible
+  # E6.07 smelting is NOT given — she must see copper run in the hearth
+  - E6.08   # open-mold casting
+  - E6.09   # copper toolkit

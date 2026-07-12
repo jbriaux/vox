@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="900" height="560" fill="#fafaf7"/>
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#2b2b2b">VOX — the three-process stack</text>
+
+  <!-- Godot -->
+  <rect x="40" y="70" width="250" height="360" rx="12" fill="#e8f1fb" stroke="#4a7fb5" stroke-width="2"/>
+  <text x="165" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#204b72">GODOT 4.3 — the bodies</text>
+  <text x="165" y="116" text-anchor="middle" font-size="11" fill="#4a6c8c">Windows desktop · godot/</text>
+  <g font-size="12" fill="#2b3f52">
+    <rect x="55" y="130" width="220" height="26" rx="5" fill="#ffffff" stroke="#9dbcd8"/>
+    <text x="65" y="147">voxel world · pathfinding · seasons</text>
+    <rect x="55" y="162" width="220" height="26" rx="5" fill="#ffffff" stroke="#9dbcd8"/>
+    <text x="65" y="179">NPC bodies: needs, goals, work</text>
+    <rect x="55" y="194" width="220" height="26" rx="5" fill="#ffffff" stroke="#9dbcd8"/>
+    <text x="65" y="211">reflexes: flee wolf · starving-eat</text>
+    <rect x="55" y="226" width="220" height="26" rx="5" fill="#ffffff" stroke="#9dbcd8"/>
+    <text x="65" y="243">structures: huts, stores, fields,</text>
+    <text x="65" y="257" font-size="11" fill="#5a7691">corrals, smelter (+ dawn economy)</text>
+    <rect x="55" y="266" width="220" height="26" rx="5" fill="#ffffff" stroke="#9dbcd8"/>
+    <text x="65" y="283">predators, resources (claims)</text>
+    <rect x="55" y="298" width="220" height="26" rx="5" fill="#ffffff" stroke="#9dbcd8"/>
+    <text x="65" y="315">camera, HUD, chat, menus</text>
+    <rect x="55" y="330" width="220" height="26" rx="5" fill="#ffffff" stroke="#9dbcd8"/>
+    <text x="65" y="347">save/load: user://vox_save.json</text>
+  </g>
+  <text x="165" y="415" text-anchor="middle" font-size="11" font-style="italic" fill="#4a6c8c">executes actions · owns all items &amp; positions</text>
+
+  <!-- Cortex -->
+  <rect x="330" y="70" width="250" height="360" rx="12" fill="#eef7ec" stroke="#5c9e58" stroke-width="2"/>
+  <text x="455" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#2d5c2a">CORTEX — the minds</text>
+  <text x="455" y="116" text-anchor="middle" font-size="11" fill="#517d4e">Python FastAPI · cortex/</text>
+  <g font-size="12" fill="#2f4a2d">
+    <rect x="345" y="130" width="220" height="26" rx="5" fill="#ffffff" stroke="#a9cca6"/>
+    <text x="355" y="147">one Agent per NPC (persona,</text>
+    <text x="355" y="161" font-size="11" fill="#5c7d59">mood, plan, known techs, skills)</text>
+    <rect x="345" y="170" width="220" height="26" rx="5" fill="#ffffff" stroke="#a9cca6"/>
+    <text x="355" y="187">memory: SQLite per NPC</text>
+    <rect x="345" y="202" width="220" height="26" rx="5" fill="#ffffff" stroke="#a9cca6"/>
+    <text x="355" y="219">world knowledge: tech DAG,</text>
+    <text x="355" y="233" font-size="11" fill="#5c7d59">recipes, action catalog gating</text>
+    <rect x="345" y="242" width="220" height="26" rx="5" fill="#ffffff" stroke="#a9cca6"/>
+    <text x="355" y="259">discovery · eras · diffusion</text>
+    <rect x="345" y="274" width="220" height="26" rx="5" fill="#ffffff" stroke="#a9cca6"/>
+    <text x="355" y="291">converse: teach, trade, skills</text>
+    <rect x="345" y="306" width="220" height="26" rx="5" fill="#ffffff" stroke="#a9cca6"/>
+    <text x="355" y="323">dawn council → daily plan</text>
+    <rect x="345" y="338" width="220" height="26" rx="5" fill="#ffffff" stroke="#a9cca6"/>
+    <text x="355" y="355">flavors: vanilla / emergent</text>
+  </g>
+  <text x="455" y="415" text-anchor="middle" font-size="11" font-style="italic" fill="#517d4e">decides · remembers · never touches items</text>
+
+  <!-- LLM hosts -->
+  <rect x="620" y="70" width="240" height="360" rx="12" fill="#fdf1e7" stroke="#c98a4b" stroke-width="2"/>
+  <text x="740" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#7a4a1d">LLM HOSTS — the wits</text>
+  <text x="740" y="116" text-anchor="middle" font-size="11" fill="#9c6b3c">Ubuntu GPU box(es)</text>
+  <g font-size="12" fill="#5c3d1f">
+    <rect x="635" y="130" width="210" height="26" rx="5" fill="#ffffff" stroke="#ddba90"/>
+    <text x="645" y="147">vLLM · OpenAI-compatible API</text>
+    <rect x="635" y="162" width="210" height="26" rx="5" fill="#ffffff" stroke="#ddba90"/>
+    <text x="645" y="179">brain_pool: models round-robin</text>
+    <rect x="635" y="194" width="210" height="26" rx="5" fill="#ffffff" stroke="#ddba90"/>
+    <text x="645" y="211">30 decides batched in parallel</text>
+    <rect x="635" y="226" width="210" height="26" rx="5" fill="#ffffff" stroke="#ddba90"/>
+    <text x="645" y="243">mock provider (offline, tests)</text>
+    <rect x="635" y="258" width="210" height="26" rx="5" fill="#ffffff" stroke="#ddba90"/>
+    <text x="645" y="275">embeddings for memory recall</text>
+    <rect x="635" y="290" width="210" height="26" rx="5" fill="#ffffff" stroke="#ddba90"/>
+    <text x="645" y="307">runtime rebind: POST /bind/npc</text>
+  </g>
+  <text x="740" y="415" text-anchor="middle" font-size="11" font-style="italic" fill="#9c6b3c">stateless — all state lives in Cortex</text>
+
+  <!-- connections -->
+  <g stroke="#666" stroke-width="2" fill="none">
+    <line x1="290" y1="230" x2="330" y2="230"/>
+    <line x1="580" y1="230" x2="620" y2="230"/>
+  </g>
+  <g font-size="11" fill="#555" text-anchor="middle">
+    <text x="310" y="212">WebSocket</text>
+    <text x="310" y="226" font-size="10">JSON msgs</text>
+    <text x="310" y="252" font-size="10">:8765/ws</text>
+    <text x="600" y="212">HTTPS</text>
+    <text x="600" y="226" font-size="10">chat</text>
+    <text x="600" y="252" font-size="10">completions</text>
+  </g>
+  <g fill="#666">
+    <polygon points="330,230 322,225 322,235"/>
+    <polygon points="290,230 298,225 298,235"/>
+    <polygon points="620,230 612,225 612,235"/>
+    <polygon points="580,230 588,225 588,235"/>
+  </g>
+
+  <!-- shared data foundation -->
+  <rect x="40" y="460" width="540" height="70" rx="10" fill="#f3eefb" stroke="#8a6cbf" stroke-width="2"/>
+  <text x="310" y="486" text-anchor="middle" font-size="14" font-weight="700" fill="#4d3a76">SHARED DATA — data/*.json (same files, two readers)</text>
+  <text x="310" y="508" text-anchor="middle" font-size="12" fill="#5c4a85">tech_tree.json (340 nodes E1–E8) · era1_content.json (resources, recipes, buildables, needs) · traits.json</text>
+  <g stroke="#8a6cbf" stroke-width="1.5" stroke-dasharray="4 3" fill="none">
+    <line x1="165" y1="430" x2="165" y2="460"/>
+    <line x1="455" y1="430" x2="455" y2="460"/>
+  </g>
+
+  <!-- persistence note -->
+  <rect x="620" y="460" width="240" height="70" rx="10" fill="#f5f5f0" stroke="#999" stroke-width="1.5"/>
+  <text x="740" y="484" text-anchor="middle" font-size="12" font-weight="700" fill="#444">PERSISTENCE</text>
+  <text x="740" y="502" text-anchor="middle" font-size="11" fill="#555">world → user://vox_save.json</text>
+  <text x="740" y="518" text-anchor="middle" font-size="11" fill="#555">minds → cortex/data/memory/*.sqlite</text>
+</svg>

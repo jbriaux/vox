@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="900" height="460" fill="#fafaf7"/>
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#2b2b2b">One villager's mind — three layers, fast to slow</text>
+
+  <!-- Layer 1: reflexes -->
+  <rect x="60" y="70" width="780" height="90" rx="10" fill="#fdecec" stroke="#c05555" stroke-width="2"/>
+  <text x="80" y="97" font-size="14" font-weight="700" fill="#7a2727">REFLEXES — instant, in the body (Godot, every frame)</text>
+  <g font-size="12" fill="#7a3a3a">
+    <text x="80" y="120">• a wolf inside threat range → drop everything, run to the fire</text>
+    <text x="80" y="140">• hunger ≥ 85 with food in the pouch → eat (not knowledge — even blank emergent minds don't starve holding berries)</text>
+  </g>
+  <text x="815" y="97" font-size="11" fill="#a05050" text-anchor="end" font-style="italic">~0 ms</text>
+
+  <!-- Layer 2: instinct -->
+  <rect x="60" y="180" width="780" height="110" rx="10" fill="#fdf6e3" stroke="#b8963e" stroke-width="2"/>
+  <text x="80" y="207" font-size="14" font-weight="700" fill="#6e5a20">SURVIVAL INSTINCT — the scripted suggestion (Cortex, no LLM call)</text>
+  <g font-size="12" fill="#6e5e35">
+    <text x="80" y="230">priority ladder: eat/withdraw/milk when starving → tend the fire → rest at night → collect copper → shelter →</text>
+    <text x="80" y="250">store/farm/herd/furnace duties → talk → craft something new → wander. Chases missing materials recursively.</text>
+    <text x="80" y="272">vanilla: offered to the LLM as SUGGESTED_ACTION + fallback for invalid answers · emergent: never offered (fallback = wander)</text>
+  </g>
+  <text x="815" y="207" font-size="11" fill="#96803a" text-anchor="end" font-style="italic">&lt; 1 ms</text>
+
+  <!-- Layer 3: mind -->
+  <rect x="60" y="310" width="780" height="120" rx="10" fill="#eef7ec" stroke="#5c9e58" stroke-width="2"/>
+  <text x="80" y="337" font-size="14" font-weight="700" fill="#2d5c2a">THE MIND — full LLM decide (every 5–15 s per villager)</text>
+  <g font-size="12" fill="#2f4a2d">
+    <text x="80" y="360">persona (HEXACO traits → prose) + mood + relationships + retrieved memories + today's council plan</text>
+    <text x="80" y="380">+ the action catalog (only what is truly possible right now) + named routines (skill library)</text>
+    <text x="80" y="400">discovers techs (insight · practice · opportunity) · composes routines · speaks · everything social</text>
+  </g>
+  <text x="815" y="337" font-size="11" fill="#4a7d47" text-anchor="end" font-style="italic">1–8 s</text>
+</svg>

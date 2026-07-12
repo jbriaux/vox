@@ -1,0 +1,223 @@
+{
+  "meta": {
+    "name": "VOX NPC Trait System",
+    "version": "1.0",
+    "source": "03_NPC_PERSONALITY.md",
+    "scale": [0, 100],
+    "generation": {
+      "method": "parent_weighted_average_plus_noise",
+      "parent_weight": 0.5,
+      "noise_stddev": 12,
+      "culture_bias_max": 10
+    }
+  },
+  "axes": [
+    {
+      "key": "H",
+      "name": "Honesty-Humility",
+      "low_pole": { "label": "schemer", "behaviors": ["cheats trades", "steals", "flatters", "hoards status"] },
+      "high_pole": { "label": "sincere", "behaviors": ["fair trades", "keeps promises", "modest"] },
+      "drives_in_sim": ["trade fairness", "theft chance", "promise-keeping", "tribute behavior"],
+      "descriptor_bands": {
+        "0-15": "utterly self-serving; lies and steals without a second thought",
+        "16-30": "cunning and opportunistic; bends the truth when it pays",
+        "31-69": null,
+        "70-84": "honest and fair-dealing; keeps their word",
+        "85-100": "scrupulously honest, humble to a fault"
+      }
+    },
+    {
+      "key": "E",
+      "name": "Emotionality",
+      "low_pole": { "label": "stoic", "behaviors": ["risk-blind", "low attachment", "never seeks help"] },
+      "high_pole": { "label": "sensitive", "behaviors": ["fearful", "anxious", "deeply bonded", "seeks help"] },
+      "drives_in_sim": ["flight threshold", "grief intensity", "danger assessment"],
+      "descriptor_bands": {
+        "0-15": "eerily unshakable; feels little fear or grief",
+        "16-30": "calm and detached under pressure",
+        "31-69": null,
+        "70-84": "sensitive and deeply attached to loved ones",
+        "85-100": "intensely emotional; fears and griefs run very deep"
+      }
+    },
+    {
+      "key": "X",
+      "name": "Extraversion",
+      "low_pole": { "label": "solitary", "behaviors": ["works alone", "quiet at feasts"] },
+      "high_pole": { "label": "social", "behaviors": ["seeks crowds", "leads talk", "needs company"] },
+      "drives_in_sim": ["social-need decay rate", "conversation initiation", "leadership bids"],
+      "descriptor_bands": {
+        "0-15": "a near-hermit; speaks only when necessary",
+        "16-30": "quiet and reserved; prefers working alone",
+        "31-69": null,
+        "70-84": "sociable and talkative; energized by company",
+        "85-100": "the loud heart of every gathering"
+      }
+    },
+    {
+      "key": "A",
+      "name": "Agreeableness",
+      "low_pole": { "label": "irritable", "behaviors": ["holds grudges", "quick to quarrel", "punishes"] },
+      "high_pole": { "label": "forgiving", "behaviors": ["patient", "defuses conflict", "cooperates"] },
+      "drives_in_sim": ["grudge decay", "conflict escalation", "cooperation on shared work"],
+      "descriptor_bands": {
+        "0-15": "vindictive and quarrelsome; never forgets a slight",
+        "16-30": "prickly and quick to take offense",
+        "31-69": null,
+        "70-84": "patient and forgiving; smooths over conflict",
+        "85-100": "endlessly gentle; forgives almost anything"
+      }
+    },
+    {
+      "key": "C",
+      "name": "Conscientiousness",
+      "low_pole": { "label": "impulsive", "behaviors": ["abandons tasks", "sloppy craft", "keeps no stores"] },
+      "high_pole": { "label": "diligent", "behaviors": ["plans ahead", "finishes work", "stockpiles"] },
+      "drives_in_sim": ["plan adherence", "craft quality bonus", "food-storage behavior"],
+      "descriptor_bands": {
+        "0-15": "chaotic; never finishes anything",
+        "16-30": "somewhat careless and easily distracted",
+        "31-69": null,
+        "70-84": "methodical and reliable",
+        "85-100": "obsessively meticulous"
+      }
+    },
+    {
+      "key": "O",
+      "name": "Openness",
+      "low_pole": { "label": "traditionalist", "behaviors": ["distrusts new tech", "keeps customs"] },
+      "high_pole": { "label": "curious", "behaviors": ["experiments", "adopts and discovers tech first"] },
+      "drives_in_sim": ["tech discovery & adoption rate", "migration willingness", "art"],
+      "descriptor_bands": {
+        "0-15": "deeply suspicious of anything new; the old ways are the only ways",
+        "16-30": "set in their ways; slow to accept change",
+        "31-69": null,
+        "70-84": "curious about new methods and places",
+        "85-100": "restlessly inventive; always experimenting"
+      }
+    },
+    {
+      "key": "D",
+      "name": "Dominance",
+      "low_pole": { "label": "submissive", "behaviors": ["defers to others"] },
+      "high_pole": { "label": "commanding", "behaviors": ["claims leadership", "gives orders"] },
+      "drives_in_sim": ["hierarchy formation", "leadership claims", "tribute demands"],
+      "descriptor_bands": {
+        "0-15": "meek; follows whoever speaks loudest",
+        "16-30": "deferential; avoids taking charge",
+        "31-69": null,
+        "70-84": "assertive; naturally takes charge",
+        "85-100": "imperious; expects to be obeyed"
+      }
+    },
+    {
+      "key": "B",
+      "name": "Bravery",
+      "low_pole": { "label": "timid", "behaviors": ["flees early"] },
+      "high_pole": { "label": "bold", "behaviors": ["stands ground", "hunts big game"] },
+      "drives_in_sim": ["flee threshold", "big-game hunting", "combat resolve"],
+      "descriptor_bands": {
+        "0-15": "runs from shadows",
+        "16-30": "cautious; avoids danger when possible",
+        "31-69": null,
+        "70-84": "brave; stands their ground",
+        "85-100": "fearless to the point of recklessness"
+      }
+    }
+  ],
+  "values": [
+    { "key": "tradition", "name": "Tradition", "description": "keep customs, resist change, honor the old ways" },
+    { "key": "kinship", "name": "Kinship/Loyalty", "description": "family and band first, defend kin at any cost" },
+    { "key": "prosperity", "name": "Prosperity", "description": "accumulate food, goods, herds, land" },
+    { "key": "prestige", "name": "Prestige", "description": "status, renown, being first and admired" },
+    { "key": "piety", "name": "Piety", "description": "ritual, spirits, ancestors, sacred duties" },
+    { "key": "community", "name": "Community", "description": "the village above the self; sharing, feasts" },
+    { "key": "freedom", "name": "Freedom", "description": "autonomy, dislike of chiefs, taxes, walls" },
+    { "key": "knowledge", "name": "Knowledge", "description": "learning, teaching, discovery for its own sake" }
+  ],
+  "drives": {
+    "survival": [
+      { "key": "hunger", "decay_per_hour": 4, "modulators": [] },
+      { "key": "thirst", "decay_per_hour": 6, "modulators": [] },
+      { "key": "warmth", "decay_per_hour": 0, "modulators": ["weather", "clothing", "shelter", "fire"] },
+      { "key": "rest", "decay_per_hour": 4, "modulators": ["labor_intensity"] },
+      { "key": "safety", "decay_per_hour": 0, "modulators": ["threat_events", "E"] },
+      { "key": "health", "decay_per_hour": 0, "modulators": ["injury", "disease", "nutrition"] }
+    ],
+    "social": [
+      { "key": "belonging", "decay_per_hour": 1, "modulators": ["X"] },
+      { "key": "status", "decay_per_hour": 0.5, "modulators": ["D", "value:prestige"] },
+      { "key": "family", "decay_per_hour": 0, "modulators": ["kin_threat", "E"] }
+    ],
+    "higher": [
+      { "key": "curiosity", "decay_per_hour": 1, "modulators": ["O"] },
+      { "key": "ritual", "decay_per_hour": 0.5, "modulators": ["value:piety"] },
+      { "key": "craft_pride", "decay_per_hour": 0.5, "modulators": ["C", "skill_level"] }
+    ]
+  },
+  "mood": {
+    "valence": { "range": [-50, 50] },
+    "arousal": { "range": [0, 100] },
+    "emotions": [
+      { "key": "joy", "decay_modulator": null },
+      { "key": "fear", "decay_modulator": "B_high_faster" },
+      { "key": "anger", "decay_modulator": "A_low_slower" },
+      { "key": "grief", "decay_modulator": "E_high_slower" },
+      { "key": "pride", "decay_modulator": null },
+      { "key": "shame", "decay_modulator": "H_high_slower" },
+      { "key": "gratitude", "decay_modulator": null },
+      { "key": "envy", "decay_modulator": "H_low_slower" }
+    ],
+    "appraisal": "OCC-style: event x traits -> tagged emotion; mood summary is rendered into every LLM call"
+  },
+  "relationships": {
+    "directional": true,
+    "dimensions": [
+      { "key": "affinity", "range": [-100, 100], "moves_on": ["shared meals", "gifts", "insults", "fights"] },
+      { "key": "trust", "range": [0, 100], "moves_on": ["promises kept/broken", "trades", "secrets"] },
+      { "key": "respect", "range": [0, 100], "moves_on": ["skill displays", "bravery", "wisdom", "status"] },
+      { "key": "familiarity", "range": [0, 100], "moves_on": ["time together"], "gates": "memory detail about the person" },
+      { "key": "debt", "range": [-100, 100], "moves_on": ["favors given/received"] }
+    ],
+    "kinship_tags": ["parent", "child", "sibling", "mate"]
+  },
+  "behavior_hooks": [
+    { "param": "flee_threshold", "formula": "70 - 0.4*B + 0.3*E", "unit": "threat_score" },
+    { "param": "theft_probability_starving", "formula": "(100-H)*hunger/10000", "unit": "per_opportunity" },
+    { "param": "experiment_chance_idle", "formula": "O*curiosity/10000", "unit": "per_idle_hour" },
+    { "param": "grudge_halflife_days", "formula": "(100-A)/10", "unit": "days" },
+    { "param": "plan_abandon_chance", "formula": "(100-C)/500", "unit": "per_hour" },
+    { "param": "conversation_start_radius", "formula": "2 + X/20", "unit": "voxels" },
+    { "param": "teach_willingness", "formula": "(A + value:community)/2", "unit": "score_0_100" },
+    { "param": "learn_speed_multiplier", "formula": "0.5 + O/100", "unit": "multiplier" },
+    { "param": "craft_quality_bonus", "formula": "C/10", "unit": "percent" },
+    { "param": "leadership_bid_chance", "formula": "D*X/10000", "unit": "per_power_vacuum" }
+  ],
+  "prompt_rendering": {
+    "band_thresholds": [15, 30, 69, 84],
+    "omit_mid_band": true,
+    "max_traits_in_prompt": 4,
+    "include": ["distinctive traits", "top 2 values", "current mood + cause", "urgent drives", "relationships of NPCs present", "known tech constraint (no anachronisms)"],
+    "output_contract": { "say": "string", "action": "string", "target": "string|null" }
+  },
+  "archetypes": [
+    { "key": "elder_keeper", "name": "Elder-keeper", "traits": { "O": 30, "C": 80 }, "primary_value": "tradition" },
+    { "key": "inventor", "name": "Inventor", "traits": { "O": 90, "C": 75 }, "primary_value": "knowledge" },
+    { "key": "hunter_hero", "name": "Hunter-hero", "traits": { "B": 90, "D": 60 }, "primary_value": "prestige" },
+    { "key": "caregiver", "name": "Caregiver", "traits": { "E": 75, "A": 85 }, "primary_value": "kinship" },
+    { "key": "schemer", "name": "Schemer", "traits": { "H": 15, "X": 70 }, "primary_value": "prosperity" },
+    { "key": "chief_in_waiting", "name": "Chief-in-waiting", "traits": { "D": 90, "X": 75 }, "primary_value": "prestige" },
+    { "key": "hermit_crafter", "name": "Hermit-crafter", "traits": { "X": 15, "C": 90 }, "primary_value": "knowledge" },
+    { "key": "storyteller", "name": "Storyteller", "traits": { "X": 85, "O": 70 }, "primary_value": "community" },
+    { "key": "zealot", "name": "Zealot", "traits": { "A": 40 }, "primary_value": "piety", "value_overrides": { "piety": 95 } },
+    { "key": "trader", "name": "Trader", "traits": { "H": 45, "X": 65 }, "primary_value": "prosperity" },
+    { "key": "brawler", "name": "Brawler", "traits": { "A": 20, "B": 80 }, "primary_value": "freedom" },
+    { "key": "dreamer", "name": "Dreamer", "traits": { "O": 85, "C": 30 }, "primary_value": "knowledge" }
+  ],
+  "skills": {
+    "note": "separate from personality; bridge to tech tree",
+    "domains": ["knapping", "hunting", "fishing", "foraging", "herblore", "hideworking", "weaving", "potting", "farming", "herding", "carpentry", "masonry", "smelting", "smithing", "trading", "oratory", "ritual", "warfare", "seafaring", "scribing"],
+    "known_tech": "list of tech_tree.json node ids per NPC",
+    "learning": "speed = f(O, teacher skill, diffusion tier of settlement)"
+  }
+}

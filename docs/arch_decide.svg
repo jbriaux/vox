@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="900" height="500" fill="#fafaf7"/>
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#2b2b2b">The decide loop — every villager, every 5–15 seconds</text>
+
+  <!-- 1 build_state -->
+  <rect x="40" y="80" width="230" height="110" rx="10" fill="#e8f1fb" stroke="#4a7fb5" stroke-width="2"/>
+  <text x="155" y="103" text-anchor="middle" font-size="13" font-weight="700" fill="#204b72">1 · GODOT builds the state</text>
+  <g font-size="11" fill="#2b3f52">
+    <text x="55" y="124">needs · inventory · nearby resources</text>
+    <text x="55" y="140">nearby NPCs · fire · store · fields</text>
+    <text x="55" y="156">corral · stations · dogs · season</text>
+    <text x="55" y="172">cold? · huts · population</text>
+  </g>
+
+  <!-- 2 prompt -->
+  <rect x="335" y="80" width="230" height="110" rx="10" fill="#eef7ec" stroke="#5c9e58" stroke-width="2"/>
+  <text x="450" y="103" text-anchor="middle" font-size="13" font-weight="700" fill="#2d5c2a">2 · CORTEX assembles the prompt</text>
+  <g font-size="11" fill="#2f4a2d">
+    <text x="350" y="124">persona + mood + relationships</text>
+    <text x="350" y="140">council plan (if a dawn council ran)</text>
+    <text x="350" y="156">retrieved memories (embeddings)</text>
+    <text x="350" y="172">ACTION CATALOG + routines (gated)</text>
+  </g>
+
+  <!-- 3 llm -->
+  <rect x="630" y="80" width="230" height="110" rx="10" fill="#fdf1e7" stroke="#c98a4b" stroke-width="2"/>
+  <text x="745" y="103" text-anchor="middle" font-size="13" font-weight="700" fill="#7a4a1d">3 · LLM chooses</text>
+  <g font-size="11" fill="#5c3d1f">
+    <text x="645" y="124">JSON: {action, target, say}</text>
+    <text x="645" y="140">vanilla: SUGGESTED_ACTION anchor</text>
+    <text x="645" y="156">emergent: bare facts, no advice</text>
+    <text x="645" y="172">30 NPCs batched concurrently</text>
+  </g>
+
+  <!-- 4 validate -->
+  <rect x="630" y="250" width="230" height="100" rx="10" fill="#eef7ec" stroke="#5c9e58" stroke-width="2"/>
+  <text x="745" y="273" text-anchor="middle" font-size="13" font-weight="700" fill="#2d5c2a">4 · CORTEX validates</text>
+  <g font-size="11" fill="#2f4a2d">
+    <text x="645" y="294">target must exist in the catalog;</text>
+    <text x="645" y="310">invalid → survival instinct fallback</text>
+    <text x="645" y="326">(+ discovery &amp; skill-composition rolls)</text>
+  </g>
+
+  <!-- 5 execute -->
+  <rect x="335" y="250" width="230" height="100" rx="10" fill="#e8f1fb" stroke="#4a7fb5" stroke-width="2"/>
+  <text x="450" y="273" text-anchor="middle" font-size="13" font-weight="700" fill="#204b72">5 · GODOT executes</text>
+  <g font-size="11" fill="#2b3f52">
+    <text x="350" y="294">goal executor: walk → work → yield</text>
+    <text x="350" y="310">claims a resource · walks to stations</text>
+    <text x="350" y="326">skill = whole routine as one action</text>
+  </g>
+
+  <!-- 6 events -->
+  <rect x="40" y="250" width="230" height="100" rx="10" fill="#f3eefb" stroke="#8a6cbf" stroke-width="2"/>
+  <text x="155" y="273" text-anchor="middle" font-size="13" font-weight="700" fill="#4d3a76">6 · EVENTS become MEMORIES</text>
+  <g font-size="11" fill="#4a3a6b">
+    <text x="55" y="294">"gathered 3 berries" · "was bitten"</text>
+    <text x="55" y="310">→ SQLite rows with embeddings</text>
+    <text x="55" y="326">→ reflection distills beliefs</text>
+  </g>
+
+  <!-- reflex bypass -->
+  <rect x="40" y="400" width="820" height="66" rx="10" fill="#fdecec" stroke="#c05555" stroke-width="2"/>
+  <text x="450" y="425" text-anchor="middle" font-size="13" font-weight="700" fill="#7a2727">BODY REFLEXES — bypass the whole loop (no mind consulted)</text>
+  <text x="450" y="447" text-anchor="middle" font-size="12" fill="#7a3a3a">wolf too close → drop everything and flee to the fire · hunger ≥ 85 with food in the pouch → eat it</text>
+
+  <!-- arrows -->
+  <g stroke="#666" stroke-width="2" fill="none">
+    <line x1="270" y1="135" x2="335" y2="135"/>
+    <line x1="565" y1="135" x2="630" y2="135"/>
+    <line x1="745" y1="190" x2="745" y2="250"/>
+    <line x1="630" y1="300" x2="565" y2="300"/>
+    <line x1="335" y1="300" x2="270" y2="300"/>
+    <path d="M 155 250 L 155 210"/>
+  </g>
+  <g fill="#666">
+    <polygon points="335,135 327,130 327,140"/>
+    <polygon points="630,135 622,130 622,140"/>
+    <polygon points="745,250 740,242 750,242"/>
+    <polygon points="565,300 573,295 573,305"/>
+    <polygon points="270,300 278,295 278,305"/>
+    <polygon points="155,210 150,218 160,218"/>
+  </g>
+  <text x="300" y="122" font-size="10" fill="#666" text-anchor="middle">ws decide</text>
+  <text x="598" y="122" font-size="10" fill="#666" text-anchor="middle">http</text>
+  <text x="598" y="288" font-size="10" fill="#666" text-anchor="middle">ws action</text>
+  <text x="300" y="288" font-size="10" fill="#666" text-anchor="middle">verbs</text>
+  <text x="185" y="228" font-size="10" fill="#666">ws event → next state</text>
+</svg>

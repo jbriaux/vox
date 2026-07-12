@@ -1,0 +1,28 @@
+# Hermit-crafter archetype: the best knapper alive, and the hardest to talk to.
+name: Odan
+role: a master knapper who camps apart
+era: early Stone Age (Upper Paleolithic)
+
+traits: {X: 15, C: 90, O: 55, A: 45}
+values: [knowledge, freedom]
+
+speech_style: >
+  Few words, long pauses. Speaks to stone more than to people. Precise.
+
+background: >
+  His bifaces are thinner than anyone's. Trades tools for quiet. People walk
+  a long way to watch his hands and he pretends not to notice.
+
+goals:
+  - work stone no one has worked better
+  - be left alone, mostly
+  - find a flawless flint core
+
+known_tech:
+  - E1.01
+  - E1.02
+  - E1.03
+  - E1.04
+  - E1.13
+  - E1.14   # cleaver
+  - E1.15   # soft-hammer knapping  <- the finest technique in the band

@@ -1,0 +1,100 @@
+# VOX Cortex configuration.
+#
+# BRAIN POOL: list any number of models here — every NPC that doesn't set its
+# own `brain:` is bound to them ROUND-ROBIN, in roster order (named NPCs
+# first, then generated extras, then children born at runtime).
+# With 4 entries: NPC 1-4 get models 1-4, NPC 5 wraps back to model 1, etc.
+# Any OpenAI-compatible endpoint works (vLLM, Ollama, llama.cpp, hosted) and
+# entries can point at DIFFERENT machines.
+
+server:
+  host: 127.0.0.1
+  port: 8765
+
+# Shared world data (tech tree + era content + traits), relative to this file.
+data_dir: ../data
+
+# Shared embedding binding for memory relevance ("mock" = offline hashing).
+embeddings:
+  provider: mock                # openai_compatible | mock
+  # base_url: http://192.168.1.113:8000/v1
+  # model: BAAI/bge-m3
+
+brain_pool:
+  - provider: openai_compatible
+    base_url: http://192.168.1.113:8000/v1
+    model: Qwen/Qwen2.5-7B-Instruct-AWQ
+    api_key: none
+    temperature: 0.8
+    max_tokens: 220
+  # Add more models to spread the village across them, e.g.:
+  - provider: openai_compatible
+    base_url: http://192.168.1.113:8002/v1
+    model: hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4
+  #- provider: openai_compatible
+  #  base_url: http://192.168.1.113:8003/v1
+  #  model: casperhansen/deepseek-r1-distill-qwen-14b-awq
+  #- provider: openai_compatible
+  #  base_url: http://192.168.1.114:8000/v1
+  #  model: Qwen/Qwen2.5-14B-Instruct-AWQ
+  #- provider: openai_compatible
+  #  base_url: http://127.0.0.1:11434/v1     # Ollama
+  #  model: llama3.2:3b
+
+# P4: extra villagers cast from the archetype deck (deterministic by seed),
+# on top of the 10 hand-written personas below. 10 + 20 = a 30-NPC village.
+# No `brain:` here -> extras continue the pool rotation.
+village:
+  extras: 0
+  seed: 7
+
+# Named NPCs. No `brain:` -> assigned from the pool round-robin.
+# To pin one NPC to a specific model, give it an explicit brain, e.g.:
+#   anon:
+#     persona: personas/anon.yaml
+#     memory_db: data/memory/anon.sqlite
+#     brain: {provider: openai_compatible, base_url: "http://...:8002/v1", model: "..."}
+npcs:
+  anon:
+    persona: personas/anon.yaml
+    memory_db: data/memory/anon.sqlite
+  toran:
+    persona: personas/toran.yaml
+    memory_db: data/memory/toran.sqlite
+  kara:
+    persona: personas/kara.yaml
+    memory_db: data/memory/kara.sqlite
+  bren:
+    persona: personas/bren.yaml
+    memory_db: data/memory/bren.sqlite
+  sela:
+    persona: personas/sela.yaml
+    memory_db: data/memory/sela.sqlite
+  mirok:
+    persona: personas/mirok.yaml
+    memory_db: data/memory/mirok.sqlite
+  vessa:
+    persona: personas/vessa.yaml
+    memory_db: data/memory/vessa.sqlite
+  odan:
+    persona: personas/odan.yaml
+    memory_db: data/memory/odan.sqlite
+  lira:
+    persona: personas/lira.yaml
+    memory_db: data/memory/lira.sqlite
+  juk:
+    persona: personas/juk.yaml
+    memory_db: data/memory/juk.sqlite
+
+# EMERGENT flavor (selectable in the Godot New Game menu): two small villages,
+# two families each, blank minds — no starting knowledge, no narrated guidance.
+# Memory lives in data/memory_emergent/ (separate from the vanilla village).
+emergent:
+  seed: 3
+  villages:
+    riverside:
+      - [asha, beno]          # family 1
+      - [ciro, dena, ewa]     # family 2
+    hilltop:
+      - [falo, gani]
+      - [hesu, iria, jomo]

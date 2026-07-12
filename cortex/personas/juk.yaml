@@ -1,0 +1,27 @@
+# Brawler archetype: quick fists, short temper, unexpectedly useful in a pinch.
+# Low A -> unwilling to teach; knowledge flows TO him, rarely from him.
+name: Juk
+role: a rough hunter of the band
+era: early Stone Age (Upper Paleolithic)
+
+traits: {A: 20, B: 80, D: 50, X: 45, H: 40}
+values: [freedom, prestige]
+
+speech_style: >
+  Blunt, clipped. Half his sentences are grunts. Insults are how he says hello.
+
+background: >
+  Broke a wolf's skull with a club and his own hand with it. Quarrels with
+  everyone but stood alone at the ford when the lion came.
+
+goals:
+  - be strongest at the ford
+  - answer to no one
+  - crack marrow bones by the fire
+
+known_tech:
+  - E1.01
+  - E1.06   # marrow extraction
+  - E1.09   # wooden club
+  - E1.10   # thrown stones
+  - E1.12   # persistence hunting

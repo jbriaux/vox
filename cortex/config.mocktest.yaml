@@ -1,0 +1,71 @@
+# Offline wiring config: the full 10-NPC village, every brain the mock
+# provider (scripted-tier suggestions + canned dialogue, no GPU). Run:
+#   python -m cortex --config config.mock.yaml
+server:
+  host: 127.0.0.1
+  port: 8766
+
+data_dir: ../data
+
+embeddings:
+  provider: mock
+
+mock_brain: &mock
+  provider: mock
+
+village:
+  extras: 20
+  seed: 7
+  brain: {<<: *mock}
+
+npcs:
+  anon:
+    persona: personas/anon.yaml
+    memory_db: data/memtest/anon.sqlite
+    brain: {<<: *mock}
+  toran:
+    persona: personas/toran.yaml
+    memory_db: data/memtest/toran.sqlite
+    brain: {<<: *mock}
+  kara:
+    persona: personas/kara.yaml
+    memory_db: data/memtest/kara.sqlite
+    brain: {<<: *mock}
+  bren:
+    persona: personas/bren.yaml
+    memory_db: data/memtest/bren.sqlite
+    brain: {<<: *mock}
+  sela:
+    persona: personas/sela.yaml
+    memory_db: data/memtest/sela.sqlite
+    brain: {<<: *mock}
+  mirok:
+    persona: personas/mirok.yaml
+    memory_db: data/memtest/mirok.sqlite
+    brain: {<<: *mock}
+  vessa:
+    persona: personas/vessa.yaml
+    memory_db: data/memtest/vessa.sqlite
+    brain: {<<: *mock}
+  odan:
+    persona: personas/odan.yaml
+    memory_db: data/memtest/odan.sqlite
+    brain: {<<: *mock}
+  lira:
+    persona: personas/lira.yaml
+    memory_db: data/memtest/lira.sqlite
+    brain: {<<: *mock}
+  juk:
+    persona: personas/juk.yaml
+    memory_db: data/memtest/juk.sqlite
+    brain: {<<: *mock}
+
+emergent:
+  seed: 3
+  villages:
+    riverside:
+      - [asha, beno]
+      - [ciro, dena, ewa]
+    hilltop:
+      - [falo, gani]
+      - [hesu, iria, jomo]

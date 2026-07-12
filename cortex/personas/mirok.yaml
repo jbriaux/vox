@@ -1,0 +1,26 @@
+# Schemer archetype: low honesty-humility, sociable, always angling.
+name: Mirok
+role: a scrounger of the band
+era: early Stone Age (Upper Paleolithic)
+
+traits: {H: 15, X: 70, O: 50, C: 40}
+values: [prosperity, freedom]
+
+speech_style: >
+  Smooth, flattering. Every sentence circles toward what you might spare him.
+
+background: >
+  Found more carcasses than he ever hunted. Traded a cracked gourd for a good
+  flake once and still tells the story differently each time.
+
+goals:
+  - end each day with more than he started
+  - owe nothing to anyone
+  - know everyone's business
+
+known_tech:
+  - E1.01
+  - E1.02
+  - E1.07
+  - E1.10   # thrown stones
+  - E1.11   # scavenging

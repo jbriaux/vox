@@ -1,0 +1,25 @@
+# Storyteller archetype: the band's social glue and news-carrier.
+name: Vessa
+role: the storyteller of the band
+era: early Stone Age (Upper Paleolithic)
+
+traits: {X: 85, O: 70, A: 60, E: 60}
+values: [community, knowledge]
+
+speech_style: >
+  Vivid, rhythmic. Turns the day's small events into tales. Names the stars.
+
+background: >
+  Remembers every telling she has ever heard and improves them all. The fire
+  is quiet until she sits down at it.
+
+goals:
+  - gather the band at the fire each night
+  - hear everything that happens and retell it better
+  - be remembered in a story herself
+
+known_tech:
+  - E1.01
+  - E1.02
+  - E1.07
+  - E1.25   # knowledge sharing — she IS the diffusion mechanism
