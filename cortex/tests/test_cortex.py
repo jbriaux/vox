@@ -929,7 +929,19 @@ def test_discovery(world):
 
 
 def test_children(world):
-    from cortex.personas import generate_child
+    from cortex.personas import NAME_POOL, fresh_name, generate_child
+
+    # names never fall back to 'bornN': the pool is deep, and past it the
+    # syllable composer takes over — always pronounceable, always unique
+    assert len(NAME_POOL) == len(set(NAME_POOL)) >= 110
+    used = set(NAME_POOL) | {"anon", "toran"}
+    seen = set()
+    for _ in range(50):
+        n = fresh_name(used)
+        assert n not in used and n.isalpha() and 3 <= len(n) <= 12, n
+        used.add(n)
+        seen.add(n)
+    assert len(seen) == 50
 
     pa = {"name": "Anon", "traits": {"O": 80, "C": 70}, "values": ["knowledge"]}
     pb = {"name": "Sela", "traits": {"O": 20, "A": 90}, "values": ["kinship"]}

@@ -54,7 +54,39 @@ NAME_POOL = [
     "jona", "kesh", "luma", "moss", "nera", "orin", "pyra", "quil", "rasha",
     "senn", "tavi", "ulma", "varn", "wena", "xolo", "yiri", "zek", "aldra",
     "borin", "cima", "durn",
+    # generations to come
+    "kaida", "lorn", "mira", "nuno", "osha", "pell", "qora", "ruven", "sifa",
+    "tero", "una", "veda", "wyn", "xanti", "yara", "zoril", "amsel", "brona",
+    "cai", "delu", "enda", "ferun", "gilda", "harn", "ilo", "jesra", "kovan",
+    "leska", "mahel", "nial", "ondra", "peira", "quenn", "rolo", "sarn",
+    "tilda", "ulf", "vanya", "wera", "yotam", "zana", "abren", "belka",
+    "corin", "dashi", "elun", "farel", "goro", "hinta", "ivo", "jarel",
+    "kama", "lundo", "meshi", "norun", "olba", "petra", "quim", "renna",
+    "solin", "tamo", "urda", "velo", "wirt", "yeva", "zorn", "aiko", "bram",
+    "cessa", "doran", "elin", "fost", "gwena", "holt", "isra", "jute",
+    "kell", "lomi", "marek", "nessa", "ovin", "palo", "runa", "sedge",
+    "torv", "ulla", "vint", "wren", "yorik", "zilla",
 ]
+
+_SYL_A = ["ka", "ra", "mi", "to", "ne", "sha", "lu", "or", "an", "be",
+          "dro", "fe", "gri", "ha", "is", "jo", "kel", "ma", "no", "pa"]
+_SYL_B = ["ric", "wen", "dan", "mor", "lis", "ton", "var", "nia", "rek",
+          "sel", "din", "lo", "ven", "tas", "rin", "gar", "nis", "bel",
+          "run", "dal"]
+
+
+def fresh_name(used) -> str:
+    """A pronounceable name nobody alive or dead has carried — the pool
+    first, then composed syllables. Never 'born49'."""
+    for n in NAME_POOL:
+        if n not in used:
+            return n
+    i = len(used)
+    while True:
+        cand = _SYL_A[i % len(_SYL_A)] + _SYL_B[(i // len(_SYL_A)) % len(_SYL_B)]
+        if cand not in used:
+            return cand
+        i += 1
 
 BASIC_TECH = ["E1.01", "E1.02", "E1.07"]
 EXTRA_TECH_POOL = ["E1.04", "E1.05", "E1.08", "E1.09", "E1.10",

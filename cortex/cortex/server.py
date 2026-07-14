@@ -29,7 +29,7 @@ from .agent import Agent
 from .config import load_config
 from .llm import make_embedder, make_llm
 from .memory import Memory
-from .personas import (NAME_POOL, compile_persona, generate_child,
+from .personas import (NAME_POOL, compile_persona, fresh_name, generate_child,
                        generate_emergent_village, generate_village)
 from .world import World
 
@@ -591,7 +591,7 @@ async def _handle_birth(sock, a: Agent, b: Agent) -> None:
         return
     world = app.state.world
     used = set(app.state.agents)
-    name = next((n for n in NAME_POOL if n not in used), None) or f"born{len(used)}"
+    name = fresh_name(used)
     raw = generate_child(name, a.persona, b.persona,
                          world.traits if world else {}, seed=len(used) * 7919 + 13)
     parent_meta = app.state.npc_meta.get(a.name, {})
