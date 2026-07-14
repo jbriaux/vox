@@ -36,3 +36,6 @@ known_tech:
   # E6.07 smelting is NOT given — she must see copper run in the hearth
   - E6.08   # open-mold casting
   - E6.09   # copper toolkit
+  - E5.31   # beer brewing
+  - E5.37   # updraft kiln
+  - E5.44   # plant dyeing

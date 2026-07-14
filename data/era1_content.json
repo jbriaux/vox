@@ -293,6 +293,56 @@
       "respawns": true,
       "respawn_seconds": 240,
       "model_height": 0.35
+    },
+    "salt_flat": {
+      "label": "salt flat",
+      "tech": "E5.33",
+      "spawn_on": [
+        "sand"
+      ],
+      "count": 8,
+      "yields": {
+        "salt": 2
+      },
+      "gather_seconds": 3.0,
+      "respawns": true,
+      "respawn_seconds": 160,
+      "model_height": 0.25
+    },
+    "wild_cattle": {
+      "label": "wild cattle",
+      "tech": "E5.20",
+      "spawn_on": [
+        "grass"
+      ],
+      "count": 8,
+      "yields": {
+        "captured_cattle": 1
+      },
+      "gather_seconds": 6.0,
+      "gather_verb": "drove a wild cow into a rope pen",
+      "respawns": true,
+      "respawn_seconds": 260,
+      "model_height": 1.4,
+      "wanders": true
+    },
+    "wild_pig": {
+      "label": "wild pigs",
+      "tech": "E5.21",
+      "spawn_on": [
+        "grass",
+        "dirt"
+      ],
+      "count": 10,
+      "yields": {
+        "captured_pig": 1
+      },
+      "gather_seconds": 5.0,
+      "gather_verb": "cornered a young pig",
+      "respawns": true,
+      "respawn_seconds": 220,
+      "model_height": 0.85,
+      "wanders": true
     }
   },
   "items": {
@@ -574,6 +624,51 @@
       "label": "iron axe",
       "tool": true,
       "quality": 2.5
+    },
+    "smoked_meat": {
+      "label": "smoked meat",
+      "food": {
+        "hunger": 38
+      },
+      "spoils_days": 20
+    },
+    "smoked_fish": {
+      "label": "smoked fish",
+      "food": {
+        "hunger": 28
+      },
+      "spoils_days": 20
+    },
+    "salt": {
+      "label": "salt"
+    },
+    "salted_meat": {
+      "label": "salted meat",
+      "food": {
+        "hunger": 35
+      },
+      "spoils_days": 30
+    },
+    "beer": {
+      "label": "beer",
+      "food": {
+        "hunger": 8
+      },
+      "cheer": true,
+      "spoils_days": 10
+    },
+    "captured_cattle": {
+      "label": "a roped cow"
+    },
+    "captured_pig": {
+      "label": "a trussed pig"
+    },
+    "dye": {
+      "label": "berry dye"
+    },
+    "dyed_garment": {
+      "label": "dyed garment",
+      "warmth": true
     }
   },
   "recipes": {
@@ -1444,6 +1539,212 @@
       },
       "seconds": 12.0,
       "verb": "hammered the bloom into an iron axe"
+    },
+    "build_smoking_rack": {
+      "label": "build a smoking rack",
+      "tech": "E3.27",
+      "inputs": {
+        "branch": 4,
+        "cord": 2
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "smoking_rack"
+      },
+      "seconds": 8.0,
+      "verb": "lashed a tripod of green wood over a smudge fire"
+    },
+    "salt_meat": {
+      "label": "pack meat in salt",
+      "tech": "E5.33",
+      "inputs": {
+        "raw_meat": 1,
+        "salt": 1
+      },
+      "tools": [],
+      "outputs": {
+        "salted_meat": 1
+      },
+      "seconds": 3.0,
+      "verb": "packed meat in salt"
+    },
+    "brew_beer": {
+      "label": "brew beer",
+      "tech": "E5.31",
+      "station": "campfire",
+      "inputs": {
+        "grain": 3
+      },
+      "tools": [
+        "clay_pot"
+      ],
+      "outputs": {
+        "beer": 2
+      },
+      "seconds": 6.0,
+      "verb": "set a pot of mash to bubble: beer"
+    },
+    "pen_cattle": {
+      "label": "pen the roped cow",
+      "tech": "E5.20",
+      "requires_corral": true,
+      "inputs": {
+        "captured_cattle": 1
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "pen": "cattle"
+      },
+      "seconds": 4.0,
+      "verb": "led the cow into the corral"
+    },
+    "pen_pig": {
+      "label": "pen the trussed pig",
+      "tech": "E5.21",
+      "requires_corral": true,
+      "inputs": {
+        "captured_pig": 1
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "pen": "pig"
+      },
+      "seconds": 3.0,
+      "verb": "loosed the pig inside the corral"
+    },
+    "milk_cattle": {
+      "label": "milk the cows",
+      "tech": "E5.22",
+      "requires_herd": "cattle",
+      "inputs": {},
+      "tools": [],
+      "outputs": {
+        "milk": 2
+      },
+      "seconds": 5.0,
+      "verb": "milked the cows in the corral"
+    },
+    "slaughter_cattle": {
+      "label": "slaughter a cow from the herd",
+      "tech": "E5.20",
+      "requires_herd": "cattle",
+      "inputs": {},
+      "tools": [],
+      "outputs": {
+        "raw_meat": 5,
+        "raw_hide": 2
+      },
+      "effects": {
+        "herd_take": "cattle"
+      },
+      "seconds": 7.0,
+      "verb": "slaughtered a cow \u2014 a feast's worth of meat"
+    },
+    "slaughter_pig": {
+      "label": "slaughter a pig from the herd",
+      "tech": "E5.21",
+      "requires_herd": "pig",
+      "inputs": {},
+      "tools": [],
+      "outputs": {
+        "raw_meat": 4
+      },
+      "effects": {
+        "herd_take": "pig"
+      },
+      "seconds": 5.0,
+      "verb": "slaughtered a pig"
+    },
+    "train_ox": {
+      "label": "train a draft ox",
+      "tech": "E5.25",
+      "requires_herd": "cattle",
+      "inputs": {},
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "herd_take": "cattle",
+        "train_ox": true
+      },
+      "seconds": 8.0,
+      "verb": "gentled a young ox to the yoke"
+    },
+    "build_kiln": {
+      "label": "build a pottery kiln",
+      "tech": "E5.37",
+      "inputs": {
+        "mudbrick": 6,
+        "clay": 4
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "kiln"
+      },
+      "seconds": 14.0,
+      "verb": "raised a domed kiln of brick and clay"
+    },
+    "fire_pots": {
+      "label": "fire a batch of pots",
+      "tech": "E5.37",
+      "station": "kiln",
+      "inputs": {
+        "clay": 4
+      },
+      "tools": [],
+      "outputs": {
+        "clay_pot": 2
+      },
+      "seconds": 8.0,
+      "verb": "drew a glowing batch of pots from the kiln"
+    },
+    "make_dye": {
+      "label": "boil berry dye",
+      "tech": "E5.44",
+      "station": "campfire",
+      "inputs": {
+        "berries": 3
+      },
+      "tools": [
+        "clay_pot"
+      ],
+      "outputs": {
+        "dye": 1
+      },
+      "seconds": 4.0,
+      "verb": "boiled berries down to a deep red dye"
+    },
+    "dye_garment": {
+      "label": "dye a garment",
+      "tech": "E5.44",
+      "inputs": {
+        "woven_garment": 1,
+        "dye": 1
+      },
+      "tools": [],
+      "outputs": {
+        "dyed_garment": 1
+      },
+      "seconds": 3.0,
+      "verb": "dyed a garment a color no one had worn before"
+    },
+    "build_school": {
+      "label": "raise a school hall",
+      "tech": "E7.31",
+      "inputs": {
+        "branch": 8,
+        "mudbrick": 4
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "school"
+      },
+      "seconds": 16.0,
+      "verb": "raised a hall where the young are taught"
     }
   },
   "needs": {
@@ -1555,6 +1856,31 @@
       "model_height": 1.6,
       "min_fire_distance": 5.0,
       "ring_radius": 12.0
+    },
+    "smoking_rack": {
+      "label": "smoking rack",
+      "capacity": 20,
+      "vermin_safe": true,
+      "model_height": 1.6,
+      "min_fire_distance": 3.0,
+      "ring_radius": 8.0,
+      "processes": {
+        "raw_meat": "smoked_meat",
+        "fish": "smoked_fish"
+      }
+    },
+    "kiln": {
+      "label": "pottery kiln",
+      "station": true,
+      "model_height": 1.7,
+      "min_fire_distance": 5.0,
+      "ring_radius": 12.0
+    },
+    "school": {
+      "label": "school hall",
+      "model_height": 2.6,
+      "min_fire_distance": 5.0,
+      "ring_radius": 14.0
     }
   },
   "predators": {

@@ -334,6 +334,15 @@ async def _check_era(sock) -> None:
         await sock.send_json({"type": "era", "era": era, "name": name})
 
 
+def _effective_teach_cap(world, known_all, village_structs) -> int:
+    """Teach cap = 2 + diffusion speed — but the fast tiers (schools 4x and
+    up) need the INFRASTRUCTURE standing, not just the idea of it."""
+    speed = world.diffusion_speed(known_all) if world else 1
+    if speed >= 4 and "school" not in (village_structs or []):
+        speed = 2   # no school hall built -> capped at storytelling pace
+    return 2 + speed
+
+
 def _propose_trade(inv_a: dict, inv_b: dict):
     """Wave F barter: complementary surplus — I have plenty of something you
     lack, you have plenty of something I lack. One-for-one, deterministic."""
@@ -367,7 +376,8 @@ async def _run_converse(sock, a: Agent, b: Agent, world,
     known_all = set()
     for x in _living():
         known_all |= set(x.known_tech)
-    teach_cap = 2 + (world.diffusion_speed(known_all) if world else 1)
+    teach_cap = _effective_teach_cap(world, known_all,
+                                     getattr(app.state, "village_structs", []))
     for teacher, learner in ((a, b), (b, a)):
         teachable = sorted(set(teacher.known_tech) - set(learner.known_tech),
                            reverse=True)
@@ -674,6 +684,8 @@ async def ws_endpoint(sock: WebSocket):
                 await agent.remember("event", text, 6 if hurt else 2)
                 if hurt:
                     agent.feel(-15, "shaken and fearful", text)
+                elif "feels merry" in text:
+                    agent.feel(10, "merry", text)   # beer at the fire
                 # practice-based discovery: domestication is learned by DOING —
                 # three harvest cycles, not an idle flash of insight
                 world = app.state.world
@@ -700,6 +712,8 @@ async def ws_endpoint(sock: WebSocket):
                     await _run_converse(safe, a, b, app.state.world,
                                         inv_a=msg.get("inv_a"),
                                         inv_b=msg.get("inv_b"))
+            elif mtype == "village":
+                app.state.village_structs = list(msg.get("structures", []))
             elif mtype == "council":
                 members = [agents.get(str(n)) for n in msg.get("npcs", [])]
                 members = [m for m in members

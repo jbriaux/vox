@@ -695,7 +695,8 @@ class Agent:
                 return {"action": "eat", "target": catalog["eat"][0]["target"], "say": ""}
             if store.get("withdraw"):
                 return {"action": "withdraw", "target": store["withdraw"][0], "say": ""}
-            for rid in ("milk_goats", "slaughter_goat"):
+            for rid in ("milk_cattle", "milk_goats",
+                        "slaughter_pig", "slaughter_goat", "slaughter_cattle"):
                 if rid in craft_by_id:
                     return {"action": "craft", "target": rid, "say": ""}
             for rid in ("cook_meat", "roast_tubers", "dig_tubers"):
@@ -766,17 +767,19 @@ class Agent:
         #     live off the animals (milk, wool) instead of the hunt
         corral = state.get("corral") or {}
         if corral:
-            for rid in ("pen_goat", "pen_sheep"):
+            for rid in ("pen_goat", "pen_sheep", "pen_cattle", "pen_pig"):
                 c = craft_by_id.get(rid)
                 if c and c["ready"]:
                     return {"action": "craft", "target": rid, "say": ""}
             if int(corral.get("space", 0)) > 0:
-                for rtype in ("wild_goat", "wild_sheep"):
+                for rtype in ("wild_goat", "wild_sheep", "wild_cattle",
+                              "wild_pig"):
                     if rtype in gather_targets:
                         return {"action": "gather", "target": rtype, "say": ""}
-            if ("milk_goats" in craft_by_id and hunger >= 25
-                    and int(inv.get("milk", 0)) == 0):
-                return {"action": "craft", "target": "milk_goats", "say": ""}
+            for rid in ("milk_cattle", "milk_goats"):
+                if (rid in craft_by_id and hunger >= 25
+                        and int(inv.get("milk", 0)) == 0):
+                    return {"action": "craft", "target": rid, "say": ""}
             if "pluck_wool" in craft_by_id and int(inv.get("wool", 0)) < 2:
                 return {"action": "craft", "target": "pluck_wool", "say": ""}
         elif "build_corral" in craft_by_id:
@@ -788,12 +791,16 @@ class Agent:
             pick = craft_or_fetch("tame_dog")
             if pick:
                 return pick
-        # 4f. the metal age needs a furnace before anything can be smelted
-        if ("build_smelter" in craft_by_id
-                and "smelter" not in (state.get("stations") or [])):
-            pick = craft_or_fetch("build_smelter")
-            if pick:
-                return pick
+        # 4f. infrastructure the village lacks: whoever knows how, builds it
+        built = set(state.get("village") or []) | set(state.get("stations") or [])
+        for rid, kind in (("build_smelter", "smelter"),
+                          ("build_smoking_rack", "smoking_rack"),
+                          ("build_kiln", "kiln"),
+                          ("build_school", "school")):
+            if rid in craft_by_id and kind not in built:
+                pick = craft_or_fetch(rid)
+                if pick:
+                    return pick
         # 5. keep the band close: chat when someone is near and it's been a while
         if catalog.get("talk") and time.time() - self._last_talk_ts > TALK_COOLDOWN:
             return {"action": "talk", "target": catalog["talk"][0]["target"], "say": ""}

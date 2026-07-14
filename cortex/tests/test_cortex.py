@@ -634,6 +634,58 @@ def test_skill_library(world):
     print("  skill library OK")
 
 
+def test_wave_i(world):
+    """Wave I: infrastructure builds, wider herds, school-gated diffusion,
+    beer cheer."""
+    from cortex.agent import Agent
+    from cortex.llm import Embedder, make_llm
+    from cortex.memory import Memory
+    from cortex.server import _effective_teach_cap
+
+    tmp = Path(tempfile.mkdtemp(prefix="cortex_wavei_"))
+    agent = Agent("ira", {"name": "Ira",
+                          "known_tech": ["E1.01", "E2.07", "E2.28", "E3.27",
+                                         "E5.20", "E5.21", "E5.22", "E5.31",
+                                         "E5.33", "E5.37", "E7.31"]},
+                  make_llm({"provider": "mock"}), Memory(str(tmp / "i.sqlite")),
+                  world=world, embedder=Embedder({"provider": "mock"}))
+    agent.discovery_rate = 0.0
+    agent.skill_rate = 0.0
+
+    def decide(state):
+        return run(agent.decide(state, tier="scripted"))
+
+    base = {"needs": {"hunger": 10, "energy": 90}, "nearby": {},
+            "time_of_day": "day", "population": 10}
+    # no smoking rack anywhere -> build one (materials in hand)
+    r = decide({**base, "inventory": {"branch": 4, "cord": 2}})
+    assert (r["action"], r["target"]) == ("craft", "build_smoking_rack"), r
+    # rack exists -> the next gap is the kiln
+    r = decide({**base, "inventory": {"mudbrick": 6, "clay": 4},
+                "village": ["smoking_rack"]})
+    assert (r["action"], r["target"]) == ("craft", "build_kiln"), r
+    # cattle in the pen: starving -> milk them (cows before goats)
+    r = decide({**base, "needs": {"hunger": 70, "energy": 80}, "inventory": {},
+                "corral": {"distance": 3.0, "herd": {"cattle": 2}, "space": 6}})
+    assert (r["action"], r["target"]) == ("craft", "milk_cattle"), r
+    # a trussed pig in hand near the corral -> pen it
+    r = decide({**base, "inventory": {"captured_pig": 1},
+                "village": ["smoking_rack", "kiln", "school", "smelter"],
+                "corral": {"distance": 3.0, "herd": {}, "space": 8}})
+    assert (r["action"], r["target"]) == ("craft", "pen_pig"), r
+
+    # school gates the fast diffusion tiers: schools known but not built
+    known = {"E1.25", "E3.41", "E7.31"}
+    assert _effective_teach_cap(world, known, []) == 4          # capped at story
+    assert _effective_teach_cap(world, known, ["school"]) == 6  # hall standing
+    assert _effective_teach_cap(world, {"E1.25"}, []) == 3      # low tiers free
+
+    # beer: the merry event lifts the mood (server event path logic)
+    agent.feel(10, "merry", "drank beer and feels merry")
+    assert agent.mood.get("emotion") == "merry", agent.mood
+    print("  wave I OK")
+
+
 def test_discovery(world):
     from cortex.agent import Agent
     from cortex.llm import Embedder, make_llm
@@ -1216,6 +1268,7 @@ def main():
     test_herding_and_crafts(world)
     test_metallurgy_and_trade(world)
     test_skill_library(world)
+    test_wave_i(world)
     test_discovery(world)
     test_children(world)
     test_mood(world)

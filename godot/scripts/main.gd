@@ -155,6 +155,12 @@ func _start_game(size_chunks: int, preset: String, water := 0.20, map_seed := -1
 		var sspot := world.random_walkable_near(campfire.position, 8.0)
 		_place_structure("smelter", sspot)
 		print("[VOX E] test hook: starting smelter placed")
+	if OS.get_environment("VOX_START_RACK") == "1":
+		# test hook: a smoking rack with meat hung, so dawn processors show
+		var rspot := world.random_walkable_near(campfire.position, 7.0)
+		var rack := _place_structure("smoking_rack", rspot)
+		rack.store["raw_meat"] = 4
+		print("[VOX I] test hook: smoking rack placed (4 raw meat hung)")
 	if OS.get_environment("VOX_START_CORRAL") == "1":
 		# test hook: a corral with a goat pair so herding runs from minute one
 		var cspot := world.random_walkable_near(campfire.position, 9.0)
@@ -367,10 +373,12 @@ func _advance_time(delta: float) -> void:
 		_update_season()
 		_age_the_band()
 		_roll_birth()
+		_dawn_processors()   # smoke tonight's catch BEFORE the rot check
 		_dawn_economy()
 		_dawn_fields()
 		_dawn_herds()
 		_dawn_report()
+		_send_village()
 		_hold_councils()
 	if _sun != null:
 		var frac := _day_t / _day_seconds
@@ -546,6 +554,45 @@ func _on_council_end(data: Dictionary) -> void:
 		var line := "The council agreed: %s" % plan
 		print("[VOX COUNCIL] ", line)
 		chat_ui.add_line("world", "[b]%s[/b]" % line)
+
+
+func _dawn_processors() -> void:
+	## Dawn-processor pattern: structures with a "processes" map transform
+	## what was deposited in them overnight (smoking rack: raw -> smoked).
+	for s in structures:
+		var proc: Dictionary = tech.buildables.get(s.type, {}).get("processes", {})
+		if proc.is_empty():
+			continue
+		var made: Array = []
+		for item in proc.keys():
+			var n := int(s.store.get(item, 0))
+			if n <= 0:
+				continue
+			var out := str(proc[item])
+			s.store.erase(item)
+			s.store[out] = int(s.store.get(out, 0)) + n
+			made.append("%d %s" % [n, tech.item_label(out)])
+		if not made.is_empty():
+			var line := "the %s cured %s overnight" % [
+				str(tech.buildables.get(s.type, {}).get("label", s.type)),
+				", ".join(made)]
+			print("[VOX I] ", line)
+			chat_ui.add_line("world", "[i]%s[/i]" % line)
+
+
+func structure_kinds() -> Array:
+	var kinds := {}
+	for s in structures:
+		kinds[s.type] = true
+	return kinds.keys()
+
+
+func _send_village() -> void:
+	## Lightweight census so Cortex can gate infrastructure-dependent rules
+	## (the school makes the x4+ diffusion tiers real, not just known).
+	if cortex.online:
+		cortex.send({"type": "village", "structures": structure_kinds(),
+			"dogs": dogs, "oxen": oxen})
 
 
 func _dawn_report() -> void:
@@ -733,6 +780,8 @@ func build_structure(builder_pos: Vector3, kind: String) -> bool:
 
 func _place_structure(kind: String, spot: Vector3) -> Dictionary:
 	var cfg: Dictionary = tech.buildables.get(kind, {})
+	if cortex != null:
+		call_deferred("_send_village")   # new building — tell Cortex
 	var node := AssetLib.instantiate("structures/" + kind)
 	if node != null:
 		AssetLib.fit(node, float(cfg.get("model_height", 2.4)))
@@ -858,6 +907,7 @@ func nearest_station(kind: String, pos: Vector3) -> Dictionary:
 # ---------------------------------------------------------------- herding
 
 var dogs := 0   # village dogs: they keep the wolves honest near the fires
+var oxen := 0   # draft oxen (E5.25) — Wave L's plow teams will want them
 
 
 func nearest_corral(pos: Vector3) -> Dictionary:

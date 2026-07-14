@@ -22,6 +22,14 @@ LMB: order the focused NPC / **click any NPC to chat with them** · F: focus nex
 - **Routines spread like knowledge**: one per conversation, demonstrated at the fire (`*** Kara picked up the smoke the catch routine from Toran ***`) — over generations, villages develop distinct working cultures. Inspired by NVIDIA GEAR's Voyager skill library.
 - Routines abort honestly — a wolf, a missing ingredient, or a conversation interrupts the circuit and the villager says why.
 
+## What happens (Wave I — the pantry, the pen and the school)
+
+- **The smoking rack works while the village sleeps**: deposit raw meat or fish in it and dawn brings `the smoking rack cured 4 smoked meat overnight` — 20-day food from 1-day food. Salt flats on the shore give salted meat (30 days). The preservation ladder is complete: cook < dry < smoke < salt < pickle.
+- **Beer**: grain mashed in a pot becomes beer, and drinkers *feel merry* — the village's first luxury, and a mood you'll hear in their chatter.
+- **The corral fills out**: cattle (twice the milk, a feast of meat) and pigs join goats and sheep; a cow can be trained into a **draft ox** — Wave L's plow teams will want them.
+- **The kiln** batch-fires pots away from the campfire and boils berry dye for dyed garments — the first pure trade good.
+- **The school hall makes knowledge infrastructure real**: the ×4+ teaching tiers now require the building to be *standing*, not just the idea of schools to be known. Lose the hall, lose the pace.
+
 ## What happens (Waves E+F — metal and markets)
 
 - **Kara chases the copper**: green-stained veins (E6.04) in the stone give ore; branches char to charcoal at the fire (E6.05); mudbricks and clay raise a **smelter** — the village's first true workshop, and NPCs carry their ore to it like they carry meat to the fire.

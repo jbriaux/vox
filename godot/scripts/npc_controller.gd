@@ -135,6 +135,9 @@ func build_state() -> Dictionary:
 	var shops: Array = main.station_types()
 	if not shops.is_empty():
 		state["stations"] = shops
+	var village: Array = main.structure_kinds()
+	if not village.is_empty():
+		state["village"] = village
 	return state
 
 
@@ -613,6 +616,9 @@ func _on_work_done() -> void:
 			if recipe.get("effects", {}).get("tame_dog", false):
 				main.dogs += 1
 				print("[VOX C] a dog joins the village (%d now)" % main.dogs)
+			if recipe.get("effects", {}).get("train_ox", false):
+				main.oxen += 1
+				print("[VOX I] a draft ox joins the village (%d now)" % main.oxen)
 			if recipe.get("effects", {}).has("pen"):
 				var penned: String = main.pen_animal(self, str(recipe.effects.pen))
 				if penned == "":
@@ -658,7 +664,10 @@ func _on_work_done() -> void:
 			if int(npc.inventory[item]) <= 0:
 				npc.inventory.erase(item)
 			npc.hunger = clampf(npc.hunger - tech.food_hunger_value(item), 0.0, 100.0)
-			emit_event("ate %s" % tech.item_label(item))
+			if tech.items.get(item, {}).get("cheer", false):
+				emit_event("drank %s and feels merry" % tech.item_label(item))
+			else:
+				emit_event("ate %s" % tech.item_label(item))
 			_finish_goal()
 
 

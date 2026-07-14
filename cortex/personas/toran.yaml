@@ -36,3 +36,6 @@ known_tech:
   - E5.19   # herding
   - E5.22   # milking
   - E5.24   # wool plucking
+  - E5.20   # cattle domestication
+  - E5.21   # pig domestication
+  - E5.25   # draft oxen

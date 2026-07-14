@@ -104,7 +104,7 @@ extensions of the existing structure system:
   clock tower speeds work). One `aura` dict on the structure entry + one
   check where needs/mood/teaching already tick.
 
-## Wave I — Loose ends of the first arc  *(S–M effort, do first)*
+## Wave I — Loose ends of the first arc  *(S–M effort, do first)* ✅ DONE
 **Tree**: E3.27/E4.24 smoking, E5.33 salt, E5.31 beer, E5.20/21/25 cattle-pigs-oxen, E5.35–37 kiln, E5.44 dyes, E7.31 school.
 - **Smoking rack** (dawn processor): raw meat/fish → smoked (20-day shelf life) — finishes the preservation ladder started in Wave A.
 - **Salt** gathering on shore cells + salted meat recipe.
@@ -112,6 +112,7 @@ extensions of the existing structure system:
 - **Cattle & pigs** join the corral (data-only: two more capture/pen/slaughter rows); **draft oxen** (E5.25) speed plow-field work once Wave L's plow exists.
 - **Kiln** (E5.37): second station structure; fires pots without the campfire and unlocks **dyes** (E5.44) → dyed garments (pure trade goods).
 - **School** (E7.31 structure): a built school makes the existing ×4 diffusion *conditional on the building standing* — knowledge infrastructure you can point at (and lose).
+**Shipped**: smoking rack = first **dawn processor** (raw meat/fish deposited in it cure overnight, 20-day shelf life); salt flats on shore sand → salted meat (30 days); beer (grain + pot at the fire) → "feels merry" mood lift; cattle (milk ×2, meat ×5) and pigs join the corral, `train_ox` converts a cow to a counted draft ox for Wave L; kiln = second station (batch-fires 2 pots, boils berry dye → dyed garments); school hall gates the ×4+ diffusion tiers on the *building standing* (Godot sends a `village` structure census; teach cap clamps to storytelling pace without it). Infrastructure instinct generalized: whoever knows a missing building's tech builds it (smelter/rack/kiln/school).
 
 ## Wave J — Power  *(M effort — the industrial hinge)*
 **Tree**: E8.18–20 querns/mills, E9.05 mechanics, E9.11–12 gearing & trip hammers, E9.40 screw press, E10.08 windmill, E10.10 cams.
