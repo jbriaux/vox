@@ -124,6 +124,11 @@ Press **Start**: the world generates (a fresh random seed every new game), the c
 - `======== THE BAND HAS ENTERED THE MIDDLE PALEOLITHIC ========` — the point of it all.
 - Every dawn, the console prints a chronicle line: alive count, season, era, fire fuel, births, deaths.
 
+## 4b. Where the logs live
+
+- **Cortex** (the minds' chronicle — every discovery, teaching, trade, raid, council plan): written automatically to `cortex/data/logs/cortex_<timestamp>.log`, one file per run (`--no-log-file` to disable).
+- **Godot** (the bodies): `%APPDATA%\Godotpp_userdata\VOX P0 — Voxel World\logs\godot.log` (rotated automatically).
+
 ## 5. Time-lapse mode (optional)
 
 Real-time days are 4 minutes. To watch generations pass, set env vars **before launching**:

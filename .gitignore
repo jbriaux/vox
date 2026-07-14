@@ -5,6 +5,7 @@ godot/.godot/
 cortex/data/memory/
 cortex/data/memory_emergent/
 cortex/data/memtest/
+cortex/data/logs/
 
 # python
 __pycache__/
