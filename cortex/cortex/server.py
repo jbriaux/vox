@@ -343,16 +343,35 @@ def _effective_teach_cap(world, known_all, village_structs) -> int:
     return 2 + speed
 
 
-def _propose_trade(inv_a: dict, inv_b: dict):
+def _propose_trade(inv_a: dict, inv_b: dict, world=None):
     """Wave F barter: complementary surplus — I have plenty of something you
-    lack, you have plenty of something I lack. One-for-one, deterministic."""
+    lack, you have plenty of something I lack. One-for-one, deterministic.
+    Wave M: with no matching surplus, coins buy things — whoever holds money
+    can purchase a unit of the other's surplus at world.item_value prices."""
     inv_a, inv_b = inv_a or {}, inv_b or {}
     surplus_a = sorted(it for it, n in inv_a.items()
-                       if int(n) >= 3 and int(inv_b.get(it, 0)) == 0)
+                       if it != "coin" and int(n) >= 3
+                       and int(inv_b.get(it, 0)) == 0)
     surplus_b = sorted(it for it, n in inv_b.items()
-                       if int(n) >= 3 and int(inv_a.get(it, 0)) == 0)
+                       if it != "coin" and int(n) >= 3
+                       and int(inv_a.get(it, 0)) == 0)
     if surplus_a and surplus_b:
-        return {"give": surplus_a[0], "take": surplus_b[0]}
+        return {"give": surplus_a[0], "give_n": 1,
+                "take": surplus_b[0], "take_n": 1}
+    if world is None:
+        return None
+    # purchase fallback — buyer first by whoever is richer
+    sides = [("a", inv_a, surplus_b), ("b", inv_b, surplus_a)]
+    sides.sort(key=lambda s: -int(s[1].get("coin", 0)))
+    for side, purse, wares in sides:
+        coins = int(purse.get("coin", 0))
+        if coins <= 0 or not wares:
+            continue
+        item = wares[0]
+        price = min(coins, world.item_value(item))
+        if side == "a":
+            return {"give": "coin", "give_n": price, "take": item, "take_n": 1}
+        return {"give": item, "give_n": 1, "take": "coin", "take_n": price}
     return None
 
 
@@ -438,23 +457,28 @@ async def _run_converse(sock, a: Agent, b: Agent, world,
               f"'{name}'")
         break
 
-    # Wave F: barter — surplus changes hands when it complements a lack
-    swap = _propose_trade(inv_a, inv_b)
+    # Wave F barter + Wave M purchases: goods (or coins) change hands
+    swap = _propose_trade(inv_a, inv_b, world)
     if swap is not None and world:
-        give_name = world.items.get(swap["give"], {}).get("label", swap["give"])
-        take_name = world.items.get(swap["take"], {}).get("label", swap["take"])
+        def _named(item, n):
+            label = world.items.get(item, {}).get("label", item)
+            return f"{n} {label}" if n != 1 else label
+        gave = _named(swap["give"], swap.get("give_n", 1))
+        took = _named(swap["take"], swap.get("take_n", 1))
         await sock.send_json({"type": "trade", "a": a.name, "b": b.name,
-                              "give": swap["give"], "take": swap["take"]})
-        await a.remember("social", f"traded my {give_name} for "
-                         f"{b.name.capitalize()}'s {take_name}", 4)
-        await b.remember("social", f"traded my {take_name} for "
-                         f"{a.name.capitalize()}'s {give_name}", 4)
+                              "give": swap["give"],
+                              "give_n": swap.get("give_n", 1),
+                              "take": swap["take"],
+                              "take_n": swap.get("take_n", 1)})
+        await a.remember("social", f"traded my {gave} for "
+                         f"{b.name.capitalize()}'s {took}", 4)
+        await b.remember("social", f"traded my {took} for "
+                         f"{a.name.capitalize()}'s {gave}", 4)
         a.memory.rel_update(b.name, d_affinity=3, d_trust=4, d_familiarity=4,
                             note="we trade")
         b.memory.rel_update(a.name, d_affinity=3, d_trust=4, d_familiarity=4,
                             note="we trade")
-        print(f"[cortex] TRADE: {a.name} gave {swap['give']} for "
-              f"{b.name}'s {swap['take']}")
+        print(f"[cortex] TRADE: {a.name} gave {gave} for {b.name}'s {took}")
 
     # both sides remember the meeting and grow a little closer
     if history:

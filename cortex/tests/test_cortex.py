@@ -572,10 +572,24 @@ def test_metallurgy_and_trade(world):
 
     # Wave F barter: complementary surplus swaps, anything else doesn't
     swap = _propose_trade({"dried_meat": 4, "flint": 1},
-                          {"berries": 5, "flint": 2})
-    assert swap == {"give": "dried_meat", "take": "berries"}, swap
-    assert _propose_trade({"berries": 5}, {"berries": 4}) is None
-    assert _propose_trade({"berries": 2}, {"flint": 5}) is None  # no surplus
+                          {"berries": 5, "flint": 2}, world)
+    assert swap == {"give": "dried_meat", "give_n": 1,
+                    "take": "berries", "take_n": 1}, swap
+    assert _propose_trade({"berries": 5}, {"berries": 4}, world) is None
+    assert _propose_trade({"berries": 2}, {"flint": 5}, world) is None
+
+    # Wave M: coins buy what barter can't — no complementary surplus, but
+    # a full purse meets a full larder
+    deal = _propose_trade({"coin": 10}, {"dried_meat": 5}, world)
+    assert deal and deal["give"] == "coin" and deal["take"] == "dried_meat", deal
+    assert deal["give_n"] == world.item_value("dried_meat") == 5, deal
+    # seller side too: b holds the coins
+    deal = _propose_trade({"berries": 6}, {"coin": 4}, world)
+    assert deal and deal["take"] == "coin" and deal["give"] == "berries", deal
+    # coins never count as tradeable surplus themselves
+    assert _propose_trade({"coin": 12}, {"coin": 3}, world) is None
+    # penniless + mismatched -> still no deal
+    assert _propose_trade({"berries": 2}, {"flint": 5}, world) is None
     print("  metallurgy + trade OK")
 
 

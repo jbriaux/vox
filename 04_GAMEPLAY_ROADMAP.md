@@ -139,11 +139,12 @@ extensions of the existing structure system:
 - **Hospital**: aura heals the injured/sick faster; **clock tower**: village-wide small work-speed bonus (shared time discipline).
 - **Print shop** (E10.17/44): dawn processor that turns paper + a knower's tech into **books** — physical items that carry a technology. Reading a book teaches its tech; books survive their authors: *portable, tradeable, lootable archives*. This is the knowledge-death mitigation made tangible (and the single most emergent-friendly item in the plan).
 
-## Wave M — Coin & commerce  *(S–M effort, anytime after E)*
+## Wave M — Coin & commerce  *(S–M effort, anytime after E)* ✅ DONE (market stall waits for K)
 **Tree**: E8.30 coinage, E8.31 markets, E8.32 credit, E9.46 mints, E10.39 bookkeeping.
 - **Coins**: minted at the smithy from copper/silver ingots; a universal trade good.
 - **Barter upgrade**: when no complementary surplus exists, `_propose_trade` falls back to *purchase* — goods for coins at simple valuations. Wealth becomes visible (and hoardable, and inheritable).
 - **Market stall** (with Wave K's forum): posted offers let villagers trade with the commons asynchronously.
+**Shipped**: `mint_coins` at the smelter (copper ingot + hammerstone → 8 stamped coins, E8.30); `world.item_value` prices everything (food by nourishment, tools by quality); `_propose_trade` falls back to **purchase** when no complementary surplus exists — the richer side buys a unit of the other's surplus, trades now carry counts (`give_n`/`take_n`); coins never count as barter surplus. **Inheritance**: a dead villager's entire pouch passes to the nearest living neighbor (`took up what X left behind`) — coins, iron axes and all; wealth outlives its earner. Market stall deferred to Wave K's forum.
 
 ## Order & dependencies
 

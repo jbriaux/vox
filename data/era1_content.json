@@ -669,6 +669,9 @@
     "dyed_garment": {
       "label": "dyed garment",
       "warmth": true
+    },
+    "coin": {
+      "label": "copper coins"
     }
   },
   "recipes": {
@@ -1836,6 +1839,22 @@
       },
       "seconds": 6.0,
       "verb": "pressed berries into sealed preserves"
+    },
+    "mint_coins": {
+      "label": "strike coins from an ingot",
+      "tech": "E8.30",
+      "station": "smelter",
+      "inputs": {
+        "copper_ingot": 1
+      },
+      "tools": [
+        "hammerstone"
+      ],
+      "outputs": {
+        "coin": 8
+      },
+      "seconds": 6.0,
+      "verb": "struck eight stamped coins from an ingot"
     }
   },
   "needs": {

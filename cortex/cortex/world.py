@@ -109,6 +109,18 @@ class World:
     def is_food(self, item: str) -> bool:
         return "food" in self.items.get(item, {})
 
+    def item_value(self, item: str) -> int:
+        """Rough price in coins (Wave M barter fallback). Food is worth its
+        nourishment, tools their quality; everything else is small change."""
+        it = self.items.get(item, {})
+        if item == "coin":
+            return 1
+        if "food" in it:
+            return max(1, round(float(it["food"].get("hunger", 5)) / 8.0))
+        if it.get("tool"):
+            return max(3, round(float(it.get("quality", 1.0)) * 5.0))
+        return 2
+
     def known_recipes(self, known_tech) -> dict:
         known = set(known_tech or [])
         return {rid: r for rid, r in self.recipes.items() if r.get("tech") in known}

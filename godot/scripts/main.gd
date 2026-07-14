@@ -655,6 +655,29 @@ func _kill_npc(ctrl: NPCController, cause: String = "starvation") -> void:
 	print("[VOX P4] DEATH: %s died of %s on day %d (age %d)"
 		% [display, cause, day_number, roundi(ctrl.npc.age)])
 	chat_ui.add_line("world", "[b]%s has died of %s.[/b]" % [display, cause])
+	# Wave M: the pouch is inherited — coins, tools and all. The nearest
+	# living villager takes up what the dead one carried.
+	if not ctrl.npc.inventory.is_empty():
+		var heir: NPCController = null
+		var best_d := INF
+		for other_id in controllers:
+			var other: NPCController = controllers[other_id]
+			if other == ctrl or other.npc.dead:
+				continue
+			var dist := NPCController._flat_dist(ctrl.npc.position,
+				other.npc.position)
+			if dist < best_d:
+				best_d = dist
+				heir = other
+		if heir != null:
+			var parts: Array = []
+			for item in ctrl.npc.inventory:
+				parts.append("%d %s" % [int(ctrl.npc.inventory[item]),
+					tech.item_label(item)])
+			heir.npc.add_items(ctrl.npc.inventory)
+			ctrl.npc.inventory.clear()
+			heir.emit_event("took up what %s left behind: %s"
+				% [display, ", ".join(parts)])
 	if cortex.online:
 		cortex.send({"type": "died", "npc": ctrl.id, "cause": cause})
 	controllers.erase(ctrl.id)
@@ -1394,20 +1417,24 @@ func _on_trade(data: Dictionary) -> void:
 	var b: NPCController = controllers.get(str(data.get("b", "")))
 	var give := str(data.get("give", ""))
 	var take := str(data.get("take", ""))
+	var give_n := maxi(1, int(data.get("give_n", 1)))
+	var take_n := maxi(1, int(data.get("take_n", 1)))
 	if a == null or b == null or give == "" or take == "":
 		return
-	if int(a.npc.inventory.get(give, 0)) < 1 or int(b.npc.inventory.get(take, 0)) < 1:
-		return   # the surplus was eaten/spent since the converse began
-	a.npc.inventory[give] = int(a.npc.inventory[give]) - 1
+	if int(a.npc.inventory.get(give, 0)) < give_n \
+			or int(b.npc.inventory.get(take, 0)) < take_n:
+		return   # the goods were eaten/spent since the converse began
+	a.npc.inventory[give] = int(a.npc.inventory[give]) - give_n
 	if int(a.npc.inventory[give]) <= 0:
 		a.npc.inventory.erase(give)
-	b.npc.inventory[take] = int(b.npc.inventory[take]) - 1
+	b.npc.inventory[take] = int(b.npc.inventory[take]) - take_n
 	if int(b.npc.inventory[take]) <= 0:
 		b.npc.inventory.erase(take)
-	a.npc.add_items({take: 1})
-	b.npc.add_items({give: 1})
-	var line := "%s traded %s for %s's %s" % [a.npc.npc_name,
-		tech.item_label(give), b.npc.npc_name, tech.item_label(take)]
+	a.npc.add_items({take: take_n})
+	b.npc.add_items({give: give_n})
+	var line := "%s traded %d %s for %s's %d %s" % [a.npc.npc_name,
+		give_n, tech.item_label(give), b.npc.npc_name, take_n,
+		tech.item_label(take)]
 	print("[VOX F] TRADE: ", line)
 	chat_ui.add_line("world", "[i]%s[/i]" % line)
 
