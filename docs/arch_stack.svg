@@ -92,7 +92,7 @@
   <!-- shared data foundation -->
   <rect x="40" y="460" width="540" height="70" rx="10" fill="#f3eefb" stroke="#8a6cbf" stroke-width="2"/>
   <text x="310" y="486" text-anchor="middle" font-size="14" font-weight="700" fill="#4d3a76">SHARED DATA — data/*.json (same files, two readers)</text>
-  <text x="310" y="508" text-anchor="middle" font-size="12" fill="#5c4a85">tech_tree.json (340 nodes E1–E8) · era1_content.json (resources, recipes, buildables, needs) · traits.json</text>
+  <text x="310" y="508" text-anchor="middle" font-size="12" fill="#5c4a85">tech_tree.json (440 nodes E1–E10) · era1_content.json (resources, recipes, buildables, needs) · traits.json</text>
   <g stroke="#8a6cbf" stroke-width="1.5" stroke-dasharray="4 3" fill="none">
     <line x1="165" y1="430" x2="165" y2="460"/>
     <line x1="455" y1="430" x2="455" y2="460"/>

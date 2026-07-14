@@ -1,7 +1,7 @@
 # VOX
 
 **A voxel world where LLM-driven villagers climb from the Stone Age to the
-Iron Age — by living, talking, and figuring it out.**
+Middle Ages — by living, talking, and figuring it out.**
 
 No quest scripts, no global tech pool. Every villager is a persistent mind
 with a personality, memories, moods, relationships, and a pouch of things it
@@ -9,7 +9,7 @@ carries. Knowledge exists only in heads: it is *discovered* by one villager
 (insight at the fire, seasons of practice, a copper nugget left in the
 hearth), *spreads* only through conversation (teaching, routines, barter,
 dawn councils), and *dies* with its last knower. The settlement's era — Lower
-Paleolithic through Iron Age, across a 340-node tech tree — is an emergent
+Paleolithic through the Middle Ages, across a 440-node tech tree — is an emergent
 property of who knows what and who talked to whom before they died.
 
 ![Architecture overview](docs/arch_stack.svg)
@@ -66,7 +66,7 @@ python -m cortex --config config.mock.yaml     # offline minds, no GPU
 | Doc | What's in it |
 |---|---|
 | [00_MASTER_PLAN.md](00_MASTER_PLAN.md) | vision and phase history |
-| [01_TECH_TREE.md](01_TECH_TREE.md) | the 340-node tree, eras E1–E8 |
+| [01_TECH_TREE.md](01_TECH_TREE.md) | the 440-node tree, eras E1–E10 |
 | [02_WORLD_ELEMENTS.md](02_WORLD_ELEMENTS.md) | world design |
 | [03_NPC_PERSONALITY.md](03_NPC_PERSONALITY.md) | trait system, personas |
 | [04_GAMEPLAY_ROADMAP.md](04_GAMEPLAY_ROADMAP.md) | feature waves A–H and their status |

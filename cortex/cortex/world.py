@@ -22,6 +22,8 @@ class World:
         self.meta = tree.get("meta", {})
         self.settlement_era = 1   # updated by the server as the village learns
         self.nodes = {n["id"]: n for n in tree.get("nodes", [])}
+        self.max_era = max((int(n["era"][1:]) for n in self.nodes.values()),
+                           default=1)
         self.resources = content.get("resources", {})
         self.items = content.get("items", {})
         self.recipes = content.get("recipes", {})
@@ -77,11 +79,16 @@ class World:
         return any(t in known
                    for t in self.meta.get("rules", {}).get("loss_mitigated_by", []))
 
+    @staticmethod
+    def _era_of(tech_id: str) -> str:
+        # exact era key — startswith("E1.") would also match E10.xx
+        return tech_id.split(".")[0]
+
     def next_gates(self) -> list:
         """The bottleneck techs of the settlement's CURRENT era — the doors
         to the next age."""
         return [b for b in self.meta.get("bottlenecks", [])
-                if b.startswith(f"E{self.settlement_era}.")]
+                if self._era_of(b) == f"E{self.settlement_era}"]
 
     def compute_era(self, known) -> int:
         """Settlement era: era N is reached when every bottleneck of era N-1 is
@@ -89,12 +96,12 @@ class World:
         skip one."""
         known = set(known)
         era = 1
-        for n in range(2, 9):
+        for n in range(2, self.max_era + 1):
             gates = [b for b in self.meta.get("bottlenecks", [])
-                     if b.startswith(f"E{n - 1}.")]
+                     if self._era_of(b) == f"E{n - 1}"]
             if not all(b in known for b in gates):
                 break
-            if sum(1 for t in known if t.startswith(f"E{n}.")) < 3:
+            if sum(1 for t in known if self._era_of(t) == f"E{n}") < 3:
                 break
             era = n
         return era

@@ -25,22 +25,26 @@ ERAS = {
     "E6": "Chalcolithic (Copper Age)",
     "E7": "Bronze Age",
     "E8": "Iron Age",
+    "E9": "Classical Antiquity",
+    "E10": "Middle Ages",
 }
 TAGMAP = {"i": "items", "b": "blocks", "s": "structures", "a": "actions"}
 
 META = {
     "name": "VOX Technology Tree",
-    "version": "1.0",
+    "version": "1.1",
     "source": "01_TECH_TREE.md",
     "eras": ERAS,
     "bottlenecks": ["E1.18", "E2.10", "E4.06", "E5.05", "E5.34",
-                    "E6.07", "E7.02", "E7.30", "E8.02", "E8.30"],
-    "terminal_nodes": ["E8.20", "E8.41", "E8.42", "E8.44"],
+                    "E6.07", "E7.02", "E7.30", "E8.02", "E8.30",
+                    "E9.02", "E9.13", "E10.18", "E10.44"],
+    "terminal_nodes": ["E10.22", "E10.31", "E10.44", "E10.48"],
     "diffusion_tiers": [
         {"tech": "E1.25", "method": "demonstration", "speed": 1},
         {"tech": "E3.41", "method": "storytelling", "speed": 2},
         {"tech": "E7.31", "method": "schools", "speed": 4},
         {"tech": "E8.29", "method": "alphabetic literacy", "speed": 8},
+        {"tech": "E10.17", "method": "woodblock printing", "speed": 12},
     ],
     "rules": {
         "knowledge_holder": "npc",
@@ -50,7 +54,7 @@ META = {
     },
 }
 
-ID_RE = r"E\d\.\d{2}"
+ID_RE = r"E\d{1,2}\.\d{2}"
 ROW_RE = re.compile(
     r"^\| (" + ID_RE + r") \| (.+?) \| (.+?) \| (.+?) \| (.+?) \|\s*$", re.M
 )

@@ -159,7 +159,8 @@ class Agent:
         if not self.world:
             return []
         known = set(self.known_tech)
-        max_era = min(8, getattr(self.world, "settlement_era", 1) + 1)
+        max_era = min(getattr(self.world, "max_era", 8),
+                      getattr(self.world, "settlement_era", 1) + 1)
         out = []
         for tid, node in self.world.nodes.items():
             if tid in known or int(node["era"][1:]) > max_era:

@@ -1,6 +1,6 @@
 # VOX Gameplay Roadmap — from the Tech Tree to Playable Systems
 
-Maps `01_TECH_TREE.md` (340 nodes, E1–E8) onto engine work. Everything is
+Maps `01_TECH_TREE.md` (440 nodes, E1–E10) onto engine work. Everything is
 *discoverable/teachable knowledge* today; this plan is about which nodes get
 **gameplay** and what new engine verbs each wave needs. Status: E1 fully
 playable, E2 mostly, E3–E4 partially (blades, sewing, bow, fishing, traps

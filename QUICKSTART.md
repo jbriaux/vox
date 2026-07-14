@@ -53,7 +53,7 @@ python -m cortex --config config.yaml     # default config already points at :80
 
 You should see:
 ```
-[cortex] world loaded: 340 tech nodes, 19 recipes, 6 resource types
+[cortex] world loaded: 440 tech nodes, 19 recipes, 6 resource types
 [cortex] village extras cast: [arok, besh, ...]
 [cortex] settlement era: 1 (Lower Paleolithic)
 [cortex] agents ready: 30 (anon, toran, kara, bren, ...)

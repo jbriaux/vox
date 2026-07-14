@@ -1,13 +1,13 @@
-# VOX Tech Tree — Stone Age to End of Iron Age
+# VOX Tech Tree — Stone Age to the End of the Middle Ages
 
-A DAG of ~340 technology nodes across 8 eras. Each node: **ID | Technology | Prereqs | Needs | Introduces**.
+A DAG of ~440 technology nodes across 10 eras. Each node: **ID | Technology | Prereqs | Needs | Introduces**.
 
 - **Prereqs** — node IDs that must be known (by at least one NPC in the settlement).
 - **Needs** — materials, tools or stations that must physically exist to practice it.
 - **Introduces** — items (i), blocks (b), structures (s), and actions/abilities (a) it adds to the world. Full reverse index in `02_WORLD_ELEMENTS.md`.
 - Eras are labels, not gates: an isolated village can be "in" E5 for pottery and E3 for hunting.
 
-Eras: **E1** Lower Paleolithic · **E2** Middle Paleolithic · **E3** Upper Paleolithic · **E4** Mesolithic · **E5** Neolithic · **E6** Chalcolithic (Copper) · **E7** Bronze Age · **E8** Iron Age
+Eras: **E1** Lower Paleolithic · **E2** Middle Paleolithic · **E3** Upper Paleolithic · **E4** Mesolithic · **E5** Neolithic · **E6** Chalcolithic (Copper) · **E7** Bronze Age · **E8** Iron Age · **E9** Classical Antiquity · **E10** Medieval
 
 ---
 
@@ -425,11 +425,125 @@ Eras: **E1** Lower Paleolithic · **E2** Middle Paleolithic · **E3** Upper Pale
 
 ---
 
+## E9 — Classical Antiquity (~50 nodes)
+
+| ID | Technology | Prereqs | Needs | Introduces |
+|---|---|---|---|---|
+| E9.01 | Codified written law | E8.29, E7.34 | inscribed stelae | a: public law, contracts enforceable |
+| E9.02 | Geometry & formal proof | E8.33, E8.34 | schools, diagrams | a: exact measurement, engineering math |
+| E9.03 | Natural philosophy | E9.02, E8.34 | leisure class, debate | a: systematic inquiry (discovery boost) |
+| E9.04 | Astronomy & calendars (exact) | E9.02, E5.61 | star tables | a: solstice-true calendar, navigation stars |
+| E9.05 | Mechanics (lever, screw, gear) | E9.02, E8.21 | worked metal, lathes | i: gears, screws; a: machine design |
+| E9.06 | Compound pulley & crane | E9.05, E7.43 | ropes, sheaves, timber | s: crane (heavy construction) |
+| E9.07 | Archimedes screw | E9.05 | wooden screw, trough | i: water screw (irrigation, drainage) |
+| E9.08 | Force pump | E9.05, E7.13 | bronze cylinders, valves | i: piston pump (wells, firefighting) |
+| E9.09 | Water clock (refined) | E9.05, E7.21 | regulated flow vessel | i: clepsydra (timed law, astronomy) |
+| E9.10 | Odometer & surveying instruments | E9.05, E8.33 | gears, groma | i: odometer, dioptra (precise roads) |
+| E9.11 | Watermill gearing (widespread) | E8.20, E9.05 | gear trains | s: geared mill (regional flour supply) |
+| E9.12 | Rotary press & trip hammer | E9.11 | cams on waterwheel | s: fulling/hammer mill |
+| E9.13 | Roman concrete (pozzolana) | E7.41, E6.30 | volcanic ash, lime, rubble | b: concrete (piers, vaults, harbors) |
+| E9.14 | Vault & dome | E8.24, E9.13 | centering, concrete | b: vault, dome (basilicas, baths) |
+| E9.15 | Hypocaust heating | E9.13, E7.45 | raised floors, furnace | s: heated floors (baths, villas) |
+| E9.16 | Public baths | E9.15, E8.28 | aqueduct water, fuel | s: bathhouse (health, social hub) |
+| E9.17 | Glass windows & mirrors | E8.42 | flat glass, polish | i: window pane, mirror |
+| E9.18 | Paved highway network | E8.26, E9.10 | survey, gravel, curbs | b: highway (fast armies & trade) |
+| E9.19 | Arched stone aqueducts (long-span) | E8.28, E9.14 | arcades, gradients | s: grand aqueduct (true cities) |
+| E9.20 | Urban planning (grid) | E9.18, E8.27 | survey, zoning | a: planned towns (insulae, forums) |
+| E9.21 | Harbor engineering | E9.13, E7.26 | concrete piers, moles | s: harbor (all-weather trade) |
+| E9.22 | Lighthouse | E9.21, E8.42 | tower, mirror/fire | s: lighthouse (safe night sailing) |
+| E9.23 | Lateen & multi-mast sailing | E7.26, E9.21 | new rigs | i: coastal traders (sail upwind) |
+| E9.24 | Naval warfare (ram & marines) | E9.23, E8.14 | war galleys | a: fleet doctrine |
+| E9.25 | Professional standing army | E8.17, E9.01 | pay (coin), drill | a: legions (drilled formations) |
+| E9.26 | Siegecraft (towers, rams, mines) | E8.44, E9.06 | timber, engineering corps | a: methodical sieges |
+| E9.27 | Stone fortification (curtain & tower) | E9.13, E7.42 | ashlar, mortar | s: city walls (stone) |
+| E9.28 | Military logistics & supply | E9.18, E8.39 | roads, depots, carts | a: campaign supply lines |
+| E9.29 | Republic & civic office | E9.01 | assemblies, magistrates | a: elected office, civic duty |
+| E9.30 | Census & taxation | E9.29, E7.34 | registers | a: state revenue, headcounts |
+| E9.31 | Courts & advocacy | E9.01, E9.29 | forum, juries | a: trials, legal profession |
+| E9.32 | Theater & drama | E3.41, E9.20 | amphitheater | s: theater (culture, morale) |
+| E9.33 | Stadium games & festivals | E9.32 | arena, calendar feasts | s: stadium; a: public games |
+| E9.34 | History writing | E8.29, E8.34 | archives, travel | a: recorded past (memory beyond lifespan) |
+| E9.35 | Rhetoric & formal education | E7.31, E9.03 | teachers, texts | a: persuasion, curricula (teach boost) |
+| E9.36 | Medicine (humoral & surgical schools) | E8.35, E9.03 | surgical steel, texts | a: hospitals (proto), field surgery |
+| E9.37 | Pharmacology (materia medica) | E9.36, E2.25 | herbals, trade drugs | i: compounded remedies |
+| E9.38 | Botany & agronomy manuals | E9.34, E5.12 | estate records | a: written farming science |
+| E9.39 | Estate agriculture (villa) | E9.38, E8.13 | slaves/tenants, iron tools | a: large-scale farming |
+| E9.40 | Screw press (oil, wine, cloth) | E9.05, E8.38 | wooden screw | s: screw press (yield jump) |
+| E9.41 | Grafting & orchard science | E9.38, E5.15 | rootstocks | a: improved fruit varieties |
+| E9.42 | Ice houses & cold storage | E9.13, E5.11 | insulated pits | s: ice house (elite preservation) |
+| E9.43 | Sausage, garum & preserved trade foods | E5.32, E9.21 | salting vats, amphorae | i: preserved trade foods |
+| E9.44 | Blown window glass industry | E9.17, E8.45 | glass workshops | i: cheap glassware |
+| E9.45 | Fine metalworking (lost-wax at scale) | E7.04, E8.45 | workshops, bellows | i: statuary, fine bronzes |
+| E9.46 | Minted currency systems | E8.30, E9.30 | state mints | a: standard denominations, wages |
+| E9.47 | Banking & maritime loans | E8.32, E9.21 | contracts, notaries | a: insurance, big-venture finance |
+| E9.48 | Postal relays & couriers | E9.18, E6.36 | road stations, riders | a: fast state messages |
+| E9.49 | Paper precursors (papyrus/parchment at scale) | E8.29, E9.35 | reed/skin workshops | i: cheap writing sheets |
+| E9.50 | Encyclopedic scholarship | E9.34, E9.03, E8.34 | libraries, copyists | a: compiled knowledge (loss-proofing) |
+
+---
+
+## E10 — Medieval (~50 nodes)
+
+| ID | Technology | Prereqs | Needs | Introduces |
+|---|---|---|---|---|
+| E10.01 | Heavy moldboard plow | E8.13 | iron share, wheels, team | i: heavy plow (clay lowlands open) |
+| E10.02 | Horse collar & harness | E10.01, E6.36 | padded collar | a: horse traction (2× ox speed) |
+| E10.03 | Horseshoes (nailed) | E8.05, E6.36 | iron shoes, farrier | i: horseshoe (roads, winter work) |
+| E10.04 | Whippletree & tandem teams | E10.02 | linkages | a: multi-animal hitching |
+| E10.05 | Three-field rotation | E5.12, E10.01 | village field law | a: +1/3 cropland productivity |
+| E10.06 | Legumes & fodder rotation | E10.05, E5.06 | peas/beans/vetch seed | a: soil nitrogen, winter fodder |
+| E10.07 | Wheelbarrow | E6.16, E8.22 | single wheel, frame | i: wheelbarrow |
+| E10.08 | Windmill (post mill) | E8.20, E9.05 | sails, post frame | s: windmill (dry-land milling) |
+| E10.09 | Tidal mills | E9.11, E9.21 | tidal pond, sluices | s: tide mill |
+| E10.10 | Cam & crank machines | E9.12, E9.05 | cams, cranks | a: sawmills, ore stamps, bellows drive |
+| E10.11 | Spinning wheel | E5.42, E10.10 | wheel, spindle | i: spinning wheel (yarn 5× faster) |
+| E10.12 | Horizontal treadle loom | E5.43, E10.11 | treadles, frame | s: treadle loom (cloth industry) |
+| E10.13 | Fulling & cloth finishing mills | E9.12, E10.12 | water power | s: fulling mill |
+| E10.14 | Soap making (hard soap) | E5.33, E9.44 | fats, alkali, molds | i: hard soap (health, wool prep) |
+| E10.15 | Distillation (alembic) | E9.37, E8.42 | glass/copper stills | i: alcohol spirits, essences, acids (proto) |
+| E10.16 | Paper mill | E9.49, E10.10 | rag pulp, water power | i: rag paper (cheap records) |
+| E10.17 | Woodblock printing & early press | E10.16, E9.40 | carved blocks, ink, press | a: printed sheets (mass diffusion) |
+| E10.18 | Mechanical clock (verge escapement) | E9.09, E9.05 | weights, escapement | s: tower clock (shared civic time) |
+| E10.19 | Eyeglasses | E9.17 | ground lenses | i: spectacles (double a scholar's years) |
+| E10.20 | Mariner's compass | E6.04, E9.23 | lodestone needle | i: compass (open-sea heading) |
+| E10.21 | Sternpost rudder | E9.23, E8.22 | hinged rudder | i: rudder (bigger, surer ships) |
+| E10.22 | Cog & carrack shipbuilding | E10.21, E10.20 | clinker/carvel yards | i: deep-sea cargo ships |
+| E10.23 | Portolan charts & dead reckoning | E10.20, E9.34 | charts, log line | a: reliable sea routes |
+| E10.24 | Blast furnace (proto) & cast iron | E8.02, E10.10 | tall furnace, powered bellows | s: blast furnace; i: cast iron |
+| E10.25 | Wire drawing & metal screws | E8.05, E10.10 | draw plates | i: wire, screws at scale |
+| E10.26 | Steel crossbows & windlass | E8.43, E10.25 | steel prod, cranequin | i: heavy crossbow |
+| E10.27 | Plate armor | E10.24, E8.15 | hardened plates, hinges | i: plate harness |
+| E10.28 | Stirrup & high-cantle saddle | E8.17 | iron stirrups | a: shock cavalry (couched lance) |
+| E10.29 | Knightly warfare & retinues | E10.28, E10.27 | horses, armories, oaths | a: feudal levy, heavy cavalry doctrine |
+| E10.30 | Motte & bailey castles | E9.27, E4.23 | earthworks, palisade, keep | s: castle (timber) |
+| E10.31 | Stone keeps & concentric castles | E10.30, E9.14 | ashlar, garrisons | s: stone castle |
+| E10.32 | Counterweight trebuchet | E9.26, E9.06 | beam, counterweight | i: trebuchet (walls answerable) |
+| E10.33 | Feudal land law (manor) | E9.01, E10.05 | charters, courts | a: manorial economy, serfdom/tenure |
+| E10.34 | Chartered towns & burgher rights | E10.33, E9.46 | town charters | a: free towns (markets, militias) |
+| E10.35 | Craft guilds | E8.45, E10.34 | halls, charters | a: apprentice→journeyman→master (teach boost) |
+| E10.36 | Universities | E9.35, E10.34 | colleges, degrees | s: university (scholar pipeline) |
+| E10.37 | Scholastic method & translation | E10.36, E9.50 | recovered texts | a: systematic scholarship revival |
+| E10.38 | Arabic numerals & place value | E10.37, E9.02 | abacus→algorism | a: fast arithmetic, bookkeeping |
+| E10.39 | Double-entry bookkeeping | E10.38, E9.47 | ledgers, banks | a: firms, audit, credit networks |
+| E10.40 | Banking houses & bills of exchange | E10.39, E10.34 | branches, couriers | a: long-distance finance |
+| E10.41 | Hospitals & quarantine | E9.36, E10.34 | wards, lazarettos | s: hospital; a: epidemic response |
+| E10.42 | Gothic structure (pointed arch & buttress) | E9.14 | flying buttresses | b: gothic frame (tall, light halls) |
+| E10.43 | Stained glass & rose windows | E10.42, E9.44 | colored glass, lead cames | i: stained glass (awe, story-telling) |
+| E10.44 | Movable-type experiments | E10.17, E10.25 | metal type, press | a: fast text reproduction (knowledge revolution) |
+| E10.45 | Crop & animal breeding (selective) | E10.06, E5.20 | herd books | a: improved strains |
+| E10.46 | Fisheries & herring busses | E10.22, E5.33 | salting at sea | i: preserved sea harvest |
+| E10.47 | Canal locks (pound lock) | E9.07, E10.10 | gates, basins | s: canal lock (inland bulk transport) |
+| E10.48 | Land reclamation & polders | E10.08, E9.07 | dikes, wind pumps | b: polder (new farmland from marsh/sea) |
+| E10.49 | Municipal water & fountains | E9.19, E10.34 | conduits, cisterns | s: town fountains |
+| E10.50 | Vernacular literacy & chronicles | E10.17, E9.34 | cheap paper, town schools | a: common reading public |
+
+---
+
 ## Graph notes
 
-- **Terminal nodes** (E8.20 water mill, E8.42 glassblowing, E8.41 pattern welding, E8.44) mark "end of Iron Age" — natural stopping frontier.
-- **Great bottlenecks** (design intent — moments the whole sim pivots on): E1.18 fire, E2.10 hafting, E4.06 archery, E5.05 domesticated cereal, E5.34 pottery, E6.07 copper smelting, E7.02 bronze, E7.30 writing, E8.02 bloomery, E8.30 coinage.
+- **Terminal nodes** (E10.44 movable type, E10.31 concentric castles, E10.22 carracks, E10.48 polders) mark "end of the Middle Ages" — natural stopping frontier before gunpowder.
+- **Great bottlenecks** (design intent — moments the whole sim pivots on): E1.18 fire, E2.10 hafting, E4.06 archery, E5.05 domesticated cereal, E5.34 pottery, E6.07 copper smelting, E7.02 bronze, E7.30 writing, E8.02 bloomery, E8.30 coinage, E9.02 geometry & proof, E9.13 concrete, E10.18 mechanical clock, E10.44 movable type.
 - **Knowledge decay**: if all NPCs knowing a node die, the settlement loses it (writing E7.30+ and libraries E8.34 mitigate).
-- **Diffusion speeds**: demonstration (E1.25) < storytelling (E3.41) < schools (E7.31) < alphabetic literacy (E8.29).
-- Node count: **340**.
+- **Diffusion speeds**: demonstration (E1.25) < storytelling (E3.41) < schools (E7.31) < alphabetic literacy (E8.29) < woodblock printing (E10.17).
+- Node count: **440**.
 

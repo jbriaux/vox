@@ -24,7 +24,7 @@ They meet in two places:
 - **The wire** — a WebSocket (`ws://…:8765/ws`) carrying small JSON messages
   (§4). Godot works fine with the socket down (offline fallback, reconnects).
 - **The data** — `data/*.json` is read by *both* sides:
-  `tech_tree.json` (340 nodes, eras E1–E8), `era1_content.json` (resources,
+  `tech_tree.json` (440 nodes, eras E1–E10), `era1_content.json` (resources,
   items, recipes, buildables, needs), `traits.json` (personality axes).
   Cortex uses it to know what an NPC *may* do; Godot uses the same rows to
   *execute* it. Adding content is almost always a data-only change.

@@ -65,7 +65,17 @@ def test_world():
     from cortex.world import World
 
     world = World(str(DATA))
-    assert len(world.nodes) > 300, "tech tree not fully loaded"
+    assert len(world.nodes) == 440, "tech tree not fully loaded"
+    assert world.max_era == 10, world.max_era
+    assert world.era_name(9) == "Classical Antiquity"
+    assert world.era_name(10) == "Middle Ages"
+    # E1/E10 prefix regression: E10 techs must never count as era-1 techs,
+    # and era-1 gates must not include E10 bottlenecks
+    world.settlement_era = 1
+    assert all(g.split(".")[0] == "E1" for g in world.next_gates()), \
+        world.next_gates()
+    e10_only = ["E10.01", "E10.05", "E10.07", "E1.01"]
+    assert world.compute_era(e10_only) == 1, "E10 techs leaked into era 1 count"
     assert world.traits.get("axes"), "traits.json not loaded"
     assert "knap_flake" in world.recipes
     assert world.is_food("berries") and not world.is_food("flint")
