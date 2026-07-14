@@ -23,6 +23,7 @@ var main: Node                     # orchestrator: tier_for(), nearby_npcs(), re
 
 var activity := "standing around"
 var talking := false
+var home_fire_idx := 0             # which village fire this body belongs to
 
 var _goal := {}                    # {"type","target","stage","gather_type","entry"}
 var _wander_timer := 2.0
@@ -138,6 +139,9 @@ func build_state() -> Dictionary:
 	var village: Array = main.structure_kinds()
 	if not village.is_empty():
 		state["village"] = village
+	var foreign: Dictionary = main.foreign_store_state(self)
+	if not foreign.is_empty():
+		state["foreign_store"] = foreign
 	return state
 
 
@@ -183,6 +187,21 @@ func handle_action(data: Dictionary) -> void:
 			_start_rest()
 		"deposit", "withdraw":
 			_start_store_goal(str(data.get("action")), target)
+		"raid":
+			var mark: Dictionary = main.nearest_foreign_store(self)
+			if mark.is_empty():
+				_fail_goal("found no stores worth raiding")
+			else:
+				_goal = {"type": "raid", "target": target, "stage": "raid_walk"}
+				activity = "slipping toward the other village's stores"
+				var rpath := world.find_path(npc.position, mark.pos)
+				if _flat_dist(npc.position, mark.pos) < 2.0:
+					_do_raid()
+				elif rpath.size() > 1:
+					npc.set_path(rpath)
+					path_changed.emit(id, rpath)
+				else:
+					_fail_goal("could not reach the other village")
 		"skill":
 			var steps: Array = data.get("steps", [])
 			if steps.is_empty():
@@ -683,6 +702,8 @@ func _on_arrived() -> void:
 			_advance_goal()      # arrived at the fire — re-run the craft
 		"store_walk":
 			_do_store_transfer()
+		"raid_walk":
+			_do_raid()
 		"rest_walk":
 			_rest_here()
 		"fleeing":
@@ -722,6 +743,15 @@ func emit_event(text: String) -> void:
 	if cortex.online:
 		cortex.send({"type": "event", "npc": id, "text": text})
 	chat_ui.add_line(npc.npc_name, "[i]%s[/i]" % text)
+
+
+func _do_raid() -> void:
+	var outcome: String = main.raid_store(self, str(_goal.target))
+	if outcome == "":
+		_fail_goal("found the stores already bare")
+		return
+	emit_event(outcome)
+	_finish_goal()
 
 
 func _do_store_transfer() -> void:

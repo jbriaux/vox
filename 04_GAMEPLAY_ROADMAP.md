@@ -79,12 +79,13 @@ rotation, manuring, gardens, orchards, irrigation. E5.05 is an era bottleneck.
 - **Loss mitigation** ✅: with archives/records known (E7.30/E8.34), a last-knower's death transfers their unique techs to their closest companion instead of destroying them.
 - School structure (one teacher, several learners per session) — still open.
 
-## Wave H — Conflict & defense  *(design decision required — deliberately last)*
+## Wave H — Conflict & defense  *(decided: property raids, MIND-driven only)* ✅ DONE (core)
 **Tree**: bronze/iron weapons, armor, shields, walls, warfare skills.
 The tree supports raids and war; whether VOX wants NPC-vs-NPC violence is a
 design choice, not an engineering one. Minimum viable version: weapons/armor
 affect only predator defense; palisades keep wolves out. Full version needs
 morale, injury, and inter-village hostility systems. **Decide before building.**
+**Decision (2026-07-13)**: rung 3 of 4 — property conflict, no deaths, and hostility may ONLY originate in a mind. **Shipped**: NPCs and structures carry village (fire) ownership; a stocked store of *another* village within sight adds a RAID section to the decide prompt — the survival instinct and every fallback are hard-banned from proposing it, only the LLM may choose `{"action":"raid"}`. Raiders steal ≤3 of one item; a defending villager scuffles (injuries floored at health 8 — nobody dies in a raid); village dogs drive raiders off half the time; every victim nearby remembers (`raided us` relationship note, −25 affinity/−30 trust, anger mood) — grudges, revenge raids and gift-bought peace are all left to the minds. Mock brains never raid unless the test harness sets `VOX_MOCK_RAID=1`. Walls (Wave K) will be the counter.
 
 ---
 

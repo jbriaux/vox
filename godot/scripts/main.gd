@@ -155,6 +155,14 @@ func _start_game(size_chunks: int, preset: String, water := 0.20, map_seed := -1
 		var sspot := world.random_walkable_near(campfire.position, 8.0)
 		_place_structure("smelter", sspot)
 		print("[VOX E] test hook: starting smelter placed")
+	if OS.get_environment("VOX_RAID_DEMO") == "1" and campfires.size() > 1:
+		# test hook: village A's stocked cache sits within sight of village B —
+		# the raid option appears in B's prompts (acting on it stays mind-driven)
+		var dspot := world.random_walkable_near(campfires[1].position, 14.0)
+		var bait := _place_structure("cache_pit", dspot)
+		bait["fire_idx"] = 0
+		bait.store["dried_meat"] = 6
+		print("[VOX H] test hook: village A cache placed near village B")
 	if OS.get_environment("VOX_START_MILL") == "1":
 		# test hook: exercises the water-adjacent placement + grain processor
 		var mspot := Vector3.INF
@@ -222,7 +230,7 @@ func save_game() -> void:
 	for s in structures:
 		structs.append({"type": s.type, "x": s.pos.x, "y": s.pos.y, "z": s.pos.z,
 			"store": s.store, "planted": s.planted, "growth": s.growth,
-			"herd": s.herd})
+			"herd": s.herd, "fire_idx": s.get("fire_idx", 0)})
 	var data := {
 		"version": 1,
 		"seed": _save_cfg.get("seed", 1337), "chunks": _save_cfg.get("chunks", 8),
@@ -272,6 +280,7 @@ func _apply_world_save() -> void:
 		entry.growth = int(s.get("growth", 0))
 		for kind in s.get("herd", {}):
 			entry.herd[kind] = int(s.herd[kind])
+		entry["fire_idx"] = int(s.get("fire_idx", entry.get("fire_idx", 0)))
 	field.apply_save(_pending_save.get("field", {}))
 	_update_season()
 	print("[VOX P7] world restored: day %d, %d structures" % [day_number,
@@ -865,7 +874,8 @@ func _place_structure(kind: String, spot: Vector3) -> Dictionary:
 		"growth_days": int(cfg.get("growth_days", 0)),
 		"planted": false, "growth": 0,
 		"animal_cap": int(cfg.get("animal_capacity", 0)),
-		"herd": {}}
+		"herd": {},
+		"fire_idx": maxi(0, campfires.find(nearest_fire(spot)))}
 	structures.append(entry)
 	return entry
 
@@ -1043,6 +1053,98 @@ func _dawn_herds() -> void:
 				var line := "a young %s was born in the corral" % kind
 				print("[VOX C] ", line)
 				chat_ui.add_line("world", "[i]%s[/i]" % line)
+
+
+# ---------------------------------------------------------------- raids (Wave H)
+# Property conflict, mind-driven ONLY: no engine rule ever starts a raid —
+# the option merely exists in the LLM's action space when another village's
+# stocked store is within sight. Nobody dies in a raid: injuries floor out.
+
+const RAID_HEALTH_FLOOR := 8.0
+
+
+func nearest_foreign_store(ctrl: NPCController) -> Dictionary:
+	var best := {}
+	var best_d := INF
+	for s in structures:
+		if int(s.capacity) <= 0 or s.store.is_empty():
+			continue
+		if int(s.get("fire_idx", 0)) == ctrl.home_fire_idx:
+			continue
+		var d := NPCController._flat_dist(ctrl.npc.position, s.pos)
+		if d < best_d and d <= 48.0:
+			best_d = d
+			best = s
+	return best
+
+
+func foreign_store_state(ctrl: NPCController) -> Dictionary:
+	var s := nearest_foreign_store(ctrl)
+	if s.is_empty():
+		return {}
+	return {"kind": str(tech.buildables.get(s.type, {}).get("label", s.type)),
+		"distance": snappedf(NPCController._flat_dist(ctrl.npc.position, s.pos), 0.1),
+		"holds": s.store.duplicate()}
+
+
+func raid_store(ctrl: NPCController, item: String) -> String:
+	var s := nearest_foreign_store(ctrl)
+	if s.is_empty() or int(s.store.get(item, 0)) <= 0:
+		return ""
+	var raider := ctrl.npc.npc_name
+	# the village dogs may drive the raider off empty-handed
+	if dogs > 0 and _rng.randf() < 0.5:
+		ctrl.npc.health = maxf(RAID_HEALTH_FLOOR, ctrl.npc.health - 15.0)
+		var line := "%s was driven off by the dogs while raiding the %s" % [
+			raider, str(tech.buildables.get(s.type, {}).get("label", s.type))]
+		print("[VOX H] ", line)
+		chat_ui.add_line("world", "[b]%s[/b]" % line)
+		return "was driven off by the dogs, bruised and empty-handed"
+	var take := mini(3, int(s.store[item]))
+	s.store[item] = int(s.store[item]) - take
+	if int(s.store[item]) <= 0:
+		s.store.erase(item)
+	ctrl.npc.add_items({item: take})
+	# a scuffle with whoever stands guard — injuries, never deaths
+	var defender: NPCController = null
+	var best_d := INF
+	for other_id in controllers:
+		var other: NPCController = controllers[other_id]
+		if other == ctrl or other.npc.dead:
+			continue
+		if other.home_fire_idx != int(s.get("fire_idx", 0)):
+			continue
+		var d := NPCController._flat_dist(other.npc.position, s.pos)
+		if d < best_d and d <= 14.0:
+			best_d = d
+			defender = other
+	if defender != null:
+		ctrl.npc.health = maxf(RAID_HEALTH_FLOOR, ctrl.npc.health - 12.0)
+		defender.npc.health = maxf(RAID_HEALTH_FLOOR,
+			defender.npc.health - 8.0)
+		defender.emit_event("was hurt trying to stop %s from raiding the stores"
+			% raider)
+		if cortex.online:
+			cortex.send({"type": "social", "event": "raid",
+				"from": ctrl.id, "to": defender.id})
+	# everyone of the raided village nearby will remember this
+	for other_id in controllers:
+		var other: NPCController = controllers[other_id]
+		if other == ctrl or other == defender or other.npc.dead:
+			continue
+		if other.home_fire_idx != int(s.get("fire_idx", 0)):
+			continue
+		if NPCController._flat_dist(other.npc.position, s.pos) <= 30.0:
+			other.emit_event("saw %s raid our stores" % raider)
+			if cortex.online:
+				cortex.send({"type": "social", "event": "raid",
+					"from": ctrl.id, "to": other.id})
+	var loot := "%d %s" % [take, tech.item_label(item)]
+	var line := "%s raided the other village's stores and made off with %s" % [
+		raider, loot]
+	print("[VOX H] ", line)
+	chat_ui.add_line("world", "[b]%s[/b]" % line)
+	return "raided another village's stores and made off with " + loot
 
 
 # ---------------------------------------------------------------- farming
@@ -1319,10 +1421,13 @@ func _spawn_roster(npcs: Array, roster_flavor := "vanilla") -> void:
 			body.inventory = saved.get("inventory", {})
 			body.scale = Vector3.ONE * (0.7 if body.age
 				< float(tech.lifecycle.get("adult_age", 14)) else 1.0)
+			controllers[npc_id].home_fire_idx = campfires.find(
+				nearest_fire(center))
 			continue
 		var npc := _spawn_body(npc_id, display, _connected_spot_near(center, 22.0))
 		npc.age = _rng.randf_range(float(tech.lifecycle.get("founder_age_min", 16)),
 			float(tech.lifecycle.get("founder_age_max", 45)))
+		controllers[npc_id].home_fire_idx = campfires.find(nearest_fire(center))
 	if not _pending_save.is_empty():
 		_total_spawned = int(_pending_save.get("counters", {}).get("total",
 			controllers.size()))

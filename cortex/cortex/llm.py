@@ -64,6 +64,16 @@ class LLM:
     def _mock_chat(self, messages: list, json_mode: bool) -> str:
         text = "\n".join(str(m.get("content", "")) for m in messages)
         if json_mode:
+            # TEST-ONLY raid hook: hostility is mind-driven by design and the
+            # mock is a scripted mind, so it only ever raids when the test
+            # harness explicitly asks for it via VOX_MOCK_RAID=1 (works in
+            # both flavors — emergent prompts have no SUGGESTED_ACTION)
+            import os as _os
+            if _os.environ.get("VOX_MOCK_RAID") == "1":
+                m = re.search(r'raid target "([a-z0-9_]+)"', text)
+                if m:
+                    return ('{"action": "raid", "target": "%s", "say": ""}'
+                            % m.group(1))
             i = text.find("SUGGESTED_ACTION: ")
             if i >= 0:
                 line = text[i + len("SUGGESTED_ACTION: "):].splitlines()[0]

@@ -17,7 +17,7 @@ import re
 import time
 
 ACTIONS = ("wander", "idle", "say", "gather", "craft", "eat", "talk", "rest",
-           "deposit", "withdraw", "skill")
+           "deposit", "withdraw", "skill", "raid")
 
 SKILL_STEP_ACTIONS = ("gather", "craft", "eat", "deposit", "withdraw")
 SKILL_RATE = 0.15   # chance per idle full-tier decide to reflect on a routine
@@ -335,6 +335,17 @@ class Agent:
                 f"FIELDS ({fields['plots']} plot(s): {fields.get('empty', 0)} bare, "
                 f"{fields.get('growing', 0)} growing, {fields.get('ripe', 0)} ripe "
                 "— sow_field and harvest_field appear under CRAFT when possible)")
+        foreign = catalog.get("foreign_store") or {}
+        if foreign.get("holds"):
+            lines.append(
+                f"ANOTHER VILLAGE'S {str(foreign.get('kind', 'store'))} stands "
+                f"{foreign.get('distance', 0)} steps away — taking from it "
+                "would be a RAID: they will fight back, be hurt, and remember "
+                "you for it. It holds:")
+            for it, n in foreign["holds"].items():
+                if int(n) > 0:
+                    lines.append(f'- raid target "{it}" — {n} '
+                                 f"{self.world.items.get(it, {}).get('label', it)}")
         corral = catalog.get("corral") or {}
         if corral.get("herd") is not None:
             herd = ", ".join(f"{n} {k}(s)" for k, n in corral["herd"].items()
@@ -368,6 +379,7 @@ class Agent:
             if self.world else {"gather": [], "craft": [], "eat": [], "store": {}})
         catalog["fields"] = state.get("fields") or {}
         catalog["corral"] = state.get("corral") or {}
+        catalog["foreign_store"] = state.get("foreign_store") or {}
         talk = []
         for other, dist in sorted((state.get("nearby_npcs") or {}).items(),
                                   key=lambda kv: kv[1]):
@@ -435,7 +447,7 @@ class Agent:
                 "\n\nChoose your next action.\n"
                 'Respond ONLY with JSON, exactly: {"action": "wander" | "idle" | "say" | '
                 '"gather" | "craft" | "eat" | "talk" | "rest" | "deposit" | "withdraw" | '
-                '"skill", "target": "<id from the lists above, or empty>", '
+                '"skill" | "raid", "target": "<id from the lists above, or empty>", '
                 '"say": "words you speak aloud, or empty"}'
             )
         else:
@@ -448,7 +460,7 @@ class Agent:
                 "spoken line (\"say\") whenever you have something on your mind.\n"
                 'Respond ONLY with JSON, exactly: {"action": "wander" | "idle" | "say" | '
                 '"gather" | "craft" | "eat" | "talk" | "rest" | "deposit" | "withdraw" | '
-                '"skill", "target": "<id from the lists above, or empty>", '
+                '"skill" | "raid", "target": "<id from the lists above, or empty>", '
                 '"say": "one short in-character line, or empty"}\n'
                 "If unsure, choose SUGGESTED_ACTION: " + json.dumps(suggestion)
             )
@@ -644,6 +656,10 @@ class Agent:
             ok = target in (catalog.get("store") or {}).get("deposit", [])
         elif action == "withdraw":
             ok = target in (catalog.get("store") or {}).get("withdraw", [])
+        elif action == "raid":
+            # Wave H: conflict is MIND-driven only — this branch is the sole
+            # gate; no suggestion or fallback ever proposes a raid
+            ok = target in (catalog.get("foreign_store") or {}).get("holds", {})
         elif action == "skill":
             for name, _desc, steps, _src, _uses in self.memory.skills_all():
                 if name == target:

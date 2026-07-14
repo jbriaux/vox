@@ -720,6 +720,53 @@ def test_wave_i(world):
     print("  wave I OK")
 
 
+def test_raids(world):
+    """Wave H: property raids exist ONLY as a mind's choice — never suggested,
+    validated against a real foreign store, remembered in anger."""
+    from cortex.agent import Agent
+    from cortex.llm import Embedder, make_llm
+    from cortex.memory import Memory
+
+    tmp = Path(tempfile.mkdtemp(prefix="cortex_raid_"))
+    agent = Agent("rok", {"name": "Rok", "known_tech": ["E1.01", "E1.07"]},
+                  make_llm({"provider": "mock"}), Memory(str(tmp / "r.sqlite")),
+                  world=world, embedder=Embedder({"provider": "mock"}))
+    agent.discovery_rate = 0.0
+    agent.skill_rate = 0.0
+
+    foreign = {"kind": "granary", "distance": 9.0, "holds": {"dried_meat": 6}}
+    state = {"needs": {"hunger": 70, "energy": 80}, "inventory": {},
+             "nearby": {}, "time_of_day": "day", "foreign_store": foreign}
+    catalog = agent._build_catalog(state)
+    # the option is visible to the mind...
+    assert 'raid target "dried_meat"' in agent._catalog_block(catalog)
+    # ...but the survival instinct NEVER proposes it, even starving
+    assert agent._suggest(state, catalog)["action"] != "raid"
+    # a mind that chooses it is honored (valid target only)
+    picked = agent._validate({"action": "raid", "target": "dried_meat"},
+                             catalog, {"action": "wander", "target": "", "say": ""})
+    assert picked["action"] == "raid" and picked["target"] == "dried_meat", picked
+    picked = agent._validate({"action": "raid", "target": "coin"},
+                             catalog, {"action": "wander", "target": "", "say": ""})
+    assert picked["action"] == "wander", picked
+    # no foreign store in sight -> raid is not even validatable
+    empty_cat = agent._build_catalog({"inventory": {}, "nearby": {}})
+    picked = agent._validate({"action": "raid", "target": "dried_meat"},
+                             empty_cat, {"action": "wander", "target": "", "say": ""})
+    assert picked["action"] == "wander", picked
+
+    # aftermath: victims rage and remember; the grudge is on the record
+    victim = Agent("vea", {"name": "Vea", "known_tech": []},
+                   make_llm({"provider": "mock"}), Memory(str(tmp / "v.sqlite")),
+                   world=world, embedder=Embedder({"provider": "mock"}))
+    from cortex.server import _handle_raid
+    run(_handle_raid(agent, victim))
+    assert victim.mood.get("emotion") == "angry", victim.mood
+    rels = {r[0]: r for r in victim.memory.rel_all()}
+    assert rels["rok"][4] == "raided us" and rels["rok"][1] < 0, rels["rok"]
+    print("  raids OK")
+
+
 def test_discovery(world):
     from cortex.agent import Agent
     from cortex.llm import Embedder, make_llm
@@ -1303,6 +1350,7 @@ def main():
     test_metallurgy_and_trade(world)
     test_skill_library(world)
     test_wave_i(world)
+    test_raids(world)
     test_discovery(world)
     test_children(world)
     test_mood(world)

@@ -635,6 +635,23 @@ async def _handle_gift(giver: Agent, receiver: Agent, item: str) -> None:
     receiver.feel(12, "grateful", f"{g_name} shared food with me")
 
 
+async def _handle_raid(raider: Agent, victim: Agent) -> None:
+    """Wave H aftermath: the raided remember. Anger, broken trust, a grudge —
+    all the fuel a mind needs to answer in kind (or to make peace with gifts)."""
+    if raider is None or victim is None or raider is victim:
+        return
+    r_name = raider.persona.get("name", raider.name.capitalize())
+    await victim.remember(
+        "social", f"{r_name} raided our stores — I will not forget it", 8)
+    await raider.remember(
+        "social", f"raided {victim.name.capitalize()}'s village stores", 6)
+    victim.memory.rel_update(raider.name, d_affinity=-25, d_trust=-30,
+                             d_familiarity=6, note="raided us")
+    raider.memory.rel_update(victim.name, d_familiarity=4)
+    victim.feel(-18, "angry", f"{r_name} raided our stores")
+    print(f"[cortex] RAID: {raider.name} raided {victim.name}'s village")
+
+
 @app.websocket("/ws")
 async def ws_endpoint(sock: WebSocket):
     await sock.accept()
@@ -748,6 +765,9 @@ async def ws_endpoint(sock: WebSocket):
             elif mtype == "birth":
                 await _handle_birth(safe, agents.get(str(msg.get("a", ""))),
                                     agents.get(str(msg.get("b", ""))))
+            elif mtype == "social" and str(msg.get("event", "")) == "raid":
+                await _handle_raid(agents.get(str(msg.get("from", ""))),
+                                   agents.get(str(msg.get("to", ""))))
             elif mtype == "social" and str(msg.get("event", "")) == "gift":
                 await _handle_gift(agents.get(str(msg.get("from", ""))),
                                    agents.get(str(msg.get("to", ""))),
