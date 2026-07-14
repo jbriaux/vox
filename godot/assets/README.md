@@ -22,10 +22,11 @@ CC0 / Public Domain (no attribution needed):
 - **Bog iron**: "Rock Moss" by Quaternius
 - **Granary**: "Silo" by Quaternius
 - **Field plot**: "Crops" by Quaternius
+- **Wild sheep**: "Sheep" by Quaternius (animated: Walk/Idle/Eat/Headbutt)
+- **Wild goat**: the same Quaternius sheep, brown-tinted via `baseColorFactor`
+  (patched GLB — regenerate with a tint of `[0.72, 0.55, 0.38, 1.0]`)
 
 **CC-BY 3.0 — attribution REQUIRED if the game is distributed:**
-- **Wild goat**: "Goat" by Poly by Google
-- **Wild sheep**: "Sheep" by Poly by Google
 - **Wild cereal**: "Field of wheat" by Poly by Google
 - **Tin gravel**: "Stones" by Poly by Google
 - **Storage cache**: "Picnic Basket" by Poly by Google

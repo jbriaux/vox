@@ -2,19 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://i8y1rlyy12tp"
-path="res://.godot/imported/wild_goat_Goat_BaseColor.png-e4619389a42010824ad6b3b904921f88.ctex"
+uid="uid://cn8gyxfbph3ml"
+path="res://.godot/imported/wild_sheep_Atlas.png-dc07eaf722df508a2f16da3eb3c0a0d8.ctex"
 metadata={
 "vram_texture": false
 }
 generator_parameters={
-"md5": "6deda0ae6cf5a3c482ccf3e1af91ef82"
+"md5": "dac414321d33da82b685f85877ee23ee"
 }
 
 [deps]
 
-source_file="res://assets/props/wild_goat_Goat_BaseColor.png"
-dest_files=["res://.godot/imported/wild_goat_Goat_BaseColor.png-e4619389a42010824ad6b3b904921f88.ctex"]
+source_file="res://assets/props/wild_sheep_Atlas.png"
+dest_files=["res://.godot/imported/wild_sheep_Atlas.png-dc07eaf722df508a2f16da3eb3c0a0d8.ctex"]
 
 [params]
 

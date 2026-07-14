@@ -32,8 +32,8 @@ brain_pool:
     base_url: http://192.168.1.113:8002/v1
     model: hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4
   #- provider: openai_compatible
-  #  base_url: http://192.168.1.113:8003/v1
-  #  model: casperhansen/deepseek-r1-distill-qwen-14b-awq
+  #  base_url: http://192.168.1.218:8000/v1
+  #  model: nvidia/NVIDIA-Nemotron-Nano-9B-v2
   #- provider: openai_compatible
   #  base_url: http://192.168.1.114:8000/v1
   #  model: Qwen/Qwen2.5-14B-Instruct-AWQ

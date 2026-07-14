@@ -84,12 +84,12 @@ Third-party 3D models under `godot/assets/` keep their original licenses
 
 **CC0 / Public Domain models** (no attribution required, but thank you):
 [Kenney](https://kenney.nl) (villagers, campfire, nature props),
-[Quaternius](https://quaternius.com) (deer, wolf, boar, ore rocks, silo,
-crops).
+[Quaternius](https://quaternius.com) (deer, wolf, boar, sheep & goat, ore
+rocks, silo, crops).
 
 **CC-BY 3.0 models** (attribution required — via [Poly Pizza](https://poly.pizza)):
-"Goat", "Sheep", "Field of wheat", "Stones", "Picnic Basket", "Farm house",
-and "Cottontail rabbit" by **Poly by Google**; "Soil mount" by **apelab**;
+"Field of wheat", "Stones", "Picnic Basket", "Farm house", and
+"Cottontail rabbit" by **Poly by Google**; "Soil mount" by **apelab**;
 "Forge" by **Don Carson**.
 
 Built with [Godot 4.3](https://godotengine.org),

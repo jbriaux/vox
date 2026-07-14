@@ -207,7 +207,8 @@
       "gather_verb": "cornered and trussed a wild goat",
       "respawns": true,
       "respawn_seconds": 200,
-      "model_height": 0.9
+      "model_height": 1.0,
+      "wanders": true
     },
     "wild_sheep": {
       "label": "wild sheep",
@@ -223,7 +224,8 @@
       "gather_verb": "cornered and trussed a wild sheep",
       "respawns": true,
       "respawn_seconds": 200,
-      "model_height": 0.9
+      "model_height": 1.0,
+      "wanders": true
     },
     "clay_pit": {
       "label": "clay bank",
