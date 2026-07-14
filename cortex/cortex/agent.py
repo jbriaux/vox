@@ -796,7 +796,11 @@ class Agent:
         for rid, kind in (("build_smelter", "smelter"),
                           ("build_smoking_rack", "smoking_rack"),
                           ("build_kiln", "kiln"),
-                          ("build_school", "school")):
+                          ("build_school", "school"),
+                          ("build_watermill", "watermill"),
+                          ("build_windmill", "windmill"),
+                          ("build_screw_press", "screw_press"),
+                          ("build_trip_hammer", "trip_hammer")):
             if rid in craft_by_id and kind not in built:
                 pick = craft_or_fetch(rid)
                 if pick:

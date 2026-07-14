@@ -114,12 +114,13 @@ extensions of the existing structure system:
 - **School** (E7.31 structure): a built school makes the existing ×4 diffusion *conditional on the building standing* — knowledge infrastructure you can point at (and lose).
 **Shipped**: smoking rack = first **dawn processor** (raw meat/fish deposited in it cure overnight, 20-day shelf life); salt flats on shore sand → salted meat (30 days); beer (grain + pot at the fire) → "feels merry" mood lift; cattle (milk ×2, meat ×5) and pigs join the corral, `train_ox` converts a cow to a counted draft ox for Wave L; kiln = second station (batch-fires 2 pots, boils berry dye → dyed garments); school hall gates the ×4+ diffusion tiers on the *building standing* (Godot sends a `village` structure census; teach cap clamps to storytelling pace without it). Infrastructure instinct generalized: whoever knows a missing building's tech builds it (smelter/rack/kiln/school).
 
-## Wave J — Power  *(M effort — the industrial hinge)*
+## Wave J — Power  *(M effort — the industrial hinge)* ✅ DONE
 **Tree**: E8.18–20 querns/mills, E9.05 mechanics, E9.11–12 gearing & trip hammers, E9.40 screw press, E10.08 windmill, E10.10 cams.
 - **Watermill** (must stand on a shore/river cell — first placement-constrained structure) and **windmill** (anywhere): dawn processors that mill *all* stored grain to flour, replacing hand-grinding.
 - **Trip hammer** upgrade to the smelter: halves smithing seconds (aura on the station).
 - **Screw press**: grain→beer and (with Wave I) berries→preserves at scale.
 **Payoff**: the village's first non-muscle power; stored surplus starts working while everyone sleeps.
+**Shipped**: watermill (E8.20) is the first placement-constrained structure — it must stand within 2 cells of water (`is_water` = surface below sea level; the builder's ring search skips dry spots); windmill (E10.08, cloth sails) builds anywhere. Both are grain→flour dawn processors with 40-slot stores. Screw press (E9.40): station with batch beer (grain 6→beer 4, no pot) and berry preserves. Trip hammer (E9.12): first work-speed structure — `speeds_station: smelter, factor 2.0` halves all smithing/smelting seconds via `station_speed_factor`. Rotary querns/animal mills superseded (knowledge-only).
 
 ## Wave K — Civic stone (Classical)  *(M–L effort)*
 **Tree**: E9.13 concrete, E9.14 vault, E9.16 baths, E9.19 aqueduct, E9.27 walls, E9.32 theater, E9.42 ice house, E8.31 market.

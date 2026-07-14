@@ -330,6 +330,14 @@ func surface_block(x: int, z: int) -> int:
 	return get_block(x, surface[x * D + z], z)
 
 
+func is_water(x: int, z: int) -> bool:
+	## True where water stands: the surface array stores the topmost SOLID
+	## block, so "underwater" means that solid lies below sea level.
+	if x < 0 or x >= W or z < 0 or z >= D:
+		return false
+	return surface[x * D + z] < SEA - 1
+
+
 func find_spawn() -> Vector3:
 	## Center-out search for a walkable cell that is actually CONNECTED to the
 	## walk graph — river maps have isolated bank slivers that would strand

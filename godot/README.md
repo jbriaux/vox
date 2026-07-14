@@ -22,6 +22,11 @@ LMB: order the focused NPC / **click any NPC to chat with them** · F: focus nex
 - **Routines spread like knowledge**: one per conversation, demonstrated at the fire (`*** Kara picked up the smoke the catch routine from Toran ***`) — over generations, villages develop distinct working cultures. Inspired by NVIDIA GEAR's Voyager skill library.
 - Routines abort honestly — a wolf, a missing ingredient, or a conversation interrupts the circuit and the villager says why.
 
+## What happens (Wave J — power)
+
+- **The watermill must stand on the bank** — the first building the land itself constrains. Deposit grain in it (or the windmill, whose sails rise anywhere) and dawn brings `the watermill milled 5 flour overnight` — the village's first non-muscle power.
+- **The screw press** batches beer and berry preserves without pots; **the trip hammer** rigged beside the smelter halves every smithing job.
+
 ## What happens (Wave I — the pantry, the pen and the school)
 
 - **The smoking rack works while the village sleeps**: deposit raw meat or fish in it and dawn brings `the smoking rack cured 4 smoked meat overnight` — 20-day food from 1-day food. Salt flats on the shore give salted meat (30 days). The preservation ladder is complete: cook < dry < smoke < salt < pickle.

@@ -554,7 +554,10 @@ func _goal_craft() -> void:
 				return
 		_goal["stage"] = "crafting"
 		activity = str(recipe.get("label", rid))
-		npc.begin_work(float(recipe.get("seconds", 3.0)) / _tool_quality())
+		var secs := float(recipe.get("seconds", 3.0)) / _tool_quality()
+		if station != "":
+			secs /= main.station_speed_factor(station)   # trip hammer etc.
+		npc.begin_work(secs)
 		return
 	for item in st.missing:
 		var rtype := tech.resource_yielding(item)

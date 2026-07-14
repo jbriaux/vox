@@ -155,6 +155,20 @@ func _start_game(size_chunks: int, preset: String, water := 0.20, map_seed := -1
 		var sspot := world.random_walkable_near(campfire.position, 8.0)
 		_place_structure("smelter", sspot)
 		print("[VOX E] test hook: starting smelter placed")
+	if OS.get_environment("VOX_START_MILL") == "1":
+		# test hook: exercises the water-adjacent placement + grain processor
+		var mspot := Vector3.INF
+		for i in 400:
+			var cand := world.random_walkable_near(campfire.position, 40.0)
+			if cand != Vector3.ZERO and _touches_water(cand):
+				mspot = cand
+				break
+		if mspot != Vector3.INF:
+			var mill := _place_structure("watermill", mspot)
+			mill.store["grain"] = 5
+			print("[VOX J] test hook: watermill placed on the bank (5 grain in)")
+		else:
+			print("[VOX J] test hook: NO water-adjacent cell found for the mill")
 	if OS.get_environment("VOX_START_RACK") == "1":
 		# test hook: a smoking rack with meat hung, so dawn processors show
 		var rspot := world.random_walkable_near(campfire.position, 7.0)
@@ -573,8 +587,9 @@ func _dawn_processors() -> void:
 			s.store[out] = int(s.store.get(out, 0)) + n
 			made.append("%d %s" % [n, tech.item_label(out)])
 		if not made.is_empty():
-			var line := "the %s cured %s overnight" % [
+			var line := "the %s %s %s overnight" % [
 				str(tech.buildables.get(s.type, {}).get("label", s.type)),
+				str(tech.buildables.get(s.type, {}).get("process_verb", "made")),
 				", ".join(made)]
 			print("[VOX I] ", line)
 			chat_ui.add_line("world", "[i]%s[/i]" % line)
@@ -763,6 +778,8 @@ func build_structure(builder_pos: Vector3, kind: String) -> bool:
 		var p := world.random_walkable_near(home.position, ring)
 		if NPCController._flat_dist(p, home.position) < min_fire:
 			continue
+		if bool(cfg.get("needs_water", false)) and not _touches_water(p):
+			continue   # a watermill needs a race — build on the bank
 		var clear := true
 		for s in structures:
 			if NPCController._flat_dist(p, s.pos) < 3.0:
@@ -776,6 +793,27 @@ func build_structure(builder_pos: Vector3, kind: String) -> bool:
 		spot = builder_pos
 	_place_structure(kind, spot)
 	return true
+
+
+func _touches_water(pos: Vector3) -> bool:
+	## A cell counts as riverside/shore when water lies within 2 cells.
+	var x := int(pos.x)
+	var z := int(pos.z)
+	for dx in range(-2, 3):
+		for dz in range(-2, 3):
+			if world.is_water(x + dx, z + dz):
+				return true
+	return false
+
+
+func station_speed_factor(kind: String) -> float:
+	## Wave J: power structures speed a station's work (trip hammer -> smithy).
+	var factor := 1.0
+	for s in structures:
+		var cfg: Dictionary = tech.buildables.get(s.type, {})
+		if str(cfg.get("speeds_station", "")) == kind:
+			factor *= float(cfg.get("speed_factor", 1.0))
+	return factor
 
 
 func _place_structure(kind: String, spot: Vector3) -> Dictionary:

@@ -1745,6 +1745,97 @@
       },
       "seconds": 16.0,
       "verb": "raised a hall where the young are taught"
+    },
+    "build_watermill": {
+      "label": "raise a watermill",
+      "tech": "E8.20",
+      "inputs": {
+        "branch": 10,
+        "cord": 4,
+        "mudbrick": 4
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "watermill"
+      },
+      "seconds": 20.0,
+      "verb": "set a wheel turning in the race: a watermill"
+    },
+    "build_windmill": {
+      "label": "raise a windmill",
+      "tech": "E10.08",
+      "inputs": {
+        "branch": 12,
+        "cloth": 4,
+        "mudbrick": 4
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "windmill"
+      },
+      "seconds": 22.0,
+      "verb": "hoisted sails on a post mill"
+    },
+    "build_screw_press": {
+      "label": "build a screw press",
+      "tech": "E9.40",
+      "inputs": {
+        "branch": 8,
+        "cord": 2
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "screw_press"
+      },
+      "seconds": 12.0,
+      "verb": "cut a great wooden screw into its frame: a press"
+    },
+    "build_trip_hammer": {
+      "label": "rig a trip hammer",
+      "tech": "E9.12",
+      "inputs": {
+        "branch": 6,
+        "cord": 3,
+        "iron_bloom": 1
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "trip_hammer"
+      },
+      "seconds": 14.0,
+      "verb": "rigged a cam-driven hammer beside the furnace"
+    },
+    "press_beer": {
+      "label": "press a beer batch",
+      "tech": "E9.40",
+      "station": "screw_press",
+      "inputs": {
+        "grain": 6
+      },
+      "tools": [],
+      "outputs": {
+        "beer": 4
+      },
+      "seconds": 8.0,
+      "verb": "pressed and set a whole batch of mash"
+    },
+    "press_preserves": {
+      "label": "press berry preserves",
+      "tech": "E9.40",
+      "station": "screw_press",
+      "inputs": {
+        "berries": 4
+      },
+      "tools": [],
+      "outputs": {
+        "pickled_berries": 3
+      },
+      "seconds": 6.0,
+      "verb": "pressed berries into sealed preserves"
     }
   },
   "needs": {
@@ -1867,7 +1958,8 @@
       "processes": {
         "raw_meat": "smoked_meat",
         "fish": "smoked_fish"
-      }
+      },
+      "process_verb": "cured"
     },
     "kiln": {
       "label": "pottery kiln",
@@ -1881,6 +1973,46 @@
       "model_height": 2.6,
       "min_fire_distance": 5.0,
       "ring_radius": 14.0
+    },
+    "watermill": {
+      "label": "watermill",
+      "capacity": 40,
+      "vermin_safe": true,
+      "needs_water": true,
+      "model_height": 3.2,
+      "min_fire_distance": 8.0,
+      "ring_radius": 40.0,
+      "processes": {
+        "grain": "flour"
+      },
+      "process_verb": "milled"
+    },
+    "windmill": {
+      "label": "windmill",
+      "capacity": 40,
+      "vermin_safe": true,
+      "model_height": 4.0,
+      "min_fire_distance": 8.0,
+      "ring_radius": 18.0,
+      "processes": {
+        "grain": "flour"
+      },
+      "process_verb": "milled"
+    },
+    "screw_press": {
+      "label": "screw press",
+      "station": true,
+      "model_height": 2.0,
+      "min_fire_distance": 4.0,
+      "ring_radius": 12.0
+    },
+    "trip_hammer": {
+      "label": "trip hammer",
+      "model_height": 1.8,
+      "min_fire_distance": 5.0,
+      "ring_radius": 12.0,
+      "speeds_station": "smelter",
+      "speed_factor": 2.0
     }
   },
   "predators": {

@@ -39,3 +39,5 @@ known_tech:
   - E2.08   # knots & lashing (old hands know how to bind branches)
   - E2.20   # brush hut — the band's only builder, until he teaches it
   - E7.31   # schools (the hall, once he can build it)
+  - E8.20   # water mill
+  - E9.40   # screw press

@@ -683,6 +683,26 @@ def test_wave_i(world):
     # beer: the merry event lifts the mood (server event path logic)
     agent.feel(10, "merry", "drank beer and feels merry")
     assert agent.mood.get("emotion") == "merry", agent.mood
+
+    # Wave J: the miller builds what the village lacks, and press recipes
+    # stay hidden until the press stands
+    miller = Agent("mil", {"name": "Mil",
+                           "known_tech": ["E1.01", "E8.20", "E9.40", "E9.12"]},
+                   make_llm({"provider": "mock"}), Memory(str(tmp / "m.sqlite")),
+                   world=world, embedder=Embedder({"provider": "mock"}))
+    miller.discovery_rate = 0.0
+    miller.skill_rate = 0.0
+    r = run(miller.decide({"needs": {"hunger": 10, "energy": 90},
+                           "inventory": {"branch": 10, "cord": 4, "mudbrick": 4},
+                           "nearby": {}, "time_of_day": "day",
+                           "village": ["smelter"], "population": 10},
+                          tier="scripted"))
+    assert (r["action"], r["target"]) == ("craft", "build_watermill"), r
+    cat = miller._build_catalog({"inventory": {"grain": 6}, "nearby": {}})
+    assert "press_beer" not in {c["target"] for c in cat["craft"]}
+    cat = miller._build_catalog({"inventory": {"grain": 6}, "nearby": {},
+                                 "stations": ["screw_press"]})
+    assert "press_beer" in {c["target"] for c in cat["craft"]}
     print("  wave I OK")
 
 
