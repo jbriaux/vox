@@ -340,7 +340,8 @@ def _effective_teach_cap(world, known_all, village_structs) -> int:
     speed = world.diffusion_speed(known_all) if world else 1
     if speed >= 4 and "school" not in (village_structs or []):
         speed = 2   # no school hall built -> capped at storytelling pace
-    return 2 + speed
+    bonus = 2 if "university" in (village_structs or []) else 0
+    return 2 + speed + bonus
 
 
 def _propose_trade(inv_a: dict, inv_b: dict, world=None):

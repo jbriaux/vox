@@ -742,6 +742,62 @@ def test_wave_i(world):
     print("  wave I OK")
 
 
+def test_books(world):
+    """Wave L: the print shop's books carry technologies beyond their
+    authors — written from the newest knowledge, learned by whoever reads."""
+    from cortex.agent import Agent
+    from cortex.llm import Embedder, make_llm
+    from cortex.memory import Memory
+    from cortex.server import _effective_teach_cap
+
+    tmp = Path(tempfile.mkdtemp(prefix="cortex_book_"))
+    author = Agent("aut", {"name": "Aut",
+                           "known_tech": ["E1.01", "E5.34", "E9.13", "E10.16",
+                                          "E10.17", "E10.44"]},
+                   make_llm({"provider": "mock"}), Memory(str(tmp / "a.sqlite")),
+                   world=world, embedder=Embedder({"provider": "mock"}))
+    author.discovery_rate = 0.0
+    author.skill_rate = 0.0
+
+    # write_book is print-shop-gated, and the author's NEWEST tech rides along
+    cat = author._build_catalog({"inventory": {"paper": 2}, "nearby": {}})
+    assert "write_book" not in {c["target"] for c in cat["craft"]}
+    cat = author._build_catalog({"inventory": {"paper": 2}, "nearby": {},
+                                 "stations": ["print_shop"]})
+    assert "write_book" in {c["target"] for c in cat["craft"]}
+    picked = author._validate({"action": "craft", "target": "write_book"},
+                              cat, {"action": "wander", "target": "", "say": ""})
+    assert picked["book_tech"] == "E10.44", picked  # numeric era sort, not lexicographic
+
+    # the writing instinct fires when a printer holds paper
+    r = run(author.decide({"needs": {"hunger": 10, "energy": 90},
+                           "inventory": {"paper": 2}, "nearby": {},
+                           "stations": ["print_shop"], "time_of_day": "day",
+                           "village": ["print_shop"], "population": 10},
+                          tier="scripted"))
+    assert (r["action"], r["target"]) == ("craft", "write_book"), r
+
+    # a reader learns from the book — on the scripted tier too
+    reader = Agent("rea", {"name": "Rea", "known_tech": ["E1.01"]},
+                   make_llm({"provider": "mock"}), Memory(str(tmp / "r.sqlite")),
+                   world=world, embedder=Embedder({"provider": "mock"}))
+    reader.discovery_rate = 0.0
+    reader.skill_rate = 0.0
+    r = run(reader.decide({"needs": {"hunger": 10, "energy": 90},
+                           "inventory": {"book_E10.44": 1}, "nearby": {},
+                           "time_of_day": "day"}, tier="scripted"))
+    assert r["action"] == "read" and r["learned"]["tech"] == "E10.44", r
+    assert "E10.44" in reader.known_tech
+    # a book for a tech you know is not worth reading again
+    cat = reader._build_catalog({"inventory": {"book_E10.44": 1}, "nearby": {}})
+    assert cat["books"] == [], cat["books"]
+
+    # the university lifts the teaching cap on top of the school
+    assert _effective_teach_cap(world, {"E1.25", "E3.41", "E7.31"},
+                                ["school", "university"]) == 8
+    print("  books OK")
+
+
 def test_raids(world):
     """Wave H: property raids exist ONLY as a mind's choice — never suggested,
     validated against a real foreign store, remembered in anger."""
@@ -1372,6 +1428,7 @@ def main():
     test_metallurgy_and_trade(world)
     test_skill_library(world)
     test_wave_i(world)
+    test_books(world)
     test_raids(world)
     test_discovery(world)
     test_children(world)

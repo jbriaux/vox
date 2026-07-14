@@ -17,7 +17,7 @@ import re
 import time
 
 ACTIONS = ("wander", "idle", "say", "gather", "craft", "eat", "talk", "rest",
-           "deposit", "withdraw", "skill", "raid")
+           "deposit", "withdraw", "skill", "raid", "read")
 
 SKILL_STEP_ACTIONS = ("gather", "craft", "eat", "deposit", "withdraw")
 SKILL_RATE = 0.15   # chance per idle full-tier decide to reflect on a routine
@@ -335,6 +335,11 @@ class Agent:
                 f"FIELDS ({fields['plots']} plot(s): {fields.get('empty', 0)} bare, "
                 f"{fields.get('growing', 0)} growing, {fields.get('ripe', 0)} ripe "
                 "— sow_field and harvest_field appear under CRAFT when possible)")
+        if catalog.get("books"):
+            lines.append("BOOKS you carry but have not read:")
+            for b in catalog["books"]:
+                lines.append(f'- read target "{b}" — the book of '
+                             f"{self.world.tech_name(b[5:]).lower()}")
         foreign = catalog.get("foreign_store") or {}
         if foreign.get("holds"):
             lines.append(
@@ -380,6 +385,11 @@ class Agent:
         catalog["fields"] = state.get("fields") or {}
         catalog["corral"] = state.get("corral") or {}
         catalog["foreign_store"] = state.get("foreign_store") or {}
+        catalog["books"] = [
+            it for it, n in (state.get("inventory") or {}).items()
+            if int(n) > 0 and it.startswith("book_")
+            and it[5:] not in self.known_tech and self.world
+            and it[5:] in self.world.nodes]
         talk = []
         for other, dist in sorted((state.get("nearby_npcs") or {}).items(),
                                   key=lambda kv: kv[1]):
@@ -436,6 +446,15 @@ class Agent:
                                "That is how it is done!",
                         "learned": {"npc": self.name, "tech": tech,
                                     "tech_name": name, "from": "insight"}}
+        if suggestion["action"] == "read":
+            # reading learns regardless of tier — the book does the teaching
+            done = self._do_read(str(suggestion.get("target", "")))
+            if done:
+                await self.remember(
+                    "discovery", f"read {done['learned']['tech_name']} out of "
+                    "a printed book", 7)
+                return done
+            suggestion = {"action": "idle", "target": "", "say": ""}
         if tier == "scripted":
             # cheap tier: no LLM call, the scripted suggestion IS the decision
             self.memory.add("decision", f"(scripted) chose to {suggestion['action']} "
@@ -447,7 +466,7 @@ class Agent:
                 "\n\nChoose your next action.\n"
                 'Respond ONLY with JSON, exactly: {"action": "wander" | "idle" | "say" | '
                 '"gather" | "craft" | "eat" | "talk" | "rest" | "deposit" | "withdraw" | '
-                '"skill" | "raid", "target": "<id from the lists above, or empty>", '
+                '"skill" | "raid" | "read", "target": "<id from the lists above, or empty>", '
                 '"say": "words you speak aloud, or empty"}'
             )
         else:
@@ -460,7 +479,7 @@ class Agent:
                 "spoken line (\"say\") whenever you have something on your mind.\n"
                 'Respond ONLY with JSON, exactly: {"action": "wander" | "idle" | "say" | '
                 '"gather" | "craft" | "eat" | "talk" | "rest" | "deposit" | "withdraw" | '
-                '"skill" | "raid", "target": "<id from the lists above, or empty>", '
+                '"skill" | "raid" | "read", "target": "<id from the lists above, or empty>", '
                 '"say": "one short in-character line, or empty"}\n'
                 "If unsure, choose SUGGESTED_ACTION: " + json.dumps(suggestion)
             )
@@ -492,6 +511,19 @@ class Agent:
             + (f' and said "{result["say"]}"' if result["say"] else "")
         await self.remember("decision", note, 1)
         return result
+
+    def _do_read(self, target: str):
+        """Wave L: books teach whoever reads them — the mind learns here,
+        the body just sits down with the pages for a while."""
+        tech_id = target[5:] if target.startswith("book_") else ""
+        if not self.world or tech_id not in self.world.nodes:
+            return None
+        self.learn_tech(tech_id, "a printed book")
+        name = self.world.tech_name(tech_id)
+        return {"action": "read", "target": target,
+                "say": f"So THAT is how {name.lower()} is done...",
+                "learned": {"npc": self.name, "tech": tech_id,
+                            "tech_name": name, "from": "a book"}}
 
     # ---------------------------------------------------------- skill library
     # Voyager-style: an idle mind notices it keeps doing the same things and
@@ -648,6 +680,16 @@ class Agent:
             ok = target in {g["target"] for g in catalog.get("gather", [])}
         elif action == "craft":
             ok = target in {c["target"] for c in catalog.get("craft", [])}
+            if ok and target == "write_book":
+                # the author sets their most advanced knowledge in print
+                best = max(self.known_tech, default="",
+                           key=lambda t: (int(t.split(".")[0][1:]),
+                                          int(t.split(".")[1])))
+                if not best:
+                    ok = False
+                else:
+                    return {"action": "craft", "target": target, "say": say,
+                            "book_tech": best}
         elif action == "eat":
             ok = target in {e["target"] for e in catalog.get("eat", [])}
         elif action == "talk":
@@ -660,6 +702,12 @@ class Agent:
             # Wave H: conflict is MIND-driven only — this branch is the sole
             # gate; no suggestion or fallback ever proposes a raid
             ok = target in (catalog.get("foreign_store") or {}).get("holds", {})
+        elif action == "read":
+            if target in (catalog.get("books") or []):
+                result = self._do_read(target)
+                if result:
+                    result["say"] = say or result["say"]
+                    return result
         elif action == "skill":
             for name, _desc, steps, _src, _uses in self.memory.skills_all():
                 if name == target:
@@ -731,6 +779,9 @@ class Agent:
         # 3. night: rest by the fire
         if night:
             return {"action": "rest", "target": "", "say": ""}
+        # 3a0. an unread book in the pouch is knowledge waiting: read it
+        if catalog.get("books"):
+            return {"action": "read", "target": catalog["books"][0], "say": ""}
         # 3a. native copper collecting (E6.01): the green stones are worth
         #     picking up long before anyone knows why — carrying one to a lit
         #     fire is how smelting gets stumbled upon (the opportunity event).
@@ -821,11 +872,23 @@ class Agent:
                           ("build_theater", "theater"),
                           ("build_ice_house", "ice_house"),
                           ("build_fountain", "fountain"),
-                          ("build_stone_wall", "stone_wall")):
+                          ("build_stone_wall", "stone_wall"),
+                          ("build_spinning_wheel", "spinning_wheel"),
+                          ("build_blast_furnace", "blast_furnace"),
+                          ("build_university", "university"),
+                          ("build_hospital", "hospital"),
+                          ("build_clock_tower", "clock_tower"),
+                          ("build_print_shop", "print_shop")):
             if rid in craft_by_id and kind not in built:
                 pick = craft_or_fetch(rid)
                 if pick:
                     return pick
+        # 4g. a printer with paper sets knowledge down for the ages
+        if ("write_book" in craft_by_id
+                and sum(1 for it in inv if it.startswith("book_")) < 2):
+            pick = craft_or_fetch("write_book")
+            if pick:
+                return pick
         # 5. keep the band close: chat when someone is near and it's been a while
         if catalog.get("talk") and time.time() - self._last_talk_ts > TALK_COOLDOWN:
             return {"action": "talk", "target": catalog["talk"][0]["target"], "say": ""}

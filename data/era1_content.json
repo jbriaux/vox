@@ -698,6 +698,18 @@
     },
     "concrete": {
       "label": "concrete"
+    },
+    "paper": {
+      "label": "rag paper"
+    },
+    "heavy_plow": {
+      "label": "heavy moldboard plow",
+      "tool": true
+    },
+    "cast_iron_axe": {
+      "label": "cast-iron axe",
+      "tool": true,
+      "quality": 3.0
     }
   },
   "recipes": {
@@ -1984,6 +1996,171 @@
       },
       "seconds": 26.0,
       "verb": "closed the village behind a ring of stone"
+    },
+    "forge_heavy_plow": {
+      "label": "forge a heavy plow",
+      "tech": "E10.01",
+      "station": "smelter",
+      "inputs": {
+        "iron_bloom": 1,
+        "branch": 2
+      },
+      "tools": [
+        "hammerstone"
+      ],
+      "outputs": {
+        "heavy_plow": 1
+      },
+      "seconds": 12.0,
+      "verb": "forged an iron share onto a wheeled plow"
+    },
+    "build_spinning_wheel": {
+      "label": "build a spinning wheel",
+      "tech": "E10.11",
+      "inputs": {
+        "branch": 5,
+        "cord": 2
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "spinning_wheel"
+      },
+      "seconds": 10.0,
+      "verb": "trued a great wheel for spinning"
+    },
+    "spin_yarn_fast": {
+      "label": "spin wool on the wheel",
+      "tech": "E10.11",
+      "station": "spinning_wheel",
+      "inputs": {
+        "wool": 2
+      },
+      "tools": [],
+      "outputs": {
+        "yarn": 2
+      },
+      "seconds": 2.0,
+      "verb": "spun a whole fleece in one sitting"
+    },
+    "build_blast_furnace": {
+      "label": "raise a blast furnace",
+      "tech": "E10.24",
+      "inputs": {
+        "mudbrick": 8,
+        "concrete": 4
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "blast_furnace"
+      },
+      "seconds": 24.0,
+      "verb": "raised a tall furnace with powered bellows"
+    },
+    "cast_iron_tools": {
+      "label": "pour cast-iron tools",
+      "tech": "E10.24",
+      "station": "blast_furnace",
+      "inputs": {
+        "iron_ore": 2,
+        "charcoal": 3
+      },
+      "tools": [],
+      "outputs": {
+        "cast_iron_axe": 1
+      },
+      "seconds": 10.0,
+      "verb": "poured white iron into tool molds"
+    },
+    "build_university": {
+      "label": "found a university",
+      "tech": "E10.36",
+      "inputs": {
+        "concrete": 10,
+        "branch": 8
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "university"
+      },
+      "seconds": 28.0,
+      "verb": "founded a college of stone and disputation"
+    },
+    "build_hospital": {
+      "label": "raise a hospital",
+      "tech": "E10.41",
+      "inputs": {
+        "concrete": 8,
+        "cloth": 4
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "hospital"
+      },
+      "seconds": 22.0,
+      "verb": "raised wards for the sick and the hurt"
+    },
+    "build_clock_tower": {
+      "label": "raise a clock tower",
+      "tech": "E10.18",
+      "inputs": {
+        "concrete": 8,
+        "copper_ingot": 2
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "clock_tower"
+      },
+      "seconds": 26.0,
+      "verb": "set a weighted clock ringing over the square"
+    },
+    "make_paper": {
+      "label": "pulp rags into paper",
+      "tech": "E10.16",
+      "inputs": {
+        "cloth": 1
+      },
+      "tools": [],
+      "outputs": {
+        "paper": 2
+      },
+      "seconds": 5.0,
+      "verb": "pressed rag pulp into pale sheets"
+    },
+    "build_print_shop": {
+      "label": "set up a print shop",
+      "tech": "E10.17",
+      "inputs": {
+        "branch": 6,
+        "copper_ingot": 1,
+        "concrete": 4
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "print_shop"
+      },
+      "seconds": 20.0,
+      "verb": "set carved blocks and a screw press to printing"
+    },
+    "write_book": {
+      "label": "set your finest knowledge in print",
+      "tech": "E10.44",
+      "station": "print_shop",
+      "inputs": {
+        "paper": 2
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "write_book": true
+      },
+      "seconds": 10.0,
+      "verb": "printed a book"
     }
   },
   "needs": {
@@ -2204,6 +2381,51 @@
       "min_fire_distance": 10.0,
       "ring_radius": 14.0,
       "wall_radius": 20.0
+    },
+    "spinning_wheel": {
+      "label": "spinning wheel",
+      "station": true,
+      "model_height": 1.3,
+      "min_fire_distance": 3.0,
+      "ring_radius": 10.0
+    },
+    "blast_furnace": {
+      "label": "blast furnace",
+      "station": true,
+      "model_height": 2.6,
+      "min_fire_distance": 6.0,
+      "ring_radius": 14.0
+    },
+    "university": {
+      "label": "university",
+      "model_height": 3.0,
+      "min_fire_distance": 6.0,
+      "ring_radius": 16.0,
+      "teach_bonus": 2
+    },
+    "hospital": {
+      "label": "hospital",
+      "model_height": 2.6,
+      "min_fire_distance": 5.0,
+      "ring_radius": 14.0,
+      "aura": {
+        "health": 12
+      },
+      "aura_radius": 12.0
+    },
+    "clock_tower": {
+      "label": "clock tower",
+      "model_height": 3.4,
+      "min_fire_distance": 5.0,
+      "ring_radius": 12.0,
+      "village_speed": 1.15
+    },
+    "print_shop": {
+      "label": "print shop",
+      "station": true,
+      "model_height": 2.0,
+      "min_fire_distance": 4.0,
+      "ring_radius": 12.0
     }
   },
   "predators": {

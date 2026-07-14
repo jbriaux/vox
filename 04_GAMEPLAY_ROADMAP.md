@@ -132,7 +132,7 @@ extensions of the existing structure system:
 - **Aqueduct + fountain**: raises the village population cap (the current `_pop_cap` becomes infrastructure-driven).
 **Shipped**: limestone ledges → lime (kiln) → concrete (E9.13); the **aura pattern** — bathhouse heals (+8 health/dawn within 12 cells), theater sends audiences home *merry* (mood via the existing event path); **ice house** = a 60-slot store where nothing ever spoils; **fountain** raises the birth cap by +10; **stone wall** (E9.27) makes wolves unable to touch anyone inside the ring and shuts out 75% of raids — the direct counter to Wave H. Civic builds joined the build-what's-missing instinct. Market stall remains the one open item (posted-offer commons trading).
 
-## Wave L — Medieval revolutions  *(L effort — the biggest payoff)*
+## Wave L — Medieval revolutions  *(L effort — the biggest payoff)* ✅ DONE (core)
 **Tree**: E10.01/05 heavy plow & three-field, E10.08 windmill (J), E10.11–13 spinning/looms, E10.24 blast furnace, E10.36 university, E10.41 hospital, E10.18 clock, E10.17/44 printing.
 - **Heavy plow**: field plots yield ×2 and support a second sowing per season; **three-field** adds a fallow bonus (fields remember their rotation).
 - **Spinning wheel & treadle loom**: wool→yarn→cloth at 5× speed (data multiplier on existing recipes).
@@ -140,6 +140,7 @@ extensions of the existing structure system:
 - **University**: aura structure that raises the teaching cap AND hosts *scheduled sessions* — a council-like event where one master teaches several students at once (reuses the council assembly machinery).
 - **Hospital**: aura heals the injured/sick faster; **clock tower**: village-wide small work-speed bonus (shared time discipline).
 - **Print shop** (E10.17/44): dawn processor that turns paper + a knower's tech into **books** — physical items that carry a technology. Reading a book teaches its tech; books survive their authors: *portable, tradeable, lootable archives*. This is the knowledge-death mitigation made tangible (and the single most emergent-friendly item in the plan).
+**Shipped**: heavy plow (E10.01, forged at the smelter) — with oxen it doubles every harvest; spinning wheel station (E10.11, wool→yarn at 5× pace); blast furnace station (E10.24) pours cast-iron axes at quality 3.0, the final work tier; **university** (E10.36) adds +2 to the teaching cap on top of the school; hospital aura heals +12/dawn; **clock tower** (E10.18) speeds ALL village work 15%; cloth pulps to paper (E10.16) and the **print shop** (E10.17) lets anyone with E10.44 set their *most advanced technology* into a `book_<tech>` item — a new `read` action teaches it to any holder (works on every tier, the era engine counts it), and books flow through every goods channel: trade, purchase, inheritance, stores, and raids. Cut for later: three-field fallow bonus, university group sessions, second sowing.
 
 ## Wave M — Coin & commerce  *(S–M effort, anytime after E)* ✅ DONE (market stall waits for K)
 **Tree**: E8.30 coinage, E8.31 markets, E8.32 credit, E9.46 mints, E10.39 bookkeeping.

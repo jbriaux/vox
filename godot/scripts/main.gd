@@ -657,6 +657,21 @@ func pop_cap_bonus() -> int:
 	return bonus
 
 
+func village_speed_factor() -> float:
+	## Wave L: the clock tower's shared time gives all work a small edge.
+	var factor := 1.0
+	for s in structures:
+		factor *= float(tech.buildables.get(s.type, {}).get("village_speed", 1.0))
+	return minf(factor, 1.5)
+
+
+func village_has_item(item: String) -> bool:
+	for npc_id in controllers:
+		if int(controllers[npc_id].npc.inventory.get(item, 0)) > 0:
+			return true
+	return false
+
+
 func wall_protects(pos: Vector3) -> bool:
 	## True when a village wall stands and pos lies inside its ring.
 	for s in structures:
@@ -1249,8 +1264,11 @@ func farm_harvest(ctrl: NPCController) -> String:
 			s.growth = 0
 			var yields: Dictionary = tech.buildables.get(s.type, {}).get(
 				"harvest_yield", {"grain": 4})
-			# a sickle (E5.08) cuts cleaner: +50% grain
+			# a sickle (E5.08) cuts cleaner: +50% grain; a heavy plow behind
+			# oxen (Wave L) doubles what the field gives in the first place
 			var bonus := 1.5 if int(ctrl.npc.inventory.get("sickle", 0)) > 0 else 1.0
+			if oxen > 0 and village_has_item("heavy_plow"):
+				bonus *= 2.0
 			var got := {}
 			for item in yields:
 				got[item] = maxi(1, roundi(int(yields[item]) * bonus))

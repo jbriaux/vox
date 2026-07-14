@@ -178,7 +178,12 @@ func handle_action(data: Dictionary) -> void:
 		"gather":
 			_start_goal({"type": "gather", "target": target, "stage": ""})
 		"craft":
-			_start_goal({"type": "craft", "target": target, "stage": ""})
+			_start_goal({"type": "craft", "target": target, "stage": "",
+				"book_tech": str(data.get("book_tech", ""))})
+		"read":
+			_goal = {"type": "read", "target": target, "stage": "reading_book"}
+			activity = "reading a printed book"
+			npc.begin_work(5.0)
 		"eat":
 			do_eat(target)
 		"talk":
@@ -488,11 +493,12 @@ func _begin_gather_work() -> void:
 
 func _tool_quality() -> float:
 	## Metal ages work faster: the best "quality" tool in hand speeds all work.
+	## The clock tower (Wave L) adds shared time-discipline on top.
 	var best := 1.0
 	for item in npc.inventory:
 		if int(npc.inventory[item]) > 0:
 			best = maxf(best, float(tech.items.get(item, {}).get("quality", 1.0)))
-	return best
+	return best * main.village_speed_factor()
 
 
 func _goal_craft() -> void:
@@ -641,6 +647,13 @@ func _on_work_done() -> void:
 			if recipe.get("effects", {}).get("train_ox", false):
 				main.oxen += 1
 				print("[VOX I] a draft ox joins the village (%d now)" % main.oxen)
+			if recipe.get("effects", {}).get("write_book", false):
+				var b_tech := str(_goal.get("book_tech", ""))
+				if b_tech != "":
+					npc.add_items({"book_" + b_tech: 1})
+					emit_event("printed a book of their finest knowledge")
+					_finish_goal()
+					return
 			if recipe.get("effects", {}).has("pen"):
 				var penned: String = main.pen_animal(self, str(recipe.effects.pen))
 				if penned == "":
@@ -676,6 +689,9 @@ func _on_work_done() -> void:
 				_finish_goal()
 				return
 			emit_event(str(recipe.get("verb", "crafted something")))
+			_finish_goal()
+		"reading_book":
+			emit_event("read a printed book, cover to cover")
 			_finish_goal()
 		"experimenting":
 			emit_event("worked out %s by themselves" % str(_goal.target).to_lower())
