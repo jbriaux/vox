@@ -39,7 +39,9 @@ func _process(delta: float) -> void:
 	for w in wolves:
 		w.cooldown = maxf(0.0, w.cooldown - delta)
 		var prey := _nearest_villager(w.pos)
-		# village dogs (E4.07) widen the safe ground around the fires
+		# village dogs (E4.07) and stone walls (E9.27) guard the ground
+		if not prey.is_empty() and main.wall_protects(prey.ctrl.npc.position):
+			prey = {}   # wolves cannot pass the wall at all
 		if not prey.is_empty() and int(main.dogs) > 0 \
 				and _dogs_guard(prey.ctrl.npc.position):
 			if w.cooldown <= 0.0 and prey.dist <= threat:

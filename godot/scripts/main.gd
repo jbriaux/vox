@@ -155,6 +155,13 @@ func _start_game(size_chunks: int, preset: String, water := 0.20, map_seed := -1
 		var sspot := world.random_walkable_near(campfire.position, 8.0)
 		_place_structure("smelter", sspot)
 		print("[VOX E] test hook: starting smelter placed")
+	if OS.get_environment("VOX_START_CIVIC") == "1":
+		# test hook: the classical quarter, pre-built — auras, ice, fountain
+		for civic in ["bathhouse", "theater", "ice_house", "fountain",
+				"stone_wall"]:
+			var cspot2 := world.random_walkable_near(campfire.position, 9.0)
+			_place_structure(civic, cspot2)
+		print("[VOX K] test hook: civic quarter placed")
 	if OS.get_environment("VOX_RAID_DEMO") == "1" and campfires.size() > 1:
 		# test hook: village A's stocked cache sits within sight of village B —
 		# the raid option appears in B's prompts (acting on it stays mind-driven)
@@ -397,6 +404,7 @@ func _advance_time(delta: float) -> void:
 		_age_the_band()
 		_roll_birth()
 		_dawn_processors()   # smoke tonight's catch BEFORE the rot check
+		_dawn_auras()
 		_dawn_economy()
 		_dawn_fields()
 		_dawn_herds()
@@ -430,7 +438,7 @@ func _age_the_band() -> void:
 
 
 func _roll_birth() -> void:
-	if not cortex.online or controllers.size() >= _pop_cap:
+	if not cortex.online or controllers.size() >= _pop_cap + pop_cap_bonus():
 		return
 	if _rng.randf() >= float(tech.lifecycle.get("birth_chance_per_dawn", 0.4)):
 		return
@@ -480,7 +488,8 @@ func _dawn_economy() -> void:
 	for s in structures:
 		if int(s.capacity) <= 0:
 			continue
-		_spoil_inventory(s.store)
+		if not bool(tech.buildables.get(s.type, {}).get("no_spoil", false)):
+			_spoil_inventory(s.store)   # the ice house keeps everything
 		if not bool(s.vermin_safe) \
 				and _rng.randf() < float(tech.storage_cfg.get("vermin_raid_chance_per_dawn", 0.3)):
 			var eaten := _vermin_raid(s.store)
@@ -617,6 +626,47 @@ func _send_village() -> void:
 	if cortex.online:
 		cortex.send({"type": "village", "structures": structure_kinds(),
 			"dogs": dogs, "oxen": oxen})
+
+
+func _dawn_auras() -> void:
+	## Wave K aura pattern: civic buildings quietly help everyone near them.
+	for s in structures:
+		var cfg: Dictionary = tech.buildables.get(s.type, {})
+		var aura: Dictionary = cfg.get("aura", {})
+		if aura.is_empty():
+			continue
+		var radius := float(cfg.get("aura_radius", 12.0))
+		for npc_id in controllers:
+			var ctrl: NPCController = controllers[npc_id]
+			if ctrl.npc.dead:
+				continue
+			if NPCController._flat_dist(ctrl.npc.position, s.pos) > radius:
+				continue
+			if aura.has("health") and ctrl.npc.health < 100.0:
+				ctrl.npc.health = clampf(
+					ctrl.npc.health + float(aura.health), 0.0, 100.0)
+				ctrl.emit_event("soaked away the aches at the bathhouse")
+			if aura.get("cheer", false):
+				ctrl.emit_event("spent the evening at the theater and feels merry")
+
+
+func pop_cap_bonus() -> int:
+	var bonus := 0
+	for s in structures:
+		bonus += int(tech.buildables.get(s.type, {}).get("pop_cap_bonus", 0))
+	return bonus
+
+
+func wall_protects(pos: Vector3) -> bool:
+	## True when a village wall stands and pos lies inside its ring.
+	for s in structures:
+		var wr := float(tech.buildables.get(s.type, {}).get("wall_radius", 0.0))
+		if wr > 0.0:
+			var fire: Campfire = campfires[clampi(int(s.get("fire_idx", 0)),
+				0, campfires.size() - 1)]
+			if NPCController._flat_dist(pos, fire.position) <= wr:
+				return true
+	return false
 
 
 func _dawn_report() -> void:
@@ -1092,6 +1142,12 @@ func raid_store(ctrl: NPCController, item: String) -> String:
 	if s.is_empty() or int(s.store.get(item, 0)) <= 0:
 		return ""
 	var raider := ctrl.npc.npc_name
+	# a standing village wall shuts most raids out cold (Wave K)
+	if wall_protects(s.pos) and _rng.randf() < 0.75:
+		var wline := "%s found the village walls shut against them" % raider
+		print("[VOX H] ", wline)
+		chat_ui.add_line("world", "[i]%s[/i]" % wline)
+		return "found the walls shut and slunk home empty-handed"
 	# the village dogs may drive the raider off empty-handed
 	if dogs > 0 and _rng.randf() < 0.5:
 		ctrl.npc.health = maxf(RAID_HEALTH_FLOOR, ctrl.npc.health - 15.0)

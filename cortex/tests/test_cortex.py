@@ -717,6 +717,28 @@ def test_wave_i(world):
     cat = miller._build_catalog({"inventory": {"grain": 6}, "nearby": {},
                                  "stations": ["screw_press"]})
     assert "press_beer" in {c["target"] for c in cat["craft"]}
+
+    # Wave K: civic builders raise what the village lacks, concrete chain
+    # gated behind the kiln
+    mason = Agent("mas", {"name": "Mas",
+                          "known_tech": ["E1.01", "E9.13", "E9.16", "E9.27"]},
+                  make_llm({"provider": "mock"}), Memory(str(tmp / "ma.sqlite")),
+                  world=world, embedder=Embedder({"provider": "mock"}))
+    mason.discovery_rate = 0.0
+    mason.skill_rate = 0.0
+    r = run(mason.decide({"needs": {"hunger": 10, "energy": 90},
+                          "inventory": {"concrete": 6, "branch": 4},
+                          "nearby": {}, "time_of_day": "day",
+                          "village": ["smelter", "smoking_rack", "kiln",
+                                      "school", "watermill", "windmill",
+                                      "screw_press", "trip_hammer"],
+                          "population": 10}, tier="scripted"))
+    assert (r["action"], r["target"]) == ("craft", "build_bathhouse"), r
+    cat = mason._build_catalog({"inventory": {"limestone": 2}, "nearby": {}})
+    assert "burn_lime" not in {c["target"] for c in cat["craft"]}  # no kiln
+    cat = mason._build_catalog({"inventory": {"limestone": 2}, "nearby": {},
+                                "stations": ["kiln"]})
+    assert "burn_lime" in {c["target"] for c in cat["craft"]}
     print("  wave I OK")
 
 

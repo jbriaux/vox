@@ -816,7 +816,12 @@ class Agent:
                           ("build_watermill", "watermill"),
                           ("build_windmill", "windmill"),
                           ("build_screw_press", "screw_press"),
-                          ("build_trip_hammer", "trip_hammer")):
+                          ("build_trip_hammer", "trip_hammer"),
+                          ("build_bathhouse", "bathhouse"),
+                          ("build_theater", "theater"),
+                          ("build_ice_house", "ice_house"),
+                          ("build_fountain", "fountain"),
+                          ("build_stone_wall", "stone_wall")):
             if rid in craft_by_id and kind not in built:
                 pick = craft_or_fetch(rid)
                 if pick:

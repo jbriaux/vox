@@ -123,13 +123,14 @@ extensions of the existing structure system:
 **Payoff**: the village's first non-muscle power; stored surplus starts working while everyone sleeps.
 **Shipped**: watermill (E8.20) is the first placement-constrained structure — it must stand within 2 cells of water (`is_water` = surface below sea level; the builder's ring search skips dry spots); windmill (E10.08, cloth sails) builds anywhere. Both are grain→flour dawn processors with 40-slot stores. Screw press (E9.40): station with batch beer (grain 6→beer 4, no pot) and berry preserves. Trip hammer (E9.12): first work-speed structure — `speeds_station: smelter, factor 2.0` halves all smithing/smelting seconds via `station_speed_factor`. Rotary querns/animal mills superseded (knowledge-only).
 
-## Wave K — Civic stone (Classical)  *(M–L effort)*
+## Wave K — Civic stone (Classical)  *(M–L effort)* ✅ DONE (market stall still open)
 **Tree**: E9.13 concrete, E9.14 vault, E9.16 baths, E9.19 aqueduct, E9.27 walls, E9.32 theater, E9.42 ice house, E8.31 market.
 - **Concrete chain**: limestone (new stone-cell resource) → lime (kiln) → concrete (+ existing clay/sand).
 - **Civic buildings with auras**: bathhouse (health regen), theater (mood lift for audiences), forum/market (trade range: villagers can barter with the *store* at posted swaps, not just face-to-face).
 - **Ice house**: a store whose contents never spoil — preservation endgame.
 - **Stone walls** (E9.27): predators cannot enter the walled ring — the wolf problem becomes *solved infrastructure* (and the natural pre-work for Wave H if it ever happens).
 - **Aqueduct + fountain**: raises the village population cap (the current `_pop_cap` becomes infrastructure-driven).
+**Shipped**: limestone ledges → lime (kiln) → concrete (E9.13); the **aura pattern** — bathhouse heals (+8 health/dawn within 12 cells), theater sends audiences home *merry* (mood via the existing event path); **ice house** = a 60-slot store where nothing ever spoils; **fountain** raises the birth cap by +10; **stone wall** (E9.27) makes wolves unable to touch anyone inside the ring and shuts out 75% of raids — the direct counter to Wave H. Civic builds joined the build-what's-missing instinct. Market stall remains the one open item (posted-offer commons trading).
 
 ## Wave L — Medieval revolutions  *(L effort — the biggest payoff)*
 **Tree**: E10.01/05 heavy plow & three-field, E10.08 windmill (J), E10.11–13 spinning/looms, E10.24 blast furnace, E10.36 university, E10.41 hospital, E10.18 clock, E10.17/44 printing.

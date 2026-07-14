@@ -41,3 +41,6 @@ known_tech:
   - E7.31   # schools (the hall, once he can build it)
   - E8.20   # water mill
   - E9.40   # screw press
+  - E9.13   # roman concrete
+  - E9.27   # stone fortification
+  - E9.42   # ice houses

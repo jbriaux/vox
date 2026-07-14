@@ -343,6 +343,23 @@
       "respawn_seconds": 220,
       "model_height": 0.85,
       "wanders": true
+    },
+    "limestone_ledge": {
+      "label": "limestone ledge",
+      "tech": "E9.13",
+      "spawn_on": [
+        "stone",
+        "dirt",
+        "grass"
+      ],
+      "count": 14,
+      "yields": {
+        "limestone": 2
+      },
+      "gather_seconds": 4.0,
+      "respawns": true,
+      "respawn_seconds": 200,
+      "model_height": 0.5
     }
   },
   "items": {
@@ -672,6 +689,15 @@
     },
     "coin": {
       "label": "copper coins"
+    },
+    "limestone": {
+      "label": "limestone"
+    },
+    "lime": {
+      "label": "burnt lime"
+    },
+    "concrete": {
+      "label": "concrete"
     }
   },
   "recipes": {
@@ -1855,6 +1881,109 @@
       },
       "seconds": 6.0,
       "verb": "struck eight stamped coins from an ingot"
+    },
+    "burn_lime": {
+      "label": "burn limestone to lime",
+      "tech": "E9.13",
+      "station": "kiln",
+      "inputs": {
+        "limestone": 2
+      },
+      "tools": [],
+      "outputs": {
+        "lime": 1
+      },
+      "seconds": 6.0,
+      "verb": "burned limestone down to quicklime"
+    },
+    "mix_concrete": {
+      "label": "mix concrete",
+      "tech": "E9.13",
+      "inputs": {
+        "lime": 1,
+        "clay": 1
+      },
+      "tools": [],
+      "outputs": {
+        "concrete": 2
+      },
+      "seconds": 4.0,
+      "verb": "mixed lime and ash-clay into wet stone"
+    },
+    "build_bathhouse": {
+      "label": "raise a bathhouse",
+      "tech": "E9.16",
+      "inputs": {
+        "concrete": 6,
+        "branch": 4
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "bathhouse"
+      },
+      "seconds": 18.0,
+      "verb": "raised a steaming bathhouse of poured stone"
+    },
+    "build_theater": {
+      "label": "raise a theater",
+      "tech": "E9.32",
+      "inputs": {
+        "concrete": 8,
+        "branch": 6
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "theater"
+      },
+      "seconds": 20.0,
+      "verb": "raised a half-round of stone seats: a theater"
+    },
+    "build_ice_house": {
+      "label": "sink an ice house",
+      "tech": "E9.42",
+      "inputs": {
+        "concrete": 4,
+        "branch": 4
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "ice_house"
+      },
+      "seconds": 14.0,
+      "verb": "sank a cold cellar under thick stone"
+    },
+    "build_fountain": {
+      "label": "raise a fountain",
+      "tech": "E9.19",
+      "inputs": {
+        "concrete": 6,
+        "clay_pot": 1
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "fountain"
+      },
+      "seconds": 16.0,
+      "verb": "set water running in a public fountain"
+    },
+    "build_stone_wall": {
+      "label": "raise the village wall",
+      "tech": "E9.27",
+      "inputs": {
+        "concrete": 10,
+        "cobble": 6
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "stone_wall"
+      },
+      "seconds": 26.0,
+      "verb": "closed the village behind a ring of stone"
     }
   },
   "needs": {
@@ -2032,6 +2161,49 @@
       "ring_radius": 12.0,
       "speeds_station": "smelter",
       "speed_factor": 2.0
+    },
+    "bathhouse": {
+      "label": "bathhouse",
+      "model_height": 2.4,
+      "min_fire_distance": 5.0,
+      "ring_radius": 14.0,
+      "aura": {
+        "health": 8
+      },
+      "aura_radius": 12.0
+    },
+    "theater": {
+      "label": "theater",
+      "model_height": 2.2,
+      "min_fire_distance": 6.0,
+      "ring_radius": 16.0,
+      "aura": {
+        "cheer": true
+      },
+      "aura_radius": 14.0
+    },
+    "ice_house": {
+      "label": "ice house",
+      "capacity": 60,
+      "vermin_safe": true,
+      "no_spoil": true,
+      "model_height": 1.4,
+      "min_fire_distance": 4.0,
+      "ring_radius": 10.0
+    },
+    "fountain": {
+      "label": "fountain",
+      "model_height": 1.6,
+      "min_fire_distance": 4.0,
+      "ring_radius": 10.0,
+      "pop_cap_bonus": 10
+    },
+    "stone_wall": {
+      "label": "village wall",
+      "model_height": 2.0,
+      "min_fire_distance": 10.0,
+      "ring_radius": 14.0,
+      "wall_radius": 20.0
     }
   },
   "predators": {
