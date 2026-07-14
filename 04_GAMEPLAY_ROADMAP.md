@@ -158,6 +158,9 @@ E (done) ── M (coin) ─────────┘
 H (conflict) — still gated on a design decision; K's walls are its natural prelude
 ```
 
+## Wave N — Flesh on the bones  *(added 2026-07-13)* ✅ DONE
+The living details the tree always had: **snare lines** (E3.22) and **basket fish traps** (E4.10, water-placed) — chance-based dawn processors that catch food overnight; **healing poultices** (E2.25, herbs → the first consumable medicine, used instinctively when hurt); **burial of the dead** (E2.24 — a village that knows the rites grieves at half strength and remembers laying its dead to rest); **bead necklaces** (E3.38, shells + cord — premium trade goods); **wine** (E6.27, at the press); **honey** (E4.25, wild hives, 60-day food); the **ox-cart** (E6.18, oxen-gated) — the first movement-speed item (walk 1.35×); and the **market stall** (E8.31) closing Wave M: taking goods from it costs coins paid into the till, so money finally circulates.
+
 Recommended order: **I → J → M → K → L** (each wave playable alone; L's
 university/printing land best after K's civic pattern exists). Together they
 make roughly another ~120 nodes executable; the remainder (ritual, art,
