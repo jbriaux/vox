@@ -78,9 +78,11 @@ Fast-to-slow, cheap-to-expensive — only the top layer costs tokens:
 | → Cortex | `decide {npc, state, tier}` | the loop of §2 |
 | → Cortex | `event {npc, text}` | memories; also drives practice-based tech (3 harvests → E5.05) |
 | → Cortex | `chat {npc, text}` | the human player talking to a villager |
+| → Cortex | `broadcast {text, reply}` | the player calls out to the whole village (T): everyone remembers, the named few answer |
 | → Cortex | `converse {a, b, inv_a, inv_b}` | two NPCs met: dialogue → teaching → skill pass → barter |
 | → Cortex | `council {npcs, report}` | dawn assembly (optional feature) |
-| → Cortex | `died / birth / social(gift)` | lifecycle & bonds |
+| → Cortex | `village {structures, dogs, oxen}` | census at dawn/on build — gates school tiers & build instincts |
+| → Cortex | `died / birth / social (gift, raid)` | lifecycle & bonds |
 | Cortex → | `roster {npcs, flavor}` | who exists (minds are cast in Cortex, bodies spawn in Godot) |
 | Cortex → | `action {npc, action, target, say, steps?, learned?}` | the decision; `steps` = a skill routine |
 | Cortex → | `say / learned / skill / trade / era / born / council_end / converse_end / status` | world-visible outcomes |
@@ -108,16 +110,20 @@ Two **flavors** select how much scaffolding minds get (New Game menu):
 ## 6. The dawn pipeline
 
 At each dawn Godot runs, in order: season update → aging & old-age deaths →
-birth roll → **economy** (spoilage on pouches and stores, vermin raids on
-non-safe caches) → **fields** (crop growth, winter frost) → **herds**
-(breeding) → chronicle line → **council** (optional: each village rings its
-fire, reports, and one agreed plan is injected into every mind for the day).
+birth roll → **processors** (smoking racks cure, mills grind, traps roll their
+catch — before the rot check) → **auras** (bathhouse heals, theater cheers) →
+**economy** (spoilage on pouches and stores, vermin raids on non-safe caches)
+→ **fields** (crop growth, winter frost) → **herds** (breeding) → **the dead**
+(bodies unburied for 3 days are taken by the wilds; burial (E2.24) is a
+villager's act, not the pipeline's) → chronicle line → **council** (optional:
+each village rings its fire, reports, and one agreed plan is injected into
+every mind for the day).
 
 ## 7. Persistence
 
 | What | Where | Survives |
 |---|---|---|
-| terrain seed, day, season, structures + stores/herds/fields, fire fuel, bodies (position, needs, inventory), counters, dogs, council flag | `user://vox_save.json` (autosave each dawn; menu **Continue**) | Godot restart |
+| terrain seed, day, season, structures + stores/herds/fields (with builder & day raised), corpses & graves, fire fuel, bodies (position, needs, inventory), counters, dogs, council flag | `user://vox_save.json` (autosave each dawn; menu **Continue**) | Godot restart |
 | memories, beliefs, relationships, known techs, skill routines, mood, death flags, runtime-born personas | `cortex/data/memory*/<npc>.sqlite` | Cortex restart (children resurrect, the dead stay dead) |
 
 The two halves re-attach cleanly: bodies are restored by Godot, minds never
@@ -129,18 +135,22 @@ left Cortex.
   Ubuntu GPU hosts (`VOX_CORTEX_URL` points Godot at a remote Cortex;
   `server.host: 0.0.0.0` exposes it — LAN/SSH-tunnel only, no auth).
 - `brain_pool` assigns models to NPCs round-robin; `POST /bind/<npc>` rebinds
-  one villager to a different model at runtime (the HUD shows each mind).
+  one villager to a different model at runtime (the HUD shows each mind), and
+  `POST /brain_pool` replaces the whole pool and rebinds everyone — that's
+  what the in-game **Options → LLM connections** manager calls after it has
+  probed an endpoint's model list and test-fired a completion.
 - Cost levers: decide cadence (`WANDER_MIN/MAX`), `COUNCIL_SPEAKERS`,
   `skill_rate`, `VOX_DISCOVERY_RATE`, and the `tier: scripted` path (no LLM)
   kept as offline fallback.
 
 ## 9. Testing
 
-- `cd cortex && python tests/test_cortex.py` — 27 offline tests (mock LLM):
+- `cd cortex && python tests/test_cortex.py` — 30 offline tests (mock LLM):
   protocol, memory, teaching, discovery, storage, farming, herding, metal,
-  trade & coin, skills, books, raids, council, flavors, death/mitigation,
-  persistence.
+  trade & coin, skills, books, raids, burial, broadcast, council, flavors,
+  death/mitigation, persistence, runtime pool replacement.
 - Godot headless: `--import` (class cache), then env-driven runs
   (`VOX_MAP_CHUNKS`, `VOX_SEED`, `VOX_DAY_SECONDS`, `VOX_COUNCIL`,
-  `VOX_START_CACHE/CORRAL/SMELTER` test hooks) against
-  `config.mocktest.yaml` on port 8766 — the whole village runs with zero GPUs.
+  `VOX_START_CACHE/CORRAL/SMELTER/MILL/CIVIC/CORPSE` + `VOX_RAID_DEMO` test
+  hooks) against a mock config on port 8766 — the whole village runs with
+  zero GPUs.

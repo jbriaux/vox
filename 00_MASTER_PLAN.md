@@ -96,7 +96,9 @@ Generative-agents-style loop per NPC, but tiered so 10–30 agents stay affordab
 | P7a ✅ | The living world: decoration layer, model trees, buildable huts (E2.20), wandering game, largest-component village placement | The village visibly grows and the world feels inhabited |
 | P7b ✅ | World persistence (save/continue, per-map seeds), mood/emotion layer, E3-E4 wave (blades, sewing, bow) + fauna (hare/boar/fish) + wolf predators | The world endures restarts, feels, and bites back |
 | P8 ✅ | Cortex flavors: vanilla vs EMERGENT (two 5-person villages, two families each, blank minds, zero narration — menu-selectable, hello-handshake roster switch, multi-fire world) | Two societies start from nothing, far apart |
-| P8b+ | Gameplay waves A–H per `04_GAMEPLAY_ROADMAP.md`: storage → agriculture → pastoralism/crafts → metallurgy → trade → knowledge → (conflict?) | Iron Age reached emergently, with real fields, kilns and forges |
+| P8b ✅ | Gameplay waves A–H per `04_GAMEPLAY_ROADMAP.md`: storage → agriculture → pastoralism/crafts → metallurgy → trade → knowledge diffusion → mind-driven raids | Iron Age reachable emergently, with real fields, kilns and forges |
+| P9 ✅ | Second arc, waves I–N + tree extension to E10 (440 nodes): preservation/school → power (mills) → coinage/inheritance → civic stone auras → medieval revolutions + printed books → the living details (traps, medicine, burial & graves, wine, market). Plus: skill library (Voyager-style routines), dawn councils, world UX (inspect-on-click, village broadcast, in-game LLM manager) | The whole 10-era tree has executable gameplay behind its spine; culture, coin and conflict are mind-driven |
+| P10 | Marathon era-climb runs on real LLMs; executable recipes for the remaining knowledge-only clusters (canoes/water travel, glassware, three-field rotation, university sessions) | A village crosses into the Middle Ages unattended |
 
 ## 7. Repo layout (proposal)
 

@@ -40,7 +40,7 @@ ollama pull qwen2.5:14b
 ```
 Then in `config.yaml` set `base_url: http://127.0.0.1:11434/v1` and `model: qwen2.5:14b`.
 
-**C. Mock (no GPU)**: `python -m cortex --config config.mock.yaml`. The mock brain follows each agent's built-in scripted suggestion and canned dialogue — the whole village (talking, teaching, crafting) runs offline. This is also the "scripted tier" used for distant NPCs at scale.
+**C. Mock (no GPU)**: `python -m cortex --config config.mock.yaml`. The mock brain follows each agent's built-in scripted suggestion and canned dialogue — the whole village (talking, teaching, crafting) runs offline. The same scripted path doubles as the offline fallback in the protocol (`tier: "scripted"`).
 
 ## Binding LLMs to NPCs
 
@@ -48,7 +48,8 @@ Three levels, all mixable:
 
 1. **`brain_pool`** (recommended): list any number of models at the top of `config.yaml`; every NPC without its own `brain:` is bound to them **round-robin** in roster order — named NPCs first, then generated extras, then children born at runtime continue the rotation. With 4 pool entries, NPCs 1-4 get models 1-4, NPC 5 wraps back to model 1. Entries can point at different machines.
 2. **Explicit `brain:` on an NPC** pins that NPC to a specific model, ignoring the pool.
-3. **Runtime rebinding**: `POST /bind/<npc>` swaps a living NPC's model on the fly.
+3. **Runtime rebinding**: `POST /bind/<npc>` swaps a living NPC's model on the fly, and `POST /brain_pool` (`{"pool":[{"provider","base_url","model"},...]}`) replaces the whole pool and rebinds every living villager round-robin.
+4. **In-game**: the Godot launch menu's **Options → LLM connections** manages endpoints (add/edit/delete, persisted client-side), queries each server's `/v1/models`, test-fires a completion, and applies the pool via `POST /brain_pool` — no config edit or restart needed.
 
 The Godot HUD's "Mind:" line always shows who runs on what.
 
@@ -137,12 +138,18 @@ Every chat line, event, decision, and meeting is a row in `data/memory/<npc>.sql
 | Godot → Cortex | `{"type":"decide","npc":"anon","tier":"full\|scripted","state":{needs, inventory, nearby, nearby_npcs}}` |
 | Godot → Cortex | `{"type":"event","npc":"anon","text":"saw Kara knapping..."}` |
 | Godot → Cortex | `{"type":"converse","a":"anon","b":"kara"}` — two NPCs met up |
+| Godot → Cortex | `{"type":"broadcast","text":"...","reply":["anon","kara"]}` — the player calls out to the whole village (T); everyone remembers, the `reply` list answer aloud |
 | Cortex → Godot | `{"type":"roster","npcs":[{"id","name"},...]}` — sent on connect/hello |
 | Cortex → Godot | `{"type":"say","npc":"anon","text":"..."}` |
-| Cortex → Godot | `{"type":"action","npc":"anon","action":"wander\|idle\|say\|gather\|craft\|eat\|talk","target":"<id>","say":"..."}` |
+| Cortex → Godot | `{"type":"action","npc":"anon","action":"wander\|idle\|say\|gather\|craft\|eat\|talk\|rest\|deposit\|withdraw\|skill\|raid\|read\|bury","target":"<id>","say":"..."}` |
 | Cortex → Godot | `{"type":"learned","npc":"kara","tech":"E1.17","tech_name":"...","from":"anon"}` |
 | Cortex → Godot | `{"type":"converse_end","a":"anon","b":"kara"}` |
 
-## Next (P6+)
+## Next
 
-Content waves E3→E8 (same data-driven pattern); seasons; scripted discovery events (wildfire fire-capture, copper-in-hearth smelting insight); shared food stores; births/generations so the band outlives its founders; in-game binding UI on top of `/bind`.
+Both gameplay arcs (waves A–N: storage, farming, herds, crafts, metal, trade,
+diffusion, raids, power, civic stone, medieval revolutions, coinage, the
+living details) are shipped — see `../04_GAMEPLAY_ROADMAP.md`. What remains:
+long marathon runs on real LLMs, and executable recipes for the knowledge-only
+clusters (canoes/water travel, glassware, the three-field rotation, university
+teaching sessions).

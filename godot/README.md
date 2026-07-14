@@ -4,7 +4,7 @@ Voxel world where a 30-person village of LLM-driven NPCs survives on its own and
 
 ## Run
 
-1. **Godot 4.3+** (standard build): open this folder, F5. A launch menu offers **New Game** (map size 96²→1024²; terrain: hills, plains, river valley, mountains), **Options** (rebindable keys, physical-position defaults so AZERTY just works), and **Exit**. Headless runs skip the menu (env: `VOX_MAP_CHUNKS`, `VOX_TERRAIN`).
+1. **Godot 4.3+** (standard build): open this folder, F5. A launch menu offers **New Game** (map size 96²→1024²; terrain: hills, plains, river valley, mountains), **Options** (rebindable keys with physical-position defaults so AZERTY just works, plus the **LLM connections** manager — add/test endpoints and rebind every villager live), and **Exit**. Headless runs skip the menu (env: `VOX_MAP_CHUNKS`, `VOX_TERRAIN`).
 2. Start the mind service — see `../cortex/README.md`:
    ```
    cd ../cortex && python -m cortex --config config.yaml        # real LLM
@@ -14,7 +14,7 @@ Voxel world where a 30-person village of LLM-driven NPCs survives on its own and
 
 ## Controls
 
-LMB: order the focused NPC / **click any NPC to chat with them** · F: focus next NPC · T: chat with focused · Esc: close chat · RMB drag: orbit · Wheel: zoom · WASD: pan.
+Click: **inspect** whatever you hit — villager, structure (who raised it, and when), grave, wild resource, ground; clicks never order anyone around · double-click an NPC: chat with them · F: focus next NPC · T: **call out to the whole village** (everyone remembers; the three nearest answer) · Esc: close chat · C: conversation auto-focus · RMB drag: orbit · Wheel: zoom · WASD: pan.
 
 ## What happens (skill library — routines as culture)
 
@@ -74,7 +74,7 @@ LMB: order the focused NPC / **click any NPC to chat with them** · F: focus nex
 - **Time passes for real**: villagers age each dawn (child-sized until adulthood), seasons turn — in winter the bushes and fiber plants stop regrowing — and past their lifespan people die of old age where they stand.
 - **Children are born** (dawn rolls, population-capped): Cortex casts them with traits inherited from both parents plus noise, kin bonds on both sides, and almost no knowledge — the band must teach them everything before the old knowers die.
 - The dawn report tracks it all: `Dawn of day 25 (spring, Middle Paleolithic): 25/35 alive, 207 techs learned, 5 births, 10 deaths`. In the verification marathon the settlement reached the **Upper Paleolithic** after most founders were dead — the climb survived its first generational turnover.
-- Marathon mode: `VOX_DAY_SECONDS=15 VOX_FIRE_DECAY=6` (+ `VOX_DISCOVERY_RATE=0.7` on Cortex) compresses a generation into ~5 minutes. `VOX_START_CACHE=1` pre-places a stocked cache pit by the fire (test hook for the storage economy); `VOX_START_CORRAL=1` pre-places a corral with a goat pair (herding); `VOX_START_SMELTER=1` pre-places a smelter (metallurgy).
+- Marathon mode: `VOX_DAY_SECONDS=15 VOX_FIRE_DECAY=6` (+ `VOX_DISCOVERY_RATE=0.7` on Cortex) compresses a generation into ~5 minutes. Test hooks pre-place late-era systems for fast e2e: `VOX_START_CACHE=1` (stocked cache pit), `VOX_START_CORRAL=1` (corral + goat pair), `VOX_START_SMELTER=1`, `VOX_START_RACK=1` (smoking rack), `VOX_START_MILL=1` (watermill on the bank, grain loaded), `VOX_START_CIVIC=1` (bathhouse/theater/ice house/fountain/wall), `VOX_START_CORPSE=1` (a dead stranger by the fire — burial/decay), `VOX_RAID_DEMO=1` (village A's cache within sight of village B).
 
 ## What happens (P5)
 
@@ -86,7 +86,7 @@ LMB: order the focused NPC / **click any NPC to chat with them** · F: focus nex
 
 - **Day/night**: the sun wheels overhead (day length from `era1_content.json`, override with env `VOX_DAY_SECONDS`); nights are dark and cold — NPCs head to the fire to rest, and away from it they recover nothing.
 - **The campfire** is the settlement anchor: cooking station, warmth, light. Its fuel burns down (`VOX_FIRE_DECAY` to accelerate) and someone who knows fire-keeping must feed it branches.
-- **Food economy**: berries and tubers, plus hunting small game (needs a club or spear) and roasting meat/tubers at the fire for much better nutrition. Starvation drains health; at zero the villager dies where they stand, the band remembers, and any technology only they knew is **lost forever**.
+- **Food economy**: berries and tubers, plus hunting small game (needs a club or spear) and roasting meat/tubers at the fire for much better nutrition. Starvation drains health; at zero the villager dies where they stand, the band remembers, and any technology only they knew is **lost forever**. The body stays where it fell: a villager who knows Burial of the dead (E2.24) digs a grave (mound + headstone, click to see who rests there); unburied for 3 days, scavengers scatter the bones.
 - **Mutual aid**: villagers with spare food share with starving neighbors — both remember it.
 - Every dawn the console prints a survival report; after day 10 you get the P4 verdict (`VILLAGE SURVIVED 10 DAYS UNATTENDED`).
 
@@ -96,14 +96,14 @@ LMB: order the focused NPC / **click any NPC to chat with them** · F: focus nex
 - Idle NPCs ask Cortex what to do; nearby NPCs count as **talk** targets. Two who decide to talk walk together, freeze face-to-face, and exchange a few lines.
 - If one knows a technology the other doesn't, a willing teacher **demonstrates it** — watch for `*** X learned ... from Y ***` in the log and the counter in the HUD. The knowledge is permanent (it's in the learner's memory DB).
 - NPCs also *see* each other work ("saw Odan knapping a handaxe") — observations feed memories and relationships.
-- **Tiering**: NPCs near the camera (or in chat) get full LLM decides; distant ones run on Cortex's scripted tier with zero LLM calls. The HUD shows the focused NPC's tier.
+- **Every villager thinks with a full LLM mind, everywhere on the map** — Cortex dispatches decides concurrently so vLLM batches them. (The scripted tier survives in the protocol as the offline fallback; the HUD still shows each mind's binding.)
 
 ## Files
 
 | File | Role |
 |---|---|
 | `scripts/main.gd` | Orchestrator: launch menu flow, roster spawn, day/night, message routing, perception, gifting, death, tiering, HUD |
-| `scripts/menu_ui.gd` | Launch menu: New Game (map size + terrain), Options (key rebinding), Exit |
+| `scripts/menu_ui.gd` | Launch menu: New Game (map size + terrain + flavor + council), Options (key rebinding, LLM connection manager → `POST /brain_pool`), Exit |
 | `scripts/input_config.gd` | InputMap actions, physical-key defaults, persistence (user://keybinds.cfg) |
 | `scripts/asset_lib.gd` | Drop-in GLB model loading: auto-scale, animation detection, box-art fallback (see `assets/README.md`) |
 | `scripts/campfire.gd` | The hearth: fuel, decay, light, warmth/work radii |
@@ -114,7 +114,7 @@ LMB: order the focused NPC / **click any NPC to chat with them** · F: focus nex
 | `scripts/tech_data.gd` | Loads tech_tree.json + era1_content.json; recipe status/apply |
 | `scripts/resource_field.gd` | Scatters gatherable props; nearest/distance queries; respawn |
 | `scripts/cortex_client.gd` | WebSocket client, auto-reconnect |
-| `scripts/chat_ui.gd` | Chat panel (status, log, per-NPC input) |
+| `scripts/chat_ui.gd` | Chat panel (status, log, per-NPC input, village-wide broadcast) |
 | `scripts/orbit_camera.gd` | Camera rig |
 
 ## Headless check
@@ -126,4 +126,4 @@ prints `PATHFINDING OK`, `CRAFT ENGINE OK`, `RESOURCE FIELD OK`. Run without `--
 
 ## Known limits
 
-Single walkable layer; world generated at startup; one shared campfire (no building yet); conversations are pairwise; E3+ techs are discoverable but have no gameplay recipes yet; parentage ignores sex/kinship constraints. P7+: content waves E3→E8, scripted discovery events, multi-settlement + trade, in-game binding UI.
+Single walkable layer; world generated at startup; conversations are pairwise (councils are the scripted exception); parentage ignores sex/kinship constraints; E9–E10 techs past the shipped recipes (canoes, glassware, three-field rotation, university sessions) are knowledge-only for now. Everything else the early phases deferred — building, two villages, trade, in-game LLM binding — has since shipped (waves A–N, see `../04_GAMEPLAY_ROADMAP.md`).

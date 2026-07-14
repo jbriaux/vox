@@ -18,8 +18,9 @@ property of who knows what and who talked to whom before they died.
 
 - **Survive**: forage, hunt, trap, fish, cook, keep the fire alive, flee
   wolves, pound herbs into medicine, shelter from winter — needs, health,
-  aging, and death are all real. A village that knows burial rites grieves
-  gentler than one that doesn't.
+  aging, and death are all real. The dead lie where they fell until a
+  villager who knows the rite digs them a grave — or, in three days, the
+  wilds scatter the bones.
 - **Learn**: discover technologies at their personal knowledge frontier —
   by insight at the fire, by seasons of practice, or by a copper nugget left
   in the hearth — and teach them, newest first. Children are born near-blank
@@ -62,7 +63,9 @@ Three processes, one contract (full details in
   JSON protocol over WebSocket.
 - **Any OpenAI-compatible LLM host** — vLLM on a GPU box, several models
   round-robined across villagers, or the built-in mock provider for running
-  the whole village offline (that's how the 27 tests work).
+  the whole village offline (that's how the 30 tests work). Endpoints can
+  be managed in-game — Options → **LLM connections** finds each server's
+  models, test-fires them, and rebinds every villager live.
 
 ## Getting started
 
@@ -84,7 +87,7 @@ python -m cortex --config config.mock.yaml     # offline minds, no GPU
 | [01_TECH_TREE.md](01_TECH_TREE.md) | the 440-node tree, eras E1–E10 |
 | [02_WORLD_ELEMENTS.md](02_WORLD_ELEMENTS.md) | world design |
 | [03_NPC_PERSONALITY.md](03_NPC_PERSONALITY.md) | trait system, personas |
-| [04_GAMEPLAY_ROADMAP.md](04_GAMEPLAY_ROADMAP.md) | feature waves A–H and their status |
+| [04_GAMEPLAY_ROADMAP.md](04_GAMEPLAY_ROADMAP.md) | feature waves A–N and their status |
 | [05_ARCHITECTURE.md](05_ARCHITECTURE.md) | the stack, decide loop, mind layers, protocol |
 | [QUICKSTART.md](QUICKSTART.md) | how to run everything |
 
