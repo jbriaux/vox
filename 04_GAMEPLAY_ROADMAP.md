@@ -1,6 +1,8 @@
 # VOX Gameplay Roadmap — from the Tech Tree to Playable Systems
 
-Maps `01_TECH_TREE.md` (440 nodes, E1–E10) onto engine work. Everything is
+Maps `01_TECH_TREE.md` (440 nodes, E1–E10) onto engine work. First arc
+(waves A–H) below; second arc (waves I–M, covering the A–G leftovers and the
+new E9/E10 eras) at the end of this file. Everything is
 *discoverable/teachable knowledge* today; this plan is about which nodes get
 **gameplay** and what new engine verbs each wave needs. Status: E1 fully
 playable, E2 mostly, E3–E4 partially (blades, sewing, bow, fishing, traps
@@ -86,17 +88,76 @@ morale, injury, and inter-village hostility systems. **Decide before building.**
 
 ---
 
+# Second arc — waves I–M (planned 2026-07-12, tree now E1–E10 / 440 nodes)
+
+Waves A–G shipped their core loops. What follows plans the rest: the A–G
+leftovers, plus executable gameplay for the new Classical (E9) and Medieval
+(E10) eras. Two **new engine patterns** carry almost everything, both cheap
+extensions of the existing structure system:
+
+- **Dawn processors** — structures that transform stored goods at dawn
+  (mill: grain→flour; press: grain→beer; smokehouse: meat→smoked). The dawn
+  pipeline already iterates structures for spoilage/herds/crops; processors
+  are one more pass.
+- **Auras** — structures that passively affect villagers inside a radius
+  (bathhouse heals, theater lifts mood, university multiplies teaching,
+  clock tower speeds work). One `aura` dict on the structure entry + one
+  check where needs/mood/teaching already tick.
+
+## Wave I — Loose ends of the first arc  *(S–M effort, do first)*
+**Tree**: E3.27/E4.24 smoking, E5.33 salt, E5.31 beer, E5.20/21/25 cattle-pigs-oxen, E5.35–37 kiln, E5.44 dyes, E7.31 school.
+- **Smoking rack** (dawn processor): raw meat/fish → smoked (20-day shelf life) — finishes the preservation ladder started in Wave A.
+- **Salt** gathering on shore cells + salted meat recipe.
+- **Beer** (E5.31): grain + pot at fire → beer; small mood lift when drunk — first "fun" consumable, pairs with feasts/councils.
+- **Cattle & pigs** join the corral (data-only: two more capture/pen/slaughter rows); **draft oxen** (E5.25) speed plow-field work once Wave L's plow exists.
+- **Kiln** (E5.37): second station structure; fires pots without the campfire and unlocks **dyes** (E5.44) → dyed garments (pure trade goods).
+- **School** (E7.31 structure): a built school makes the existing ×4 diffusion *conditional on the building standing* — knowledge infrastructure you can point at (and lose).
+
+## Wave J — Power  *(M effort — the industrial hinge)*
+**Tree**: E8.18–20 querns/mills, E9.05 mechanics, E9.11–12 gearing & trip hammers, E9.40 screw press, E10.08 windmill, E10.10 cams.
+- **Watermill** (must stand on a shore/river cell — first placement-constrained structure) and **windmill** (anywhere): dawn processors that mill *all* stored grain to flour, replacing hand-grinding.
+- **Trip hammer** upgrade to the smelter: halves smithing seconds (aura on the station).
+- **Screw press**: grain→beer and (with Wave I) berries→preserves at scale.
+**Payoff**: the village's first non-muscle power; stored surplus starts working while everyone sleeps.
+
+## Wave K — Civic stone (Classical)  *(M–L effort)*
+**Tree**: E9.13 concrete, E9.14 vault, E9.16 baths, E9.19 aqueduct, E9.27 walls, E9.32 theater, E9.42 ice house, E8.31 market.
+- **Concrete chain**: limestone (new stone-cell resource) → lime (kiln) → concrete (+ existing clay/sand).
+- **Civic buildings with auras**: bathhouse (health regen), theater (mood lift for audiences), forum/market (trade range: villagers can barter with the *store* at posted swaps, not just face-to-face).
+- **Ice house**: a store whose contents never spoil — preservation endgame.
+- **Stone walls** (E9.27): predators cannot enter the walled ring — the wolf problem becomes *solved infrastructure* (and the natural pre-work for Wave H if it ever happens).
+- **Aqueduct + fountain**: raises the village population cap (the current `_pop_cap` becomes infrastructure-driven).
+
+## Wave L — Medieval revolutions  *(L effort — the biggest payoff)*
+**Tree**: E10.01/05 heavy plow & three-field, E10.08 windmill (J), E10.11–13 spinning/looms, E10.24 blast furnace, E10.36 university, E10.41 hospital, E10.18 clock, E10.17/44 printing.
+- **Heavy plow**: field plots yield ×2 and support a second sowing per season; **three-field** adds a fallow bonus (fields remember their rotation).
+- **Spinning wheel & treadle loom**: wool→yarn→cloth at 5× speed (data multiplier on existing recipes).
+- **Blast furnace**: station upgrade; cast-iron toolkit at quality 3.0 — the final work-speed tier.
+- **University**: aura structure that raises the teaching cap AND hosts *scheduled sessions* — a council-like event where one master teaches several students at once (reuses the council assembly machinery).
+- **Hospital**: aura heals the injured/sick faster; **clock tower**: village-wide small work-speed bonus (shared time discipline).
+- **Print shop** (E10.17/44): dawn processor that turns paper + a knower's tech into **books** — physical items that carry a technology. Reading a book teaches its tech; books survive their authors: *portable, tradeable, lootable archives*. This is the knowledge-death mitigation made tangible (and the single most emergent-friendly item in the plan).
+
+## Wave M — Coin & commerce  *(S–M effort, anytime after E)*
+**Tree**: E8.30 coinage, E8.31 markets, E8.32 credit, E9.46 mints, E10.39 bookkeeping.
+- **Coins**: minted at the smithy from copper/silver ingots; a universal trade good.
+- **Barter upgrade**: when no complementary surplus exists, `_propose_trade` falls back to *purchase* — goods for coins at simple valuations. Wealth becomes visible (and hoardable, and inheritable).
+- **Market stall** (with Wave K's forum): posted offers let villagers trade with the commons asynchronously.
+
 ## Order & dependencies
 
 ```
-A (storage) ──> B (agriculture) ──> D (crafts/houses) ──> E (metallurgy) ──> F (trade)
-                    └─> C (pastoralism, parallel with D)
-G (knowledge) — anytime, recommend alongside B
-H (conflict) — after F, if ever
+I (loose ends) ──────────────┐
+J (power) ── K (civic stone) ─┼─ L (medieval revolutions)
+E (done) ── M (coin) ─────────┘
+H (conflict) — still gated on a design decision; K's walls are its natural prelude
 ```
 
-Waves A–F make ~180 of the 285 unimplemented nodes *playable*; the rest stay
-as flavor knowledge (ritual, art, seasonal lore) that still counts for eras.
+Recommended order: **I → J → M → K → L** (each wave playable alone; L's
+university/printing land best after K's civic pattern exists). Together they
+make roughly another ~120 nodes executable; the remainder (ritual, art,
+seasonal lore, law, navigation) stays knowledge-only — still discovered,
+taught, era-counted, and mourned when lost.
+
 Each wave follows the established pattern: extend `era1_content.json`
 (resources/items/recipes/stations/buildables), small engine verbs in Godot,
 suggestion-rule + catalog updates in Cortex, model slots auto-reported by
