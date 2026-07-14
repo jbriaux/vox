@@ -544,16 +544,24 @@ async def _handle_death(sock, agent: Agent, cause: str) -> None:
     for x in living:
         living_known |= set(x.known_tech)
     lost = sorted(set(agent.known_tech) - living_known)
+    # burial of the dead (E2.24, Wave N): rites make grief bearable
+    rites = "E2.24" in living_known
     heir = None
     best_fam = -1.0
     for x in living:
-        await x.remember("event", f"{display} died of {cause}", 8)
+        if rites:
+            await x.remember(
+                "event", f"we laid {display} to rest with the old rites", 7)
+        else:
+            await x.remember("event", f"{display} died of {cause}", 8)
         rels = {r[0]: r for r in x.memory.rel_all()}
         rel = rels.get(agent.name)
         kin = rel is not None and rel[4] in ("my child", "my parent")
         close = rel is not None and rel[3] >= 15  # familiarity
-        x.feel(-35 if kin else (-22 if close else -12), "grieving",
-               f"{display} died of {cause}")
+        grief = -35 if kin else (-22 if close else -12)
+        if rites:
+            grief = int(grief * 0.5)   # mourned together, carried together
+        x.feel(grief, "grieving", f"{display} died of {cause}")
         fam = float(rel[3]) if rel is not None else 0.0
         if fam > best_fam:
             best_fam = fam

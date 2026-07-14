@@ -155,7 +155,7 @@ class World:
     def action_catalog(self, known_tech, inventory: dict, nearby: dict,
                        fire: dict = None, storage: dict = None,
                        fields: dict = None, corral: dict = None,
-                       stations: list = None) -> dict:
+                       stations: list = None, oxen: int = 0) -> dict:
         """Everything an NPC can actually do right now, for the decide prompt.
         `fire` is the campfire state from the engine ({lit, fuel, distance})
         or None when no station exists — station recipes are gated on it."""
@@ -186,6 +186,8 @@ class World:
                 continue  # nothing to sow into / nothing ripe to cut
             if r.get("requires_corral") and not corral:
                 continue  # no corral in the village yet
+            if r.get("requires_oxen") and int(oxen) < 1:
+                continue  # no trained ox, no cart
             herd_need = r.get("requires_herd", "")
             if herd_need and int((corral or {}).get("herd", {})
                                  .get(herd_need, 0)) <= 0:

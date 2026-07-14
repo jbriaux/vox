@@ -380,7 +380,7 @@ class Agent:
             self.known_tech, state.get("inventory"), state.get("nearby"),
             fire=state.get("fire"), storage=state.get("storage"),
             fields=state.get("fields"), corral=state.get("corral"),
-            stations=state.get("stations"))
+            stations=state.get("stations"), oxen=int(state.get("oxen", 0)))
             if self.world else {"gather": [], "craft": [], "eat": [], "store": {}})
         catalog["fields"] = state.get("fields") or {}
         catalog["corral"] = state.get("corral") or {}
@@ -752,6 +752,10 @@ class Agent:
             return None
 
         store = catalog.get("store") or {}
+        # 0. hurt: a poultice in the pouch is used before anything else
+        health = float(needs.get("health", 100))
+        if health < 50 and int(inv.get("poultice", 0)) > 0:
+            return {"action": "eat", "target": "poultice", "say": ""}
         # 1. starving: eat what you carry, raid the larder, milk or slaughter
         #    from the herd, cook, then find food
         if hunger >= 60:
@@ -878,7 +882,10 @@ class Agent:
                           ("build_university", "university"),
                           ("build_hospital", "hospital"),
                           ("build_clock_tower", "clock_tower"),
-                          ("build_print_shop", "print_shop")):
+                          ("build_print_shop", "print_shop"),
+                          ("set_snares", "snare_line"),
+                          ("set_fish_trap", "fish_trap"),
+                          ("build_market_stall", "market_stall")):
             if rid in craft_by_id and kind not in built:
                 pick = craft_or_fetch(rid)
                 if pick:

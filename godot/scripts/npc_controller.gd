@@ -56,6 +56,7 @@ func _process(delta: float) -> void:
 	if npc == null:
 		return
 	npc.wrapped = _has_warmth_item()
+	npc.speed = 3.5 * _move_speed()
 	# paced speech while in a conversation
 	if not _say_queue.is_empty():
 		_say_t -= delta
@@ -117,6 +118,7 @@ func build_state() -> Dictionary:
 		"huts": main.hut_count(),
 		"population": main.controllers.size(),
 		"dogs": main.dogs,
+		"oxen": main.oxen,
 	}
 	if not npc.warm and not npc.wrapped \
 			and (npc.night or main.season_name() == "winter"):
@@ -491,6 +493,15 @@ func _begin_gather_work() -> void:
 		/ _tool_quality())
 
 
+func _move_speed() -> float:
+	## Wave N: an ox-cart (or better, someday) speeds the walk itself.
+	var best := 1.0
+	for item in npc.inventory:
+		if int(npc.inventory[item]) > 0:
+			best = maxf(best, float(tech.items.get(item, {}).get("move_speed", 1.0)))
+	return best
+
+
 func _tool_quality() -> float:
 	## Metal ages work faster: the best "quality" tool in hand speeds all work.
 	## The clock tower (Wave L) adds shared time-discipline on top.
@@ -702,6 +713,9 @@ func _on_work_done() -> void:
 			if int(npc.inventory[item]) <= 0:
 				npc.inventory.erase(item)
 			npc.hunger = clampf(npc.hunger - tech.food_hunger_value(item), 0.0, 100.0)
+			var heal := float(tech.items.get(item, {}).get("heal", 0))
+			if heal > 0.0:
+				npc.health = clampf(npc.health + heal, 0.0, 100.0)
 			if tech.items.get(item, {}).get("cheer", false):
 				emit_event("drank %s and feels merry" % tech.item_label(item))
 			else:

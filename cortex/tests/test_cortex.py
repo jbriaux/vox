@@ -798,6 +798,53 @@ def test_books(world):
     print("  books OK")
 
 
+def test_wave_n(world):
+    """Wave N: poultices heal, ox-carts need oxen, traps and markets build."""
+    from cortex.agent import Agent
+    from cortex.llm import Embedder, make_llm
+    from cortex.memory import Memory
+
+    tmp = Path(tempfile.mkdtemp(prefix="cortex_waven_"))
+    agent = Agent("nia", {"name": "Nia",
+                          "known_tech": ["E1.01", "E2.07", "E2.25", "E3.22",
+                                         "E4.10", "E6.18", "E6.27", "E8.31"]},
+                  make_llm({"provider": "mock"}), Memory(str(tmp / "n.sqlite")),
+                  world=world, embedder=Embedder({"provider": "mock"}))
+    agent.discovery_rate = 0.0
+    agent.skill_rate = 0.0
+
+    def decide(state):
+        return run(agent.decide(state, tier="scripted"))
+
+    base = {"needs": {"hunger": 10, "energy": 90}, "nearby": {},
+            "time_of_day": "day", "population": 10}
+    # hurt with a poultice in the pouch -> use it before anything else
+    r = decide({**base, "needs": {"hunger": 70, "energy": 50, "health": 30},
+                "inventory": {"poultice": 1, "berries": 3}})
+    assert (r["action"], r["target"]) == ("eat", "poultice"), r
+    # ox-cart is gated on a trained ox existing
+    cat = agent._build_catalog({"inventory": {"branch": 8, "cord": 3},
+                                "nearby": {}})
+    assert "build_ox_cart" not in {c["target"] for c in cat["craft"]}
+    cat = agent._build_catalog({"inventory": {"branch": 8, "cord": 3},
+                                "nearby": {}, "oxen": 2})
+    assert "build_ox_cart" in {c["target"] for c in cat["craft"]}
+    # the village lacks snares -> whoever knows them sets a line
+    r = decide({**base, "inventory": {"cord": 3, "branch": 2},
+                "village": ["smelter", "smoking_rack", "kiln", "school",
+                            "watermill", "windmill", "screw_press",
+                            "trip_hammer", "bathhouse", "theater", "ice_house",
+                            "fountain", "stone_wall", "spinning_wheel",
+                            "blast_furnace", "university", "hospital",
+                            "clock_tower", "print_shop"]})
+    assert (r["action"], r["target"]) == ("craft", "set_snares"), r
+    # wine waits on the screw press
+    cat = agent._build_catalog({"inventory": {"berries": 6}, "nearby": {},
+                                "stations": ["screw_press"]})
+    assert "press_wine" in {c["target"] for c in cat["craft"]}
+    print("  wave N OK")
+
+
 def test_raids(world):
     """Wave H: property raids exist ONLY as a mind's choice — never suggested,
     validated against a real foreign store, remembered in anger."""
@@ -1429,6 +1476,7 @@ def main():
     test_skill_library(world)
     test_wave_i(world)
     test_books(world)
+    test_wave_n(world)
     test_raids(world)
     test_discovery(world)
     test_children(world)

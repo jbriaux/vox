@@ -591,7 +591,18 @@ func _on_council_end(data: Dictionary) -> void:
 func _dawn_processors() -> void:
 	## Dawn-processor pattern: structures with a "processes" map transform
 	## what was deposited in them overnight (smoking rack: raw -> smoked).
+	## Traps are chance processors: they CATCH instead of convert.
 	for s in structures:
+		var traps: Dictionary = tech.buildables.get(s.type, {}).get("trap_yield", {})
+		for item in traps.keys():
+			if _rng.randf() < float(traps[item]):
+				s.store[item] = int(s.store.get(item, 0)) + 1
+				var tline := "the %s %s a catch overnight: 1 %s" % [
+					str(tech.buildables.get(s.type, {}).get("label", s.type)),
+					str(tech.buildables.get(s.type, {}).get("process_verb", "held")),
+					tech.item_label(item)]
+				print("[VOX N] ", tline)
+				chat_ui.add_line("world", "[i]%s[/i]" % tline)
 		var proc: Dictionary = tech.buildables.get(s.type, {}).get("processes", {})
 		if proc.is_empty():
 			continue
@@ -1006,6 +1017,21 @@ func store_withdraw(ctrl: NPCController, item: String) -> String:
 	var s := nearest_storage(ctrl.npc.position)
 	if s.is_empty() or int(s.store.get(item, 0)) <= 0:
 		return ""
+	# Wave N: market stalls sell — taking goods costs coins, paid into the till
+	if bool(tech.buildables.get(s.type, {}).get("market", false)) and item != "coin":
+		var price := tech.item_value(item)
+		if int(ctrl.npc.inventory.get("coin", 0)) < price:
+			return ""   # no coin, no goods — the commons caches stay free
+		ctrl.npc.inventory["coin"] = int(ctrl.npc.inventory["coin"]) - price
+		if int(ctrl.npc.inventory["coin"]) <= 0:
+			ctrl.npc.inventory.erase("coin")
+		s.store["coin"] = int(s.store.get("coin", 0)) + price
+		s.store[item] = int(s.store[item]) - 1
+		if int(s.store[item]) <= 0:
+			s.store.erase(item)
+		ctrl.npc.add_items({item: 1})
+		return "bought %s at the market stall for %d coins" % [
+			tech.item_label(item), price]
 	var amount := mini(int(tech.storage_cfg.get("withdraw_amount", 3)),
 		int(s.store[item]))
 	s.store[item] = int(s.store[item]) - amount

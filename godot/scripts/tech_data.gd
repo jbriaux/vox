@@ -62,6 +62,18 @@ func is_food(item: String) -> bool:
 	return items.get(item, {}).has("food")
 
 
+func item_value(item: String) -> int:
+	## Coin price — mirrors cortex/world.py item_value.
+	var it: Dictionary = items.get(item, {})
+	if item == "coin":
+		return 1
+	if it.has("food"):
+		return maxi(1, roundi(float(it.food.get("hunger", 5)) / 8.0))
+	if it.get("tool", false):
+		return maxi(3, roundi(float(it.get("quality", 1.0)) * 5.0))
+	return 2
+
+
 func food_hunger_value(item: String) -> float:
 	return float(items.get(item, {}).get("food", {}).get("hunger", 0))
 

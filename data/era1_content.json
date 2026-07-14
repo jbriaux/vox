@@ -360,6 +360,55 @@
       "respawns": true,
       "respawn_seconds": 200,
       "model_height": 0.5
+    },
+    "herb_patch": {
+      "label": "healing herbs",
+      "tech": "E2.25",
+      "spawn_on": [
+        "grass"
+      ],
+      "count": 18,
+      "yields": {
+        "herbs": 2
+      },
+      "gather_seconds": 2.5,
+      "respawns": true,
+      "respawn_seconds": 130,
+      "seasonal": true,
+      "model_height": 0.4
+    },
+    "shell_bed": {
+      "label": "shell bed",
+      "tech": "E2.26",
+      "spawn_on": [
+        "sand"
+      ],
+      "count": 10,
+      "yields": {
+        "shells": 2
+      },
+      "gather_seconds": 3.0,
+      "respawns": true,
+      "respawn_seconds": 180,
+      "model_height": 0.2
+    },
+    "wild_hive": {
+      "label": "wild bee hive",
+      "tech": "E4.25",
+      "spawn_on": [
+        "grass",
+        "dirt"
+      ],
+      "near_trees": true,
+      "count": 8,
+      "yields": {
+        "honey": 2
+      },
+      "gather_seconds": 5.0,
+      "gather_verb": "smoked bees from a wild hive",
+      "respawns": true,
+      "respawn_seconds": 300,
+      "model_height": 0.6
     }
   },
   "items": {
@@ -710,6 +759,43 @@
       "label": "cast-iron axe",
       "tool": true,
       "quality": 3.0
+    },
+    "herbs": {
+      "label": "healing herbs"
+    },
+    "poultice": {
+      "label": "herb poultice",
+      "food": {
+        "hunger": 2
+      },
+      "heal": 30,
+      "spoils_days": 8
+    },
+    "shells": {
+      "label": "sea shells"
+    },
+    "bead_necklace": {
+      "label": "bead necklace"
+    },
+    "wine": {
+      "label": "wine",
+      "food": {
+        "hunger": 6
+      },
+      "cheer": true,
+      "spoils_days": 30
+    },
+    "honey": {
+      "label": "honey",
+      "food": {
+        "hunger": 30
+      },
+      "spoils_days": 60
+    },
+    "ox_cart": {
+      "label": "ox-cart",
+      "tool": true,
+      "move_speed": 1.35
     }
   },
   "recipes": {
@@ -2161,6 +2247,107 @@
       },
       "seconds": 10.0,
       "verb": "printed a book"
+    },
+    "make_poultice": {
+      "label": "pound a healing poultice",
+      "tech": "E2.25",
+      "inputs": {
+        "herbs": 2
+      },
+      "tools": [],
+      "outputs": {
+        "poultice": 1
+      },
+      "seconds": 3.0,
+      "verb": "pounded herbs into a healing poultice"
+    },
+    "string_beads": {
+      "label": "string a bead necklace",
+      "tech": "E3.38",
+      "inputs": {
+        "shells": 2,
+        "cord": 1
+      },
+      "tools": [],
+      "outputs": {
+        "bead_necklace": 1
+      },
+      "seconds": 4.0,
+      "verb": "drilled and strung shining beads"
+    },
+    "set_snares": {
+      "label": "set a snare line",
+      "tech": "E3.22",
+      "inputs": {
+        "cord": 3,
+        "branch": 2
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "snare_line"
+      },
+      "seconds": 6.0,
+      "verb": "set a line of snares along the game trails"
+    },
+    "set_fish_trap": {
+      "label": "sink a basket fish trap",
+      "tech": "E4.10",
+      "inputs": {
+        "cord": 2,
+        "branch": 3
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "fish_trap"
+      },
+      "seconds": 6.0,
+      "verb": "sank a woven basket trap in the shallows"
+    },
+    "press_wine": {
+      "label": "press a wine batch",
+      "tech": "E6.27",
+      "station": "screw_press",
+      "inputs": {
+        "berries": 6
+      },
+      "tools": [],
+      "outputs": {
+        "wine": 3
+      },
+      "seconds": 8.0,
+      "verb": "pressed dark wine into jars"
+    },
+    "build_ox_cart": {
+      "label": "build an ox-cart",
+      "tech": "E6.18",
+      "requires_oxen": true,
+      "inputs": {
+        "branch": 8,
+        "cord": 3
+      },
+      "tools": [],
+      "outputs": {
+        "ox_cart": 1
+      },
+      "seconds": 14.0,
+      "verb": "yoked an ox to a two-wheeled cart"
+    },
+    "build_market_stall": {
+      "label": "set up a market stall",
+      "tech": "E8.31",
+      "inputs": {
+        "branch": 6,
+        "cloth": 2
+      },
+      "tools": [],
+      "outputs": {},
+      "effects": {
+        "build": "market_stall"
+      },
+      "seconds": 12.0,
+      "verb": "set up a stall of goods with prices called aloud"
     }
   },
   "needs": {
@@ -2426,6 +2613,40 @@
       "model_height": 2.0,
       "min_fire_distance": 4.0,
       "ring_radius": 12.0
+    },
+    "snare_line": {
+      "label": "snare line",
+      "capacity": 10,
+      "vermin_safe": false,
+      "model_height": 0.5,
+      "min_fire_distance": 12.0,
+      "ring_radius": 26.0,
+      "trap_yield": {
+        "raw_meat": 0.5
+      },
+      "process_verb": "held"
+    },
+    "fish_trap": {
+      "label": "fish trap",
+      "capacity": 10,
+      "vermin_safe": true,
+      "needs_water": true,
+      "model_height": 0.4,
+      "min_fire_distance": 6.0,
+      "ring_radius": 30.0,
+      "trap_yield": {
+        "fish": 0.6
+      },
+      "process_verb": "held"
+    },
+    "market_stall": {
+      "label": "market stall",
+      "capacity": 60,
+      "vermin_safe": true,
+      "market": true,
+      "model_height": 1.8,
+      "min_fire_distance": 4.0,
+      "ring_radius": 10.0
     }
   },
   "predators": {
