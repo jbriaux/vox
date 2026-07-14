@@ -17,7 +17,7 @@ import re
 import time
 
 ACTIONS = ("wander", "idle", "say", "gather", "craft", "eat", "talk", "rest",
-           "deposit", "withdraw", "skill", "raid", "read")
+           "deposit", "withdraw", "skill", "raid", "read", "bury")
 
 SKILL_STEP_ACTIONS = ("gather", "craft", "eat", "deposit", "withdraw")
 SKILL_RATE = 0.15   # chance per idle full-tier decide to reflect on a routine
@@ -351,6 +351,19 @@ class Agent:
                 if int(n) > 0:
                     lines.append(f'- raid target "{it}" — {n} '
                                  f"{self.world.items.get(it, {}).get('label', it)}")
+        corpse = catalog.get("corpse") or {}
+        if corpse.get("name"):
+            who = str(corpse["name"]).capitalize()
+            if "E2.24" in self.known_tech:
+                lines.append(
+                    f"THE DEAD: the body of {who} lies unburied "
+                    f"{corpse.get('distance', 0)} steps away — "
+                    f'bury (no target) digs a grave and lays them to rest.')
+            else:
+                lines.append(
+                    f"THE DEAD: the body of {who} lies where they fell, "
+                    f"{corpse.get('distance', 0)} steps away. You do not know "
+                    "any rite for the dead.")
         corral = catalog.get("corral") or {}
         if corral.get("herd") is not None:
             herd = ", ".join(f"{n} {k}(s)" for k, n in corral["herd"].items()
@@ -385,6 +398,7 @@ class Agent:
         catalog["fields"] = state.get("fields") or {}
         catalog["corral"] = state.get("corral") or {}
         catalog["foreign_store"] = state.get("foreign_store") or {}
+        catalog["corpse"] = state.get("corpse") or {}
         catalog["books"] = [
             it for it, n in (state.get("inventory") or {}).items()
             if int(n) > 0 and it.startswith("book_")
@@ -466,7 +480,7 @@ class Agent:
                 "\n\nChoose your next action.\n"
                 'Respond ONLY with JSON, exactly: {"action": "wander" | "idle" | "say" | '
                 '"gather" | "craft" | "eat" | "talk" | "rest" | "deposit" | "withdraw" | '
-                '"skill" | "raid" | "read", "target": "<id from the lists above, or empty>", '
+                '"skill" | "raid" | "read" | "bury", "target": "<id from the lists above, or empty>", '
                 '"say": "words you speak aloud, or empty"}'
             )
         else:
@@ -479,7 +493,7 @@ class Agent:
                 "spoken line (\"say\") whenever you have something on your mind.\n"
                 'Respond ONLY with JSON, exactly: {"action": "wander" | "idle" | "say" | '
                 '"gather" | "craft" | "eat" | "talk" | "rest" | "deposit" | "withdraw" | '
-                '"skill" | "raid" | "read", "target": "<id from the lists above, or empty>", '
+                '"skill" | "raid" | "read" | "bury", "target": "<id from the lists above, or empty>", '
                 '"say": "one short in-character line, or empty"}\n'
                 "If unsure, choose SUGGESTED_ACTION: " + json.dumps(suggestion)
             )
@@ -702,6 +716,11 @@ class Agent:
             # Wave H: conflict is MIND-driven only — this branch is the sole
             # gate; no suggestion or fallback ever proposes a raid
             ok = target in (catalog.get("foreign_store") or {}).get("holds", {})
+        elif action == "bury":
+            # a body must be lying out AND the rite must be known (E2.24)
+            ok = (bool((catalog.get("corpse") or {}).get("name"))
+                  and "E2.24" in self.known_tech)
+            target = ""
         elif action == "read":
             if target in (catalog.get("books") or []):
                 result = self._do_read(target)
@@ -783,6 +802,9 @@ class Agent:
         # 3. night: rest by the fire
         if night:
             return {"action": "rest", "target": "", "say": ""}
+        # 3a00. the dead are seen to before any day-work — if the rite is known
+        if (catalog.get("corpse") or {}).get("name") and "E2.24" in self.known_tech:
+            return {"action": "bury", "target": "", "say": ""}
         # 3a0. an unread book in the pouch is knowledge waiting: read it
         if catalog.get("books"):
             return {"action": "read", "target": catalog["books"][0], "say": ""}

@@ -25,6 +25,9 @@ var campfires: Array = []                # all fires (emergent flavor has two)
 var village_fires := {}                  # village name -> Campfire
 var flavor := "vanilla"
 var structures: Array[Dictionary] = []   # built huts: {type, pos, node, warmth}
+var corpses: Array[Dictionary] = []      # the unburied dead: {name, pos, day, node}
+var graves: Array[Dictionary] = []       # {name, by, day, pos, node}
+const CORPSE_DECAY_DAYS := 3             # unburied bodies last this many dawns
 var cam_rig: OrbitCamera
 var cortex: CortexClient
 var chat_ui: ChatUI
@@ -150,6 +153,15 @@ func _start_game(size_chunks: int, preset: String, water := 0.20, map_seed := -1
 		var cache := _place_structure("cache_pit", spot)
 		cache.store["dried_meat"] = 6
 		print("[VOX A] test hook: starting cache pit placed (6 dried meat)")
+	if OS.get_environment("VOX_START_CORPSE") == "1":
+		# test hook: an already-dead stranger near the fire — exercises burial
+		# (someone knows E2.24) and, left alone, the 3-dawn decay
+		var body := _corpse_marker()
+		body.position = world.random_walkable_near(campfire.position, 7.0)
+		add_child(body)
+		corpses.append({"name": "Varek", "pos": body.position,
+			"day": day_number, "node": body})
+		print("[VOX] test hook: the body of Varek lies near the fire")
 	if OS.get_environment("VOX_START_SMELTER") == "1":
 		# test hook: a standing smelter so headless runs exercise the metal chain
 		var sspot := world.random_walkable_near(campfire.position, 8.0)
@@ -255,6 +267,12 @@ func save_game() -> void:
 			"exchanges": _tech_exchanges, "total": _total_spawned,
 			"pop_cap": _pop_cap, "dogs": dogs},
 		"structures": structs,
+		"corpses": corpses.map(func(c: Dictionary) -> Dictionary:
+			return {"name": c.name, "x": c.pos.x, "y": c.pos.y, "z": c.pos.z,
+				"day": c.day}),
+		"graves": graves.map(func(g: Dictionary) -> Dictionary:
+			return {"name": g.name, "by": g.by, "day": g.day,
+				"x": g.pos.x, "y": g.pos.y, "z": g.pos.z}),
 		"field": field.save_state(),
 		"npcs": npcs,
 	}
@@ -292,6 +310,19 @@ func _apply_world_save() -> void:
 		entry["fire_idx"] = int(s.get("fire_idx", entry.get("fire_idx", 0)))
 		entry["built_by"] = str(s.get("built_by", ""))
 		entry["built_day"] = int(s.get("built_day", 0))
+	for cs in _pending_save.get("corpses", []):
+		var body := _corpse_marker()
+		body.position = Vector3(float(cs.x), float(cs.y), float(cs.z))
+		add_child(body)
+		corpses.append({"name": str(cs.get("name", "someone")), "pos": body.position,
+			"day": int(cs.get("day", day_number)), "node": body})
+	for g in _pending_save.get("graves", []):
+		var marker := _grave_marker()
+		marker.position = Vector3(float(g.x), float(g.y), float(g.z))
+		add_child(marker)
+		graves.append({"name": str(g.get("name", "someone")),
+			"by": str(g.get("by", "")), "day": int(g.get("day", 0)),
+			"pos": marker.position, "node": marker})
 	field.apply_save(_pending_save.get("field", {}))
 	_update_season()
 	print("[VOX P7] world restored: day %d, %d structures" % [day_number,
@@ -412,6 +443,7 @@ func _advance_time(delta: float) -> void:
 		_dawn_economy()
 		_dawn_fields()
 		_dawn_herds()
+		_dawn_corpses()
 		_dawn_report()
 		_send_village()
 		_hold_councils()
@@ -772,7 +804,119 @@ func _kill_npc(ctrl: NPCController, cause: String = "starvation") -> void:
 	controllers.erase(ctrl.id)
 	if focused_id == ctrl.id:
 		_focus_next()
-	ctrl.queue_free()   # the body stays where it fell
+	# the body stays where it fell — until someone buries it (E2.24) or the
+	# wilds take it back after CORPSE_DECAY_DAYS dawns
+	corpses.append({"name": display, "pos": ctrl.npc.position,
+		"day": day_number, "node": ctrl.npc})
+	ctrl.queue_free()
+
+
+# ---------------------------------------------------------------- the dead
+
+func _dawn_corpses() -> void:
+	## Unburied bodies do not keep: after CORPSE_DECAY_DAYS dawns the wilds
+	## take them back and nothing marks where they lay.
+	for c in corpses.duplicate():
+		if day_number - int(c.day) >= CORPSE_DECAY_DAYS:
+			print("[VOX] the wilds took back the body of %s (unburied %d days)"
+				% [c.name, day_number - int(c.day)])
+			chat_ui.add_line("world",
+				"[i]scavengers scattered the bones of %s — nothing marks where they lay[/i]"
+				% c.name)
+			if is_instance_valid(c.node):
+				c.node.queue_free()
+			corpses.erase(c)
+
+
+func corpse_state(ctrl: NPCController) -> Dictionary:
+	## The nearest unburied body within sight — goes into the decide state so
+	## the mind knows the dead are lying out (burying them stays its choice).
+	var best := {}
+	var best_d := 48.0
+	for c in corpses:
+		var d: float = NPCController._flat_dist(ctrl.npc.position, c.pos)
+		if d < best_d:
+			best_d = d
+			best = c
+	if best.is_empty():
+		return {}
+	return {"name": str(best.name), "distance": snappedf(best_d, 0.1)}
+
+
+func nearest_corpse_entry(pos: Vector3) -> Dictionary:
+	var best := {}
+	var best_d := INF
+	for c in corpses:
+		var d: float = NPCController._flat_dist(pos, c.pos)
+		if d < best_d:
+			best_d = d
+			best = c
+	return best
+
+
+func bury_corpse(burier: NPCController) -> String:
+	## Dig a grave where the body lies. Returns the event text, or "" when the
+	## body is gone (decayed mid-walk, or another villager got there first).
+	var c := nearest_corpse_entry(burier.npc.position)
+	if c.is_empty() or NPCController._flat_dist(burier.npc.position, c.pos) > 4.0:
+		return ""
+	if is_instance_valid(c.node):
+		c.node.queue_free()
+	var marker := _grave_marker()
+	marker.position = c.pos
+	add_child(marker)
+	graves.append({"name": str(c.name), "by": burier.npc.npc_name,
+		"day": day_number, "pos": c.pos, "node": marker})
+	corpses.erase(c)
+	chat_ui.add_line("world", "[i]%s rests in the earth now[/i]" % c.name)
+	return "dug a grave and laid %s to rest" % c.name
+
+
+func _grave_marker() -> Node3D:
+	var node := AssetLib.instantiate("props/grave")
+	if node != null:
+		AssetLib.fit(node, 0.9)
+		return node
+	# box art: a low earth mound with a standing stone at its head
+	var grave := Node3D.new()
+	var mound := MeshInstance3D.new()
+	var mound_mesh := BoxMesh.new()
+	mound_mesh.size = Vector3(0.7, 0.25, 1.4)
+	var earth := StandardMaterial3D.new()
+	earth.albedo_color = Color(0.42, 0.32, 0.22)
+	earth.roughness = 1.0
+	mound_mesh.material = earth
+	mound.mesh = mound_mesh
+	mound.position.y = 0.12
+	grave.add_child(mound)
+	var stone := MeshInstance3D.new()
+	var stone_mesh := BoxMesh.new()
+	stone_mesh.size = Vector3(0.45, 0.6, 0.12)
+	var rock := StandardMaterial3D.new()
+	rock.albedo_color = Color(0.55, 0.55, 0.58)
+	rock.roughness = 0.9
+	stone_mesh.material = rock
+	stone.mesh = stone_mesh
+	stone.position = Vector3(0, 0.3, -0.7)
+	grave.add_child(stone)
+	return grave
+
+
+func _corpse_marker() -> Node3D:
+	## Stand-in body for corpses restored from a save (the original NPC node
+	## does not survive a restart) and for the VOX_START_CORPSE test hook.
+	var body := Node3D.new()
+	var mi := MeshInstance3D.new()
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3(0.5, 0.3, 1.5)
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.5, 0.47, 0.42)
+	mat.roughness = 1.0
+	mesh.material = mat
+	mi.mesh = mesh
+	mi.position.y = 0.15
+	body.add_child(mi)
+	return body
 
 
 func _gift_scan() -> void:
@@ -1794,6 +1938,17 @@ func _inspect_spot(pos: Vector3) -> void:
 				lines.append("Sown — %d/%d dawns to ripe"
 					% [int(s.growth), int(s.growth_days)])
 			_show_info("\n".join(lines))
+			return
+	# the dead, and where they rest
+	for c in corpses:
+		if NPCController._flat_dist(pos, c.pos) <= 2.0:
+			_show_info("The body of %s\nDied on day %d — unburied; the wilds take the dead in %d days"
+				% [c.name, int(c.day), CORPSE_DECAY_DAYS])
+			return
+	for g in graves:
+		if NPCController._flat_dist(pos, g.pos) <= 2.0:
+			_show_info("Grave of %s\nDug by %s on day %d"
+				% [g.name, g.by, int(g.day)])
 			return
 	# a wild resource?
 	var near := field.nearest_any(pos, 1.8)

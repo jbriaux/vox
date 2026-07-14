@@ -28,6 +28,7 @@ known_tech:
   - E1.21   # cooking plants
   - E1.23   # water carrying
   - E1.24   # crude hide stripping
+  - E2.24   # burial of the dead
   - E2.28   # meat drying (sun/wind)
   - E3.29   # food caching
   - E3.27   # smoking (racks)

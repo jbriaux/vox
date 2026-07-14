@@ -892,6 +892,52 @@ def test_raids(world):
     print("  raids OK")
 
 
+def test_burial(world):
+    """Corpses lie in the world: minds that know E2.24 bury them (instinct
+    included); minds that don't only see a body they have no rite for."""
+    from cortex.agent import Agent
+    from cortex.llm import Embedder, make_llm
+    from cortex.memory import Memory
+
+    tmp = Path(tempfile.mkdtemp(prefix="cortex_bury_"))
+    keeper = Agent("sef", {"name": "Sef",
+                           "known_tech": ["E1.01", "E1.08", "E2.24"]},
+                   make_llm({"provider": "mock"}), Memory(str(tmp / "k.sqlite")),
+                   world=world, embedder=Embedder({"provider": "mock"}))
+    keeper.discovery_rate = 0.0
+    keeper.skill_rate = 0.0
+    state = {"needs": {"hunger": 10, "energy": 90}, "inventory": {},
+             "nearby": {}, "time_of_day": "day",
+             "corpse": {"name": "varek", "distance": 6.0}}
+    catalog = keeper._build_catalog(state)
+    assert "THE DEAD" in keeper._catalog_block(catalog)
+    assert "lays them to rest" in keeper._catalog_block(catalog)
+    # the instinct sees to the dead before day-work...
+    assert keeper._suggest(state, catalog)["action"] == "bury"
+    # ...but survival still comes first
+    starving = {**state, "needs": {"hunger": 90, "energy": 90},
+                "inventory": {"berries": 1}}
+    assert keeper._suggest(starving, keeper._build_catalog(starving))["action"] == "eat"
+    picked = keeper._validate({"action": "bury", "target": ""}, catalog,
+                              {"action": "wander", "target": "", "say": ""})
+    assert picked["action"] == "bury", picked
+
+    # without the rite: the body is a fact, not an option
+    stranger = Agent("uma", {"name": "Uma", "known_tech": ["E1.01"]},
+                     make_llm({"provider": "mock"}), Memory(str(tmp / "u.sqlite")),
+                     world=world, embedder=Embedder({"provider": "mock"}))
+    stranger.discovery_rate = 0.0
+    stranger.skill_rate = 0.0
+    cat2 = stranger._build_catalog(state)
+    block = stranger._catalog_block(cat2)
+    assert "THE DEAD" in block and "do not know any rite" in block, block
+    assert stranger._suggest(state, cat2)["action"] != "bury"
+    picked = stranger._validate({"action": "bury", "target": ""}, cat2,
+                                {"action": "wander", "target": "", "say": ""})
+    assert picked["action"] == "wander", picked
+    print("  burial OK")
+
+
 def test_discovery(world):
     from cortex.agent import Agent
     from cortex.llm import Embedder, make_llm
@@ -1506,6 +1552,7 @@ def main():
     test_books(world)
     test_wave_n(world)
     test_raids(world)
+    test_burial(world)
     test_discovery(world)
     test_children(world)
     test_mood(world)

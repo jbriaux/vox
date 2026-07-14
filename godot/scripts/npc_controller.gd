@@ -144,6 +144,9 @@ func build_state() -> Dictionary:
 	var foreign: Dictionary = main.foreign_store_state(self)
 	if not foreign.is_empty():
 		state["foreign_store"] = foreign
+	var corpse: Dictionary = main.corpse_state(self)
+	if not corpse.is_empty():
+		state["corpse"] = corpse
 	return state
 
 
@@ -209,6 +212,22 @@ func handle_action(data: Dictionary) -> void:
 					path_changed.emit(id, rpath)
 				else:
 					_fail_goal("could not reach the other village")
+		"bury":
+			var c: Dictionary = main.nearest_corpse_entry(npc.position)
+			if c.is_empty():
+				_fail_goal("found no one left to bury")
+			else:
+				_goal = {"type": "bury", "target": str(c.name), "stage": "bury_walk"}
+				activity = "carrying %s to their rest" % str(c.name)
+				if _flat_dist(npc.position, c.pos) < 2.5:
+					_begin_bury_work()
+				else:
+					var bpath := world.find_path(npc.position, c.pos)
+					if bpath.size() > 1:
+						npc.set_path(bpath)
+						path_changed.emit(id, bpath)
+					else:
+						_fail_goal("could not reach the body")
 		"skill":
 			var steps: Array = data.get("steps", [])
 			if steps.is_empty():
@@ -704,6 +723,13 @@ func _on_work_done() -> void:
 		"reading_book":
 			emit_event("read a printed book, cover to cover")
 			_finish_goal()
+		"burying":
+			var text: String = main.bury_corpse(self)
+			if text == "":
+				_fail_goal("found only scattered earth where the body lay")
+			else:
+				emit_event(text)
+				_finish_goal()
 		"experimenting":
 			emit_event("worked out %s by themselves" % str(_goal.target).to_lower())
 			_finish_goal()
@@ -734,6 +760,8 @@ func _on_arrived() -> void:
 			_do_store_transfer()
 		"raid_walk":
 			_do_raid()
+		"bury_walk":
+			_begin_bury_work()
 		"rest_walk":
 			_rest_here()
 		"fleeing":
@@ -773,6 +801,12 @@ func emit_event(text: String) -> void:
 	if cortex.online:
 		cortex.send({"type": "event", "npc": id, "text": text})
 	chat_ui.add_line(npc.npc_name, "[i]%s[/i]" % text)
+
+
+func _begin_bury_work() -> void:
+	activity = "digging a grave for %s" % str(_goal.get("target", "the dead"))
+	_goal["stage"] = "burying"
+	npc.begin_work(6.0)
 
 
 func _do_raid() -> void:
