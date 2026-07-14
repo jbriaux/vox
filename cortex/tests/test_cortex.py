@@ -1120,6 +1120,13 @@ def test_server_social():
         r = client.post("/bind/nobody", json={"provider": "mock"}).json()
         assert not r["ok"], r
 
+        # runtime pool replacement (the Options menu's LLM manager seam)
+        r = client.post("/brain_pool", json={"pool": [{"provider": "mock"}]}).json()
+        assert r["ok"] and r["pool_size"] == 1, r
+        assert set(r["bound"]) == {"anon", "toran"}, r
+        r = client.post("/brain_pool", json={"pool": []}).json()
+        assert not r["ok"], r
+
         with client.websocket_connect("/ws") as ws:
             assert ws.receive_json()["type"] == "status"
             roster = ws.receive_json()
@@ -1135,6 +1142,15 @@ def test_server_social():
                           "state": {"needs": {"hunger": 90}, "inventory": {"berries": 1}}})
             r = ws.receive_json()
             assert r["type"] == "action" and r["action"] == "eat", r
+
+            # --- broadcast (the T key): everyone hears, the nearest answer ---
+            ws.send_json({"type": "broadcast", "text": "Gather at the fire!",
+                          "reply": ["anon", "toran"]})
+            answered = {ws.receive_json()["npc"] for _ in range(2)}
+            assert answered == {"anon", "toran"}, answered
+            from cortex.server import app as bapp
+            rows = bapp.state.agents["anon"].memory.recent(limit=10)
+            assert any("called out" in r_[2] for r_ in rows), rows
 
             # --- P3 exit criterion: two NPCs exchange technologies ---
             ws.send_json({"type": "converse", "a": "anon", "b": "toran"})

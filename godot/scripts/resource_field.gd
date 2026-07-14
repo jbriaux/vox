@@ -114,6 +114,18 @@ func nearest_candidates(rtype: String, pos: Vector3, k: int = 4) -> Array[Dictio
 	return out
 
 
+func nearest_any(pos: Vector3, radius: float) -> Dictionary:
+	## The closest prop of ANY type within radius — for click inspection.
+	var best := {}
+	var best_d := radius
+	for e in entries:
+		var d: float = Vector2(e.pos.x - pos.x, e.pos.z - pos.z).length()
+		if d <= best_d:
+			best_d = d
+			best = e
+	return best
+
+
 func distances(pos: Vector3) -> Dictionary:
 	## Nearest available prop per type within NEARBY_RADIUS, as {type: distance}.
 	var out := {}

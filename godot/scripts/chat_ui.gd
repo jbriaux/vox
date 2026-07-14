@@ -84,6 +84,12 @@ func open_for(id: String, display_name: String) -> void:
 	open()
 
 
+func open_broadcast() -> void:
+	target_id = "*"
+	_input_box.placeholder_text = "Call out to the whole village...  (Enter: send, Esc: close)"
+	open()
+
+
 func close() -> void:
 	_input_box.release_focus()
 	visible = false

@@ -42,8 +42,9 @@ property of who knows what and who talked to whom before they died.
   rule) may decide to raid a rival's stores. Nobody dies; everybody
   remembers. Grudges, revenge, and gift-bought peace are left entirely to
   the minds.
-- **Talk to you**: click any villager and chat — they remember you across
-  restarts.
+- **Talk to you**: double-click any villager and chat — they remember you
+  across restarts. Press **T** to call out to the whole village at once;
+  single clicks inspect whatever they land on (who built that hut, and when).
 
 Two flavors per game: **vanilla** (one guided village of 10 named personas)
 or **emergent** (two villages of blank minds with a single seeded goal —

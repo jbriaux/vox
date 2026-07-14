@@ -237,7 +237,9 @@ func save_game() -> void:
 	for s in structures:
 		structs.append({"type": s.type, "x": s.pos.x, "y": s.pos.y, "z": s.pos.z,
 			"store": s.store, "planted": s.planted, "growth": s.growth,
-			"herd": s.herd, "fire_idx": s.get("fire_idx", 0)})
+			"herd": s.herd, "fire_idx": s.get("fire_idx", 0),
+			"built_by": s.get("built_by", ""),
+			"built_day": s.get("built_day", 0)})
 	var data := {
 		"version": 1,
 		"seed": _save_cfg.get("seed", 1337), "chunks": _save_cfg.get("chunks", 8),
@@ -288,6 +290,8 @@ func _apply_world_save() -> void:
 		for kind in s.get("herd", {}):
 			entry.herd[kind] = int(s.herd[kind])
 		entry["fire_idx"] = int(s.get("fire_idx", entry.get("fire_idx", 0)))
+		entry["built_by"] = str(s.get("built_by", ""))
+		entry["built_day"] = int(s.get("built_day", 0))
 	field.apply_save(_pending_save.get("field", {}))
 	_update_season()
 	print("[VOX P7] world restored: day %d, %d structures" % [day_number,
@@ -828,9 +832,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			var ctrl: NPCController = controllers.get(npc_id)
 			if ctrl:
 				focused_id = npc_id
-				chat_ui.open_for(npc_id, ctrl.npc.npc_name)
-		elif focused_id != "" and controllers.has(focused_id):
-			controllers[focused_id].send_to(hit.position)
+				if event.double_click:
+					chat_ui.open_for(npc_id, ctrl.npc.npc_name)
+				else:
+					_inspect_npc(ctrl)
+		else:
+			# F3: clicks inspect the world — they never order anyone around
+			_inspect_spot(hit.position)
 	elif event.is_action_pressed("focus_next"):
 		_focus_next()
 	elif event.is_action_pressed("toggle_autofocus"):
@@ -839,8 +847,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			% ("ON — the camera will jump to villagers who stop to talk"
 				if autofocus else "off"))
 	elif event.is_action_pressed("open_chat"):
-		if focused_id != "" and controllers.has(focused_id):
-			chat_ui.open_for(focused_id, controllers[focused_id].npc.npc_name)
+		chat_ui.open_broadcast()   # F2: T calls out to the whole village
 
 
 # ---------------------------------------------------------------- orchestration
@@ -871,7 +878,8 @@ func controller_by_id(npc_id: String) -> NPCController:
 	return controllers.get(npc_id)
 
 
-func build_structure(builder_pos: Vector3, kind: String) -> bool:
+func build_structure(builder_pos: Vector3, kind: String,
+		builder_name := "") -> bool:
 	## Raise a hut in the village ring around the fire (falling back to the
 	## builder's spot). The village visibly grows as the band learns shelter.
 	var cfg: Dictionary = tech.buildables.get(kind, {})
@@ -899,7 +907,9 @@ func build_structure(builder_pos: Vector3, kind: String) -> bool:
 			break
 	if not found:
 		spot = builder_pos
-	_place_structure(kind, spot)
+	var entry := _place_structure(kind, spot)
+	entry["built_by"] = builder_name
+	entry["built_day"] = day_number
 	return true
 
 
@@ -1681,6 +1691,22 @@ func _on_converse_end(a: String, b: String) -> void:
 
 
 func _on_chat_submitted(text: String) -> void:
+	if chat_ui.target_id == "*":
+		# F2: a call to the whole village — everyone hears, the nearest answer
+		chat_ui.add_line("You (to the village)", text)
+		if not cortex.online:
+			chat_ui.add_line("system", "Cortex offline — start it: cd cortex && python -m cortex")
+			return
+		var anchor := cam_rig.position
+		if focused_id != "" and controllers.has(focused_id):
+			anchor = controllers[focused_id].npc.position
+		var by_dist := controllers.keys()
+		by_dist.sort_custom(func(a, b) -> bool:
+			return NPCController._flat_dist(controllers[a].npc.position, anchor) \
+				< NPCController._flat_dist(controllers[b].npc.position, anchor))
+		cortex.send({"type": "broadcast", "text": text,
+			"reply": by_dist.slice(0, 3)})
+		return
 	var target := chat_ui.target_id if chat_ui.target_id != "" else focused_id
 	var ctrl: NPCController = controllers.get(target)
 	if ctrl == null:
@@ -1712,6 +1738,79 @@ func _autofocus_converse(a: NPCController, b: NPCController) -> void:
 	cam_rig.position = (a.npc.position + b.npc.position) * 0.5
 	focused_id = a.id   # HUD follows one of the speakers
 	_update_path_line(PackedVector3Array())
+
+
+# ---------------------------------------------------------------- inspection
+
+var _info_panel: PanelContainer
+var _info_label: Label
+var _info_token := 0
+
+
+func _show_info(text: String) -> void:
+	if _info_panel == null:
+		return
+	_info_label.text = text
+	_info_panel.visible = true
+	_info_token += 1
+	var token := _info_token
+	get_tree().create_timer(7.0).timeout.connect(func() -> void:
+		if token == _info_token:
+			_info_panel.visible = false)
+
+
+func _inspect_npc(ctrl: NPCController) -> void:
+	var npc := ctrl.npc
+	var vill := "village of the first fire" if ctrl.home_fire_idx == 0 \
+		else "village of the far fire"
+	_show_info("%s — %d summers, %s\n%s · hunger %d · health %d\n(double-click to talk)"
+		% [npc.npc_name, roundi(npc.age), vill, ctrl.activity,
+			roundi(npc.hunger), roundi(npc.health)])
+
+
+func _inspect_spot(pos: Vector3) -> void:
+	# a built structure?
+	for s in structures:
+		if NPCController._flat_dist(pos, s.pos) <= 2.5:
+			var cfg: Dictionary = tech.buildables.get(s.type, {})
+			var lines: Array = [str(cfg.get("label", s.type)).capitalize()]
+			var builder := str(s.get("built_by", ""))
+			if builder != "":
+				lines.append("Villager-made — raised by %s on day %d"
+					% [builder, int(s.get("built_day", 0))])
+			else:
+				lines.append("Villager-made (stood before the chronicle began)")
+			if not s.store.is_empty():
+				var held: Array = []
+				for item in s.store:
+					held.append("%d %s" % [int(s.store[item]), tech.item_label(item)])
+				lines.append("Holds: " + ", ".join(held))
+			if not s.herd.is_empty():
+				var kinds: Array = []
+				for k in s.herd:
+					kinds.append("%d %s" % [int(s.herd[k]), k])
+				lines.append("Penned: " + ", ".join(kinds))
+			if bool(s.planted):
+				lines.append("Sown — %d/%d dawns to ripe"
+					% [int(s.growth), int(s.growth_days)])
+			_show_info("\n".join(lines))
+			return
+	# a wild resource?
+	var near := field.nearest_any(pos, 1.8)
+	if not near.is_empty():
+		var rcfg: Dictionary = tech.resources.get(near.type, {})
+		var state := "ready to gather" if bool(near.available) else "picked — regrowing"
+		_show_info("%s\nWild — the world put it here (%s)"
+			% [str(rcfg.get("label", near.type)).capitalize(), state])
+		return
+	# bare ground
+	var block := world.surface_block(int(pos.x), int(pos.z))
+	var names := {VoxelWorld.B.GRASS: "grassland", VoxelWorld.B.DIRT: "bare earth",
+		VoxelWorld.B.STONE: "stone", VoxelWorld.B.SAND: "sand"}
+	var ground := str(names.get(block, "wild land"))
+	if world.is_water(int(pos.x), int(pos.z)):
+		ground = "water"
+	_show_info(ground.capitalize() + "\nThe wild world — no hand made this")
 
 
 func _focus_next() -> void:
@@ -1814,6 +1913,20 @@ func _setup_ui() -> void:
 	_hud = Label.new()
 	_hud.add_theme_font_size_override("font_size", 14)
 	panel.add_child(_hud)
+
+	# F3: the click-inspection box (top center, auto-hides)
+	_info_panel = PanelContainer.new()
+	_info_panel.anchor_left = 0.5
+	_info_panel.anchor_right = 0.5
+	_info_panel.offset_left = -220.0
+	_info_panel.offset_right = 220.0
+	_info_panel.offset_top = 40.0
+	_info_panel.visible = false
+	ui.add_child(_info_panel)
+	_info_label = Label.new()
+	_info_label.add_theme_font_size_override("font_size", 14)
+	_info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_info_panel.add_child(_info_label)
 
 
 func _update_hud() -> void:

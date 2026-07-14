@@ -680,7 +680,7 @@ func _on_work_done() -> void:
 				main.nearest_fire(npc.position).add_fuel(fuel)
 			var builds := str(recipe.get("effects", {}).get("build", ""))
 			if builds != "":
-				main.build_structure(npc.position, builds)
+				main.build_structure(npc.position, builds, npc.npc_name)
 			if recipe.get("effects", {}).get("sow", false):
 				var sowed: String = main.farm_sow(self)
 				if sowed == "":

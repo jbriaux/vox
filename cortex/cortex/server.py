@@ -295,6 +295,29 @@ def _roster_msg() -> dict:
     return {"type": "roster", "flavor": app.state.flavor, "npcs": _roster()}
 
 
+@app.post("/brain_pool")
+async def set_brain_pool(body: dict):
+    """Replace the whole brain pool at runtime (the Options menu's LLM
+    manager posts here) and rebind every living villager round-robin.
+    Body: {"pool": [{"provider", "base_url", "model"}, ...]}"""
+    pool = [p for p in (body or {}).get("pool", []) if isinstance(p, dict)]
+    if not pool:
+        return {"ok": False, "error": "pool is empty"}
+    for p in pool:
+        p.setdefault("provider", "openai_compatible")
+    app.state.brain_pool = pool
+    app.state.brain_i = 0
+    bound = {}
+    for agent in _living():
+        cfg = _next_pool_brain()
+        agent.llm = make_llm(cfg)
+        bound[agent.name] = agent.llm.provider + (
+            ":" + agent.llm.model if agent.llm.model else "")
+    print(f"[cortex] BRAIN POOL replaced: {len(pool)} models, "
+          f"{len(bound)} villagers rebound")
+    return {"ok": True, "pool_size": len(pool), "bound": bound}
+
+
 @app.post("/bind/{name}")
 async def bind(name: str, body: dict):
     """Runtime per-NPC model rebinding — the 'bind any LLM to each person' seam.
@@ -685,6 +708,27 @@ async def ws_endpoint(sock: WebSocket):
                 reply = await agent.chat(text, state=msg.get("state"))
                 print(f"[cortex]   {agent.name.capitalize()}: {reply}")
                 await safe.send_json({"type": "say", "npc": agent.name, "text": reply})
+            elif mtype == "broadcast":
+                # the visitor calls out to the whole village: everyone hears
+                # and remembers; the nearest few answer aloud
+                text = str(msg.get("text", ""))[:500]
+                print(f"[cortex] BROADCAST visitor -> village: {text}")
+                repliers = [str(n) for n in msg.get("reply", [])]
+                for x in _living():
+                    if x.name in repliers:
+                        continue
+                    await x.remember(
+                        "chat_visitor",
+                        f"the visitor called out to everyone: {text}", 4)
+                for name_r in repliers:
+                    r_agent = agents.get(name_r)
+                    if r_agent is None or getattr(r_agent, "dead", False):
+                        continue
+                    reply = await r_agent.chat(
+                        f"(called out to the whole village) {text}")
+                    print(f"[cortex]   {r_agent.name.capitalize()}: {reply}")
+                    await safe.send_json({"type": "say", "npc": r_agent.name,
+                                          "text": reply})
             elif mtype == "decide" and agent:
                 t0 = asyncio.get_event_loop().time()
                 data = await agent.decide(msg.get("state", {}),

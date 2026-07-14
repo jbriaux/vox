@@ -74,7 +74,7 @@ Open the `godot/` folder in Godot 4.3 and press **F5**. A launch menu appears:
   ...and a **Cortex flavor**:
   - *Vanilla* — the guided village of 10 named villagers: personalities, goals, survival instincts woven into their prompts, story-focused discovery.
   - *Emergent* — **two villages of 5** (two families each, family bonds stronger than friendship), placed as far apart as the land allows, each with its own starting fire. Minds start **blank**: no knowledge, no goals, no advice, no suggested actions — bare facts only ("It is night. You are cold. You carry: nothing."). Everything must be experimented into existence or taught. Separate memory world (`data/memory_emergent/`). One concession to biology: a **starving body eats what it holds** on its own (a reflex like fleeing wolves, at hunger ≥85) — everything else, including keeping the fire alive, the minds must figure out or die.
-- **Options** → **key bindings**: click a key, press the new one (persists across runs, `Reset to defaults` available).
+- **Options** → **key bindings**: click a key, press the new one (persists across runs, `Reset to defaults` available). **LLM connections...**: add/edit/delete OpenAI-compatible endpoints — type an IP and `v1/models` is suggested (still editable), **Find model + test** queries the server for its models and runs a tiny completion to prove it answers, **Apply to Cortex** replaces the live brain pool and rebinds every villager round-robin (endpoints persist in `user://llm_endpoints.cfg`).
 - **Exit** — quits.
 
 > **AZERTY users**: defaults are *physical* key positions, so camera pan is already on ZQSD without touching anything. Rebind in Options if you prefer other keys — all on-screen hints follow your bindings.
@@ -91,10 +91,10 @@ Press **Start**: the world generates (a fresh random seed every new game), the c
 
 | Input | Action |
 |---|---|
-| **Click an NPC** | open chat with them (they remember you across restarts) |
+| **Click** anything | inspect it — an info box says what it is: a villager (age, village, doing what), a structure (**who raised it and when**, what it holds or pens), or a wild resource the world put there. Clicks never order villagers around. |
+| **Double-click an NPC** | open chat with them (they remember you across restarts) |
 | **F** | focus next villager (HUD follows: needs, age, inventory, activity, tier, mind) |
-| **LMB** on ground | order the focused NPC to walk there |
-| **T** / **Esc** | open / close chat |
+| **T** / **Esc** | call out to the **whole village** / close chat — everyone hears and remembers it; the three nearest villagers answer aloud |
 | **C** | toggle **conversation auto-focus** — the camera flies to villagers who stop to talk (won't hop between simultaneous conversations more than once per 10 s) |
 | **RMB drag / Wheel / WASD (ZQSD on AZERTY)** | orbit / zoom / pan camera |
 
