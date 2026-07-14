@@ -136,9 +136,10 @@ left Cortex.
 
 ## 9. Testing
 
-- `cd cortex && python tests/test_cortex.py` — 22 offline tests (mock LLM):
+- `cd cortex && python tests/test_cortex.py` — 27 offline tests (mock LLM):
   protocol, memory, teaching, discovery, storage, farming, herding, metal,
-  trade, skills, council, flavors, death/mitigation, persistence.
+  trade & coin, skills, books, raids, council, flavors, death/mitigation,
+  persistence.
 - Godot headless: `--import` (class cache), then env-driven runs
   (`VOX_MAP_CHUNKS`, `VOX_SEED`, `VOX_DAY_SECONDS`, `VOX_COUNCIL`,
   `VOX_START_CACHE/CORRAL/SMELTER` test hooks) against

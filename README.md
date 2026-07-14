@@ -16,18 +16,32 @@ property of who knows what and who talked to whom before they died.
 
 ## What villagers do
 
-- **Survive**: forage, hunt, fish, cook, keep the fire alive, flee wolves,
-  shelter from winter — needs, health, aging, and death are all real.
-- **Learn**: discover technologies at their personal knowledge frontier and
-  teach them at the fire, newest first. Children are born near-blank and must
-  be taught before the old knowers die.
-- **Work the land**: farm (till → sow → harvest, frost kills winter crops),
-  herd goats and sheep in corrals, store food against spoilage and vermin,
-  fire pottery, weave wool, raise mudbrick houses, and eventually smelt
-  copper, bronze, and iron in a clay furnace.
+- **Survive**: forage, hunt, trap, fish, cook, keep the fire alive, flee
+  wolves, pound herbs into medicine, shelter from winter — needs, health,
+  aging, and death are all real. A village that knows burial rites grieves
+  gentler than one that doesn't.
+- **Learn**: discover technologies at their personal knowledge frontier —
+  by insight at the fire, by seasons of practice, or by a copper nugget left
+  in the hearth — and teach them, newest first. Children are born near-blank
+  and must be taught before the old knowers die. Schools, universities, and
+  eventually **printed books** (read one, learn its technology — knowledge
+  that outlives its author) raise the stakes.
+- **Work the land**: farm behind ox-drawn plows, herd goats, sheep, cattle
+  and pigs, smoke and salt and pickle the surplus into stores, and let
+  watermills, windmills, presses, and smoking racks work while everyone
+  sleeps.
+- **Build a civilization**: brush huts → mudbrick houses → concrete
+  bathhouses, theaters, fountains, and stone walls that keep the wolves
+  (and the raiders) out. Kilns, smelters, blast furnaces, and trip hammers
+  carry the toolkit from flint to cast iron.
 - **Build culture**: compose reusable work routines (a Voyager-style skill
-  library) and pass them on; trade surpluses; hold optional dawn councils
-  that set a shared plan for the day.
+  library) and pass them on; barter surpluses, mint coins, and buy at the
+  market stall; hold optional dawn councils that set a shared plan for the
+  day.
+- **Clash — if they choose to**: in two-village games a mind (never a game
+  rule) may decide to raid a rival's stores. Nobody dies; everybody
+  remembers. Grudges, revenge, and gift-bought peace are left entirely to
+  the minds.
 - **Talk to you**: click any villager and chat — they remember you across
   restarts.
 
@@ -47,7 +61,7 @@ Three processes, one contract (full details in
   JSON protocol over WebSocket.
 - **Any OpenAI-compatible LLM host** — vLLM on a GPU box, several models
   round-robined across villagers, or the built-in mock provider for running
-  the whole village offline (that's how the 22 tests work).
+  the whole village offline (that's how the 27 tests work).
 
 ## Getting started
 
